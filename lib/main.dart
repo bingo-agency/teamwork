@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:team_work/models/featured_home.dart';
 import 'package:team_work/notifier/responce_notifier.dart';
 
 import 'AppState.dart';
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-            create: (context) => AppState(),
+            create: (context) => FeaturedHome(),
             builder: (context, child) {
               return MaterialApp(
                 title: 'Team Work Property Exchange',

@@ -4,14 +4,8 @@ class AppState with ChangeNotifier {
   AppState();
 
   String hometitle = "";
-  bool login = true;
 
   void setDisplayText(String text) {
-    if (login = false) {
-      hometitle = "Find the perfect value of your Property Exchange";
-    } else if (login = true) {
-      hometitle = "Hello User";
-    }
     notifyListeners();
   }
 

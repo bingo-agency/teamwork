@@ -10,14 +10,17 @@ class WelcomeText extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Consumer<AppState>(builder: (context, value, child) {
-            Future.delayed(Duration.zero, () {
-              value.setDisplayText('hello Khurshid');
-            });
-            return Text(
-              '${value.hometitle}',
-            );
-          }),
+          Text(
+            'homeTitle',
+          ),
+          // Consumer<AppState>(builder: (context, value, child) {
+          //   Future.delayed(Duration.zero, () {
+          //     value.setDisplayText('hello Khurshid');
+          //   });
+          //   return Text(
+          //     '${value.hometitle}',
+          //   );
+          // }),
           SizedBox(height: 10),
           Text(
             'Find your sweet Home',
