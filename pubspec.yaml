@@ -43,6 +43,13 @@ dependencies:
   flutter_svg: ^0.22.0
   http: ^0.13.4
   cached_network_image: ^3.2.0
+  carousel_slider: ^4.1.1
+  youtube_player_flutter: 8.0.0
+  url_launcher: ^6.1.2
+  dropdown_search: ^0.6.3
+  shared_preferences: ^2.0.15
+  webview_flutter: ^3.0.4
+
 
 dev_dependencies:
   flutter_test:
@@ -79,6 +86,18 @@ flutter:
     - images/introimage1.jpeg
     - assets/images/
     - assets/icons/
+    - assets/icons/home.svg
+    - assets/icons/car.png
+    - assets/icons/land.svg
+    - assets/icons/plot.svg
+    - assets/icons/shape24.svg
+    - assets/icons/shape25.svg
+    - assets/icons/shape26.svg
+    - assets/icons/shape22.svg
+    - assets/images/banner4.png
+    - assets/images/banner6.png
+    - assets/icons/hashtag.svg
+    - images/bkgrndapp.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

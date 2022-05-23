@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:team_work/models/house.dart';
 
 class ContentIntro extends StatelessWidget {
-  final House house;
-  const ContentIntro({Key? key, required this.house}) : super(key: key);
+  final Map<String, dynamic> map;
+
+  const ContentIntro({Key? key, required this.map}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(house.name,
+          Text(map['title'].toString(),
               style: Theme.of(context)
                   .textTheme
                   .headline1!
@@ -21,36 +21,51 @@ class ContentIntro extends StatelessWidget {
             height: 10,
           ),
           Text(
-            house.address,
+            map['status'].toString(),
             style:
                 Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
           ),
           SizedBox(height: 10),
-          Text(
-            '5000 sqft',
-            style:
-                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
+          Row(
+            children: [
+              Text(
+                'Type  ',
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(fontSize: 14, fontWeight: FontWeight.bold),
+              ),
+              Text(
+                map['type'].toString(),
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText2!
+                    .copyWith(fontSize: 14),
+              ),
+            ],
           ),
           SizedBox(
             height: 5,
           ),
           RichText(
-            text: TextSpan(children: [
-              TextSpan(
-                  text: '\$4455 ',
+            text: TextSpan(
+              children: [
+                TextSpan(
+                    text: map['price'].toString(),
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline1!
+                        .copyWith(fontSize: 16, fontWeight: FontWeight.bold)),
+                TextSpan(
+                  text: ' PKR',
                   style: Theme.of(context)
                       .textTheme
-                      .headline1!
-                      .copyWith(fontSize: 16, fontWeight: FontWeight.bold)),
-              TextSpan(
-                text: 'Fer Month',
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText1!
-                    .copyWith(fontSize: 14),
-              )
-            ]),
-          )
+                      .bodyText1!
+                      .copyWith(fontSize: 14),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
