@@ -18,6 +18,7 @@ import 'package:team_work/widgets/welcome_text.dart';
 import '../../models/database.dart';
 import '../../widgets/custom_bottom_navigation_bar.dart';
 import '../auth/users.dart';
+import '../listing/listing.dart';
 
 class HomePage extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -29,13 +30,15 @@ class HomePage extends StatelessWidget {
     var dbclass = context.read<DataBase>();
 
     dbclass.getUsername();
+    String id = '';
 
     Future<dynamic> makme() async {
+      id = await dbclass.getId();
       String usern = await dbclass.getUsername();
       if (usern == 'hassan') {
         print('yes');
       } else {
-        print(usern);
+        print('printing usern on home.dart ' + usern);
       }
     }
 
@@ -107,10 +110,21 @@ class HomePage extends StatelessWidget {
                     color: Colors.purple),
                 child: FloatingActionButton(
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const Addproperty()));
+                    if (dbclass.getUsername().isEmpty) {
+                      print(dbclass.getUsername());
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (BuildContext context) => const Login()));
+                    } else {
+                      print(dbclass.getUsername());
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              Addproperty(id: id)));
+                    }
+
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: (context) => const Addproperty()));
                   },
                   elevation: 0,
                   backgroundColor: Colors.transparent,
@@ -121,27 +135,51 @@ class HomePage extends StatelessWidget {
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
-            onTap: (int i) {},
+            onTap: (int i) {
+              print('printing i');
+              print(i);
+              print('end printing i');
+            },
             backgroundColor: Colors.white,
             currentIndex: 0,
             type: BottomNavigationBarType.fixed,
             selectedItemColor: Colors.purple,
-            items: const <BottomNavigationBarItem>[
+            items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
                 icon: Icon(Icons.home),
                 label: 'Home',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.search),
-                label: 'Search',
+                icon: InkWell(
+                  child: Icon(Icons.amp_stories_outlined),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ListingPage(
+                                  curl: '?*',
+                                )));
+                  },
+                ),
+                label: 'Listings',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.favorite_border),
-                label: 'Favorite',
+                icon: InkWell(
+                  child: Icon(Icons.house_outlined),
+                  onTap: () {
+                    print('ads');
+                  },
+                ),
+                label: 'Ads',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.more_horiz),
-                label: 'More',
+                icon: InkWell(
+                  child: Icon(Icons.settings),
+                  onTap: () {
+                    print('settings');
+                  },
+                ),
+                label: 'Settings',
               ),
               // Mybottom(),
             ])

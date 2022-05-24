@@ -8,6 +8,7 @@ class DataBase with ChangeNotifier {
   //shared prefs start
 
   String initial_city = 'Select City';
+  int purposeIndex = 0;
 
   // Database() {
   //   getCity();
@@ -19,6 +20,27 @@ class DataBase with ChangeNotifier {
   //   initial_city = seetea;
   //   notifyListeners();
   // }
+
+  Future<void> setPurpose(value) async {
+    purposeIndex = value;
+    notifyListeners();
+  }
+
+  Future<void> addPrefval(key, value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String stringValue = (prefs.getString(key) ?? value);
+    print('added to pref ' + key + ' - ' + value);
+    notifyListeners();
+  }
+
+  Future<String> getPrefval(key, value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String stringValue = (prefs.getString(key) ?? value);
+    print('added to pref ' + key + ' - ' + value);
+    notifyListeners();
+    return stringValue;
+  }
+
   Future<String> getCity() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     //Return String
@@ -39,6 +61,10 @@ class DataBase with ChangeNotifier {
 
   String username = '';
   String password = '';
+  String id = '';
+  String image = '';
+  String timestamp = '';
+  String complete_name = '';
 
   addCity() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -64,21 +90,24 @@ class DataBase with ChangeNotifier {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     username = prefs.getString('username') ?? '';
     password = prefs.getString('password') ?? '';
+    id = prefs.getString('id') ?? '';
+    image = prefs.getString('image') ?? '';
+    timestamp = prefs.getString('timestamp') ?? '';
     notifyListeners();
   }
 
-  void addAuth(username, password, user) async {
+  void addAuth(id, complete_name, username, password, image, timestamp) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('id', id);
+    prefs.setString('complete_name', complete_name);
     prefs.setString('username', username);
     prefs.setString('password', password);
-    prefs.setString('id', user['id'].toString());
-    prefs.setString('image', user['image'].toString());
-    prefs.setString('phone', user['phone'].toString());
-    prefs.setString('timestamp', user['timestamp'].toString());
+    prefs.setString('image', image);
+    prefs.setString('timestamp', timestamp);
     print('auth added ');
-    String? us = await prefs.getString('image');
-    print("Coming from the add auth " + us.toString());
-    _setPrefItems();
+    // String? us = await prefs.getString('image');
+    // print("Coming from the add auth " + us.toString());
+    // _setPrefItems();
     notifyListeners();
   }
 
@@ -108,6 +137,26 @@ class DataBase with ChangeNotifier {
     return username;
   }
 
+  String getPassword() {
+    _getAuth();
+    return password;
+  }
+
+  String getImage() {
+    _getAuth();
+    return image;
+  }
+
+  String getId() {
+    _getAuth();
+    return id;
+  }
+
+  String getTimestamp() {
+    _getAuth();
+    return timestamp;
+  }
+
   // String getCity() {
   //   _getPrefItems();
   //   return initial_city;
@@ -122,19 +171,6 @@ class DataBase with ChangeNotifier {
 
     return initial_city;
   }
-
-  // late Future<SharedPreferences> sharedPreferences;
-  //
-  // Stream<SharedPreferences> get prefsState => sharedPreferences.asStream();
-
-  // Future get fetchPrefs async {
-  //   final SharedPreferences prefs = await sharedPreferences;
-  //   // prefs.getInt('counter');
-  //   prefs.setString('username', 'hassan');
-  //   prefs.setString('password', '123456');
-  //
-  //   print('cool');
-  // }
 
   //shared prefs end
 
@@ -206,8 +242,13 @@ class DataBase with ChangeNotifier {
         _mapLogin = jsonDecode(response.body);
         _errorLogin = false;
         if (_mapLogin.isNotEmpty && _mapLogin['message'] == "True") {
-          _user = _mapLogin['user'];
-          addAuth(email, password, _user);
+          print('yes its true from db');
+          print(_mapLogin['user'][0]['id'].toString());
+          id = _mapLogin['user'][0]['id'].toString();
+          complete_name = _mapLogin['user'][0]['name'].toString();
+          image = _mapLogin['user'][0]['image'].toString();
+          timestamp = _mapLogin['user'][0]['timestamp'].toString();
+          addAuth(id, complete_name, email, password, image, timestamp);
         }
       } catch (e) {
         _errorLogin = true;
@@ -338,6 +379,42 @@ class DataBase with ChangeNotifier {
   //   notifyListeners();
   // }
 
+  Map<String, dynamic> _mapAccount = {};
+  bool _errorAccount = false;
+  String _errorMessageAccount = '';
+
+  Map<String, dynamic> get mapAccount => _mapAccount;
+
+  bool get errorAccount => _errorAccount;
+
+  String get errorMessageAccount => _errorMessageAccount;
+
+  Future<void> fetchAccount(String id) async {
+    final response = await get(
+      Uri.parse('https://teamworkpk.com/API/account.php?public_user_id=' +
+          id +
+          '&selected=ads'),
+    );
+    print('https://teamworkpk.com/API/account.php?public_user_id=' +
+        id +
+        '&selected=ads');
+    if (response.statusCode == 200) {
+      try {
+        _mapAccount = jsonDecode(response.body);
+        _errorAccount = false;
+      } catch (e) {
+        _errorAccount = true;
+        _errorMessageAccount = e.toString();
+        _mapAccount = {};
+      }
+    } else {
+      _errorAccount = true;
+      _errorMessageAccount = 'Error : It could be your Internet connection.';
+      _mapAccount = {};
+    }
+    notifyListeners();
+  }
+
   Map<String, dynamic> _mapListing = {};
   bool _errorListing = false;
   String _errorMessageListing = '';
@@ -420,6 +497,10 @@ class DataBase with ChangeNotifier {
     _mapSearch = {};
     _errorSearch = false;
     _errorMessageSearch = '';
+
+    _mapAccount = {};
+    _errorAccount = false;
+    _errorMessageAccount = '';
 
     notifyListeners();
   }

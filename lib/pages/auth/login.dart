@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:team_work/models/database.dart';
+import 'package:team_work/pages/auth/register.dart';
+import 'package:team_work/pages/auth/users.dart';
 
 class Login extends StatelessWidget {
   const Login({Key? key}) : super(key: key);
@@ -115,11 +117,13 @@ class Login extends StatelessWidget {
                       // print(loginMap['message']);
                       var email = emailController.text.toString();
                       var password = passwordController.text.toString();
-
-                      var login = await dbclass.userLogin(email, password);
+                      //print
+                      var userclass = await dbclass.userLogin(email, password);
                       map = await dbclass.mapLogin;
                       message = await dbclass.mapLogin['message'].toString();
+                      //checking map if its empty or shit
                       if (map.isEmpty) {
+                        print('map is empty');
                         await showDialog(
                           context: context,
                           builder: (context) => AlertDialog(
@@ -146,11 +150,6 @@ class Login extends StatelessWidget {
                                 }
                               },
                             ),
-
-                            // Container(
-                            //     height: 200,
-                            //     child:
-                            //         Center(child: CircularProgressIndicator())),
                             actions: <Widget>[
                               FlatButton(
                                 onPressed: () {
@@ -165,34 +164,18 @@ class Login extends StatelessWidget {
                       } else {
                         if (message.isNotEmpty && message == 'True') {
                           //shared prefs !!!
+
                           print('True');
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  const users()));
                         } else if (message.isNotEmpty && message == 'False') {
+                          print('False');
                           await showDialog(
                             context: context,
                             builder: (context) => AlertDialog(
                               title: Text('Warning'),
-                              content: FutureBuilder(
-                                future: dbclass.userLogin(email, password),
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasData) {
-                                    return Text(
-                                      snapshot.data.toString(),
-                                      softWrap: true,
-                                      style: TextStyle(
-                                          color: Theme.of(context).primaryColor,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16.0),
-                                    );
-                                  } else {
-                                    return const SizedBox(
-                                      height: 150,
-                                      child: Center(
-                                        child: CircularProgressIndicator(),
-                                      ),
-                                    );
-                                  }
-                                },
-                              ),
+                              content: Text('Invalid Credentials,Login Failed'),
                               actions: <Widget>[
                                 FlatButton(
                                   onPressed: () {
@@ -205,21 +188,9 @@ class Login extends StatelessWidget {
                             ),
                           );
                         }
-
-                        print('your login map is ' + map.toString());
                       }
-
-                      // dbclass
-                      //     .userLogin(
-                      //         emailController.text, passwordController.text)
-                      //     .then((value) => () async {})
-                      //     .whenComplete(() => () {
-                      //           print(dbclass.mapLogin.toString());
-                      //         });
                       print(emailController.text);
                       print(passwordController.text);
-                      // print();
-                      // print();
                     },
                   )),
               const Divider(),
@@ -234,6 +205,8 @@ class Login extends StatelessWidget {
                     ),
                     onPressed: () {
                       //signup screen
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (BuildContext context) => const Register()));
                     },
                   )
                 ],

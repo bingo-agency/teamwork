@@ -49,6 +49,8 @@ dependencies:
   dropdown_search: ^0.6.3
   shared_preferences: ^2.0.15
   webview_flutter: ^3.0.4
+  custom_radio_grouped_button: ^2.1.2
+  font_awesome_flutter: ^10.1.0
 
 
 dev_dependencies:
