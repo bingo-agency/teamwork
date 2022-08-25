@@ -1,6 +1,7 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -168,7 +169,7 @@ class WelcomeText extends StatelessWidget {
                               return Text(
                                 snapshot.data.toString(),
                                 softWrap: true,
-                                style: TextStyle(
+                                style: GoogleFonts.ubuntu(
                                     color: Theme.of(context).primaryColor,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 16.0),
@@ -177,7 +178,7 @@ class WelcomeText extends StatelessWidget {
                               return Text(
                                 'Select City',
                                 softWrap: true,
-                                style: TextStyle(
+                                style: GoogleFonts.ubuntu(
                                     color: Theme.of(context).primaryColor,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 16.0),

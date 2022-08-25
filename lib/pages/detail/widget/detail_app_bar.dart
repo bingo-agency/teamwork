@@ -109,7 +109,8 @@ class CarouselCard extends StatelessWidget {
             initialPage: 0),
         itemBuilder: (BuildContext context, index, ids) {
           if (list[index]['image_link'] == null ||
-              list[index]['image_link'] == "") {
+              list[index]['image_link'] == "" ||
+              list[index]['image_link'] == "{}") {
             return const Center(
               child: Text('No images found.'),
             );

@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../listing/listing.dart';
 
@@ -25,14 +26,12 @@ class City extends StatelessWidget {
               children: [
                 Text(
                   'Popular Cities',
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline1!
-                      .copyWith(fontSize: 16, fontWeight: FontWeight.bold),
+                  style: GoogleFonts.ubuntu(
+                      fontSize: 16.0, fontWeight: FontWeight.bold),
                 ),
                 GestureDetector(
                   onTap: () {
-                    curl = "*";
+                    curl = "?*";
                     print(curl);
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (BuildContext context) =>
@@ -40,10 +39,8 @@ class City extends StatelessWidget {
                   },
                   child: Text(
                     'View All',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText1!
-                        .copyWith(fontSize: 14, fontWeight: FontWeight.bold),
+                    style: GoogleFonts.ubuntu(
+                        fontSize: 14.0, fontWeight: FontWeight.bold),
                   ),
                 ),
               ],
@@ -81,14 +78,14 @@ class City extends StatelessWidget {
                         Container(
                           color: Colors.black12,
                         ),
-                        const Positioned(
+                        Positioned(
                           bottom: 0,
                           left: 0,
                           child: Padding(
-                            padding: EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.all(8.0),
                             child: Text(
                               "Islamabad",
-                              style: TextStyle(
+                              style: GoogleFonts.ubuntu(
                                   fontSize: 20.0,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold),
@@ -128,14 +125,14 @@ class City extends StatelessWidget {
                         Container(
                           color: Colors.black12,
                         ),
-                        const Positioned(
+                        Positioned(
                           bottom: 0,
                           left: 0,
                           child: Padding(
-                            padding: EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.all(8.0),
                             child: Text(
                               "Lahore",
-                              style: TextStyle(
+                              style: GoogleFonts.ubuntu(
                                   fontSize: 20.0,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold),
@@ -175,14 +172,14 @@ class City extends StatelessWidget {
                         Container(
                           color: Colors.black12,
                         ),
-                        const Positioned(
+                        Positioned(
                           bottom: 0,
                           left: 0,
                           child: Padding(
-                            padding: EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.all(8.0),
                             child: Text(
                               "Peshawar",
-                              style: TextStyle(
+                              style: GoogleFonts.ubuntu(
                                   fontSize: 20.0,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold),
@@ -226,14 +223,14 @@ class City extends StatelessWidget {
                         Container(
                           color: Colors.black12,
                         ),
-                        const Positioned(
+                        Positioned(
                           bottom: 0,
                           left: 0,
                           child: Padding(
-                            padding: EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.all(8.0),
                             child: Text(
                               "Abbotabad",
-                              style: TextStyle(
+                              style: GoogleFonts.ubuntu(
                                   fontSize: 20.0,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold),
@@ -275,14 +272,14 @@ class City extends StatelessWidget {
                           Container(
                             color: Colors.black12,
                           ),
-                          const Positioned(
+                          Positioned(
                             bottom: 0,
                             left: 0,
                             child: Padding(
-                              padding: EdgeInsets.all(8.0),
+                              padding: const EdgeInsets.all(8.0),
                               child: Text(
                                 "Karachi",
-                                style: TextStyle(
+                                style: GoogleFonts.ubuntu(
                                     fontSize: 20.0,
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold),

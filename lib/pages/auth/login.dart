@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:team_work/models/database.dart';
+import 'package:team_work/pages/auth/forget_pass.dart';
 import 'package:team_work/pages/auth/register.dart';
 import 'package:team_work/pages/auth/users.dart';
 
@@ -18,14 +20,21 @@ class Login extends StatelessWidget {
     TextEditingController passwordController = TextEditingController();
 
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).primaryColor,
+        title: Text(
+          "Login",
+          style: GoogleFonts.ubuntu(),
+        ),
+      ),
       body: Padding(
-          padding: const EdgeInsets.all(10),
+          padding: EdgeInsets.all(10),
           child: ListView(
             children: <Widget>[
               Container(
                   height: 350,
                   alignment: Alignment.center,
-                  padding: const EdgeInsets.all(10),
+                  padding: EdgeInsets.all(10),
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -35,10 +44,9 @@ class Login extends StatelessWidget {
                           child: Container(
                             child: Text(
                               "Login & Find over 54,000 properties",
-                              style: TextStyle(
-                                  fontSize: 40.0,
-                                  color:
-                                      Theme.of(context).secondaryHeaderColor),
+                              style: GoogleFonts.ubuntu(
+                                  fontSize: 30.0,
+                                  color: Theme.of(context).primaryColor),
                             ),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
@@ -69,7 +77,7 @@ class Login extends StatelessWidget {
                   padding: const EdgeInsets.all(10),
                   child: Text(
                     'Login',
-                    style: TextStyle(
+                    style: GoogleFonts.ubuntu(
                         fontSize: 20, color: Theme.of(context).primaryColor),
                   )),
               const SizedBox(
@@ -99,10 +107,14 @@ class Login extends StatelessWidget {
               TextButton(
                 onPressed: () {
                   //forgot password screen
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      builder: (BuildContext context) =>
+                          const forgetPassword()));
                 },
                 child: Text(
                   'Forgot Password',
-                  style: TextStyle(color: Theme.of(context).primaryColor),
+                  style:
+                      GoogleFonts.ubuntu(color: Theme.of(context).primaryColor),
                 ),
               ),
               Container(
@@ -127,7 +139,7 @@ class Login extends StatelessWidget {
                         await showDialog(
                           context: context,
                           builder: (context) => AlertDialog(
-                            title: Text('Warning'),
+                            title: Text('Warning', style: GoogleFonts.ubuntu()),
                             content: FutureBuilder(
                               future: dbclass.userLogin(email, password),
                               builder: (context, snapshot) {
@@ -135,7 +147,7 @@ class Login extends StatelessWidget {
                                   return Text(
                                     snapshot.data.toString(),
                                     softWrap: true,
-                                    style: TextStyle(
+                                    style: GoogleFonts.ubuntu(
                                         color: Theme.of(context).primaryColor,
                                         fontWeight: FontWeight.bold,
                                         fontSize: 16.0),
@@ -156,7 +168,10 @@ class Login extends StatelessWidget {
                                   Navigator.of(context, rootNavigator: true)
                                       .pop(); // dismisses only the dialog and returns nothing
                                 },
-                                child: Text('Try again'),
+                                child: Text(
+                                  'Try again',
+                                  style: GoogleFonts.ubuntu(),
+                                ),
                               ),
                             ],
                           ),
@@ -166,23 +181,33 @@ class Login extends StatelessWidget {
                           //shared prefs !!!
 
                           print('True');
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  const users()));
+                          Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      const users()));
                         } else if (message.isNotEmpty && message == 'False') {
                           print('False');
                           await showDialog(
                             context: context,
                             builder: (context) => AlertDialog(
-                              title: Text('Warning'),
-                              content: Text('Invalid Credentials,Login Failed'),
+                              title: Text(
+                                'Warning',
+                                style: GoogleFonts.ubuntu(),
+                              ),
+                              content: Text(
+                                'Invalid Credentials,Login Failed',
+                                style: GoogleFonts.ubuntu(),
+                              ),
                               actions: <Widget>[
                                 FlatButton(
                                   onPressed: () {
                                     Navigator.of(context, rootNavigator: true)
                                         .pop(); // dismisses only the dialog and returns nothing
                                   },
-                                  child: Text('Try again'),
+                                  child: Text(
+                                    'Try again',
+                                    style: GoogleFonts.ubuntu(),
+                                  ),
                                 ),
                               ],
                             ),
@@ -196,16 +221,19 @@ class Login extends StatelessWidget {
               const Divider(),
               Row(
                 children: <Widget>[
-                  const Text('Does not have account?'),
+                  Text(
+                    'Does not have account?',
+                    style: GoogleFonts.ubuntu(),
+                  ),
                   TextButton(
                     child: Text(
                       'Register',
-                      style: TextStyle(
+                      style: GoogleFonts.ubuntu(
                           fontSize: 20, color: Theme.of(context).primaryColor),
                     ),
                     onPressed: () {
                       //signup screen
-                      Navigator.of(context).push(MaterialPageRoute(
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
                           builder: (BuildContext context) => const Register()));
                     },
                   )

@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/database.dart';
@@ -50,9 +51,27 @@ class ListingPage extends StatelessWidget {
                                   itemCount:
                                       value.mapSearch['nonfeatured'].length,
                                   itemBuilder: (context, index) {
-                                    return SearchCard(
-                                        map: value.mapSearch['nonfeatured']
-                                            [index]);
+                                    if (value.mapSearch['nonfeatured'][0]
+                                            ['msg'] !=
+                                        'True') {
+                                      return Center(
+                                        child: Container(
+                                          width: double.infinity,
+                                          height: 500,
+                                          alignment: Alignment.center,
+                                          padding:
+                                              const EdgeInsets.only(top: 200),
+                                          child: Text(value
+                                              .mapSearch['nonfeatured'][0]
+                                                  ['msg']
+                                              .toString()),
+                                        ),
+                                      );
+                                    } else {
+                                      return SearchCard(
+                                          map: value.mapSearch['nonfeatured']
+                                              [index]);
+                                    }
                                   },
                                 );
                     },
@@ -104,31 +123,38 @@ class SearchCard extends StatelessWidget {
                 ),
                 const SizedBox(width: 10),
                 Flexible(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        map['title'],
-                        style: Theme.of(context).textTheme.headline1!.copyWith(
-                            fontSize: 16, fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(height: 10),
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.location_on_outlined,
-                            color: Theme.of(context).primaryColor,
-                          ),
-                          Text(
-                            map['address'],
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyText1!
-                                .copyWith(fontSize: 12),
-                          )
-                        ],
-                      ),
-                    ],
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 30),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          map['title'],
+                          style: GoogleFonts.ubuntu(
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).secondaryHeaderColor),
+                        ),
+                        const SizedBox(height: 10),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.location_on_outlined,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                            Expanded(
+                              child: Text(
+                                map['address'],
+                                style: GoogleFonts.ubuntu(
+                                    fontSize: 12.0,
+                                    color:
+                                        Theme.of(context).secondaryHeaderColor),
+                              ),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -139,10 +165,10 @@ class SearchCard extends StatelessWidget {
                 padding: const EdgeInsets.all(2.0),
                 child: Text(
                   map['price'] + ' PKR',
-                  style: Theme.of(context).textTheme.displaySmall!.copyWith(
-                      fontSize: 18,
+                  style: GoogleFonts.ubuntu(
+                      fontSize: 16.0,
                       fontWeight: FontWeight.bold,
-                      color: Colors.purple),
+                      color: Theme.of(context).primaryColor),
                 ),
               ),
             )

@@ -1,28 +1,404 @@
 import 'dart:convert';
+import 'dart:io';
+import 'package:dio/dio.dart';
+import 'package:flutter/services.dart';
+import 'package:http_parser/http_parser.dart';
 
 import 'package:flutter/foundation.dart';
-import 'package:http/http.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:multi_image_picker/multi_image_picker.dart';
+
+import 'dart:async';
 
 class DataBase with ChangeNotifier {
   //shared prefs start
 
   String initial_city = 'Select City';
-  int purposeIndex = 0;
+  bool postedAd = false;
 
-  // Database() {
-  //   getCity();
+  //property images starts
+
+  List<Asset> propertyImages = <Asset>[];
+
+  // String loadAssets = 'No Error Dectected';
+  bool showSpinner = false;
+
+  // Future<void> setPropertyImages(listofimages) async {
+  //   propertyImages = listofimages;
+  //   notifyListeners();
+  // }
+  final ImagePicker imagePicker = ImagePicker();
+
+  List<XFile>? imageFileList = [];
+
+  Future<void> loadAssets() async {
+    List<Asset> resultList = <Asset>[];
+    String error = 'No Error Detected';
+
+    try {
+      resultList = await MultiImagePicker.pickImages(
+        maxImages: 300,
+        enableCamera: true,
+        selectedAssets: propertyImages,
+        cupertinoOptions: const CupertinoOptions(takePhotoIcon: "chat"),
+        materialOptions: const MaterialOptions(
+          actionBarColor: "#6f1c74",
+          actionBarTitle: "Select Property Images",
+          allViewTitle: "All Photos",
+          useDetailsView: false,
+          selectCircleStrokeColor: "#5e1863",
+        ),
+      );
+    } on Exception catch (e) {
+      error = e.toString();
+    }
+
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+    // if (!mounted) return;
+
+    propertyImages = resultList;
+    error = error;
+
+    notifyListeners();
+  }
+
+  Future getSpinnerValue() async {
+    var spinVal = showSpinner;
+    return spinVal;
+  }
+
+  Dio dio = Dio();
+
+  Future uploadImageToServer() async {
+    String completeurl =
+        'https://teamworkpk.com/API/add_property_images.php?post_id=' + post_id;
+    print(completeurl);
+    for (var i = 0; i < propertyImages.length; i++) {
+      // print(i);
+      ByteData byteData = await propertyImages[i].getByteData();
+      List<int> imageData = byteData.buffer.asUint8List();
+
+      MultipartFile multiPartFile = MultipartFile.fromBytes(
+        imageData,
+        filename: propertyImages[i].name,
+        contentType: MediaType('image', 'jpeg'),
+      );
+      FormData formData = FormData.fromMap({'image': multiPartFile});
+      var response = await dio.post(completeurl, data: formData);
+      if (response.statusCode == 200) {
+        print(response.data);
+      } else {
+        print(response.statusCode);
+      }
+    }
+  }
+
+  // Future uploadImageToServer() async {
+  //   String completeurl =
+  //       'https://teamworkpk.com/API/add_property_images.php?post_id=' + post_id;
+  //   print(completeurl);
+  //   var newString;
+  //   try {
+  //     showSpinner = true;
+  //
+  //     var uri = Uri.parse(completeurl);
+  //     http.MultipartRequest request = http.MultipartRequest('POST', uri);
+  //
+  //     request.fields['userid'] = id;
+  //     // request.fields['title'] = id;
+  //
+  //     List<http.MultipartFile> newList = <http.MultipartFile>[];
+  //     int piloop = 0;
+  //     var response;
+  //
+  //     for (int i = 0; i < propertyImages.length; i++) {
+  //       print('printing i ');
+  //       print(i);
+  //       var path = await FlutterAbsolutePath.getAbsolutePath(
+  //           propertyImages[i].identifier);
+  //       File imageFile = File(path);
+  //
+  //       var stream = http.ByteStream(imageFile.openRead());
+  //       var length = await imageFile.length();
+  //
+  //       var multipartFile = http.MultipartFile(
+  //         "image",
+  //         stream,
+  //         length,
+  //         contentType: MediaType('image', 'png'),
+  //         filename: basename(imageFile.path),
+  //       );
+  //       newList.add(multipartFile);
+  //
+  //       // print('printing newList inside loop');
+  //       // print(newList);
+  //       request.files.addAll(newList);
+  //       piloop++;
+  //     }
+  //
+  //     response = await request.send();
+  //
+  //     print('printing newList outside loop');
+  //     print(newList);
+  //
+  //     if (response.statusCode == 200) {
+  //       response.stream.transform(utf8.decoder).listen((value) {
+  //         print('last val ' + value);
+  //         // print(jsonDecode(value));
+  //       });
+  //       if (propertyImages.length == piloop) {
+  //         print('its 200 and length is equal to list as well ');
+  //         Timer(
+  //             const Duration(seconds: 2),
+  //             () => () {
+  //                   showSpinner = true;
+  //                 });
+  //       } else {
+  //         print('not 200');
+  //         Timer(
+  //             const Duration(seconds: 2),
+  //             () => () {
+  //                   showSpinner = true;
+  //                 });
+  //       }
+  //       print('piloop is same length');
+  //       print(piloop);
+  //     }
+  //
+  //     await piloop;
+  //     if (piloop == propertyImages.length) {
+  //       print('piloop is same length');
+  //       print(piloop);
+  //       notifyListeners();
+  //     }
+  //   } catch (e) {
+  //     showSpinner = false;
+  //
+  //     print(e.toString());
+  //     // notifyListeners();
+  //   }
   // }
 
-  // void getCity() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   String seetea = (await prefs.getString('initial_city') ?? '');
-  //   initial_city = seetea;
+  // Future<void> selectImages() async {
+  //   final List<XFile>? selectedImages = await imagePicker.pickMultiImage();
+  //
+  //   if (selectedImages!.isNotEmpty) {
+  //     imageFileList!.addAll(selectedImages);
+  //   }
+  //   print("Image List Length:" + imageFileList!.length.toString());
   //   notifyListeners();
   // }
 
+  String post_id = '0';
+  List<dynamic> finalResImages = [];
+
+  Future<void> setPostId(id) async {
+    id = post_id;
+    notifyListeners();
+  }
+
+//   Future<void> uploadingPropertyImages(id) async {
+//     String completeurl =
+//         'https://teamworkpk.com/API/add_property_images.php?post_id=' + id;
+//     print('printing uploading property images ');
+//
+//     if (imageFileList != null) {
+//       print(imageFileList!.length);
+// // string to uri
+//       var uri = Uri.parse(completeurl);
+//
+// // create multipart request
+//       var request = http.MultipartRequest("POST", uri);
+//       for (var file in imageFileList!) {
+//         print(file.path);
+//         request.files.add(http.MultipartFile(
+//             'picturePath',
+//             File(file!.path).readAsBytes().asStream(),
+//             File(file!.path).lengthSync(),
+//             filename: file.path!.split("/").last));
+//
+//         request.files
+//             .add(await http.MultipartFile.fromPath('picture', file!.name));
+//         var res = await request.send();
+//       }
+//
+//       var res = await request.send();
+//       print(res);
+//
+//       // for (int i = 0; i < imageFileList!.length; i++) {
+//       //   String base64Image = base64Encode(imageFileList[i]!.readAsBytes());
+//       //   String fileName = primaryImage!.path.split("/").last;
+//       //
+//       //   response = await http.post(Uri.parse(completeurl), body: {
+//       //     "image": base64Image,
+//       //     "name": fileName,
+//       //   });
+//       //
+//       //   if (response.statusCode == 200) {
+//       //     print('its 200 from new shit ');
+//       //     var abPost = jsonDecode(response.body);
+//       //
+//       //     if (response.body.isNotEmpty) {
+//       //       print(abPost.toString());
+//       //       post_id = abPost['adpost'][0]['last_id'].toString();
+//       //       // postedAd = true;
+//       //       // print('printing post_id');
+//       //       // print(post_id);
+//       //       // setPostId(post_id);
+//       //       // uploadingPropertyImages(post_id);printing post_id
+//       //     } else {
+//       //       print('nope the status code is not 200' + response.body.toString());
+//       //     }
+//       //   } else {
+//       //     // _errorAddProperty = true;
+//       //     // _errorMessageAddProperty =
+//       //     // 'Error : It could be your Internet connection.';
+//       //     // _mapAddProperty = {};
+//       //   }
+//       // }
+//
+//       // for (var file in imageFileList!) {
+//       //   String fileName = file.path.split("/").last;
+//       //   var stream = http.ByteStream(file.openRead());
+//       //   stream.cast();
+//       //
+//       //   // get file length
+//       //
+//       //   var length = await file.length(); //imageFile is your image file
+//       //
+//       //   // multipart that takes file
+//       //   var multipartFileSign =
+//       //       http.MultipartFile('image', stream, length, filename: fileName);
+//       //   print(fileName);
+//       //
+//       //   request.files.add(multipartFileSign);
+//       // }
+//
+//       // Map<String, String> headers = {
+//       //   "Accept": "application/json",
+//       //   "Authorization": "Bearer $value"
+//       // }; // ignore this headers if there is no authentication
+//
+// //add headers
+// //       request.headers.addAll(headers);
+//
+// //adding params
+// //       request.fields['id'] = post_id;
+// //       request.fields['images'] = request.files.toString();
+// // request.fields['lastName'] = 'efg';
+//
+// // send
+// //       response = await request.send();
+//
+//       // print(response.statusCode);
+//
+// // listen for response
+// //       response.stream.transform(utf8.decoder).listen((value) {
+// //         print('last val ' + value);
+// //       });
+//       // for (int i = 0; i < imageFileList!.length; i++) {
+//       //   // print(imageFileList![i].path);
+//       //   Uint8List base64Image = await imageFileList![i].readAsBytes();
+//       //   String fileName = imageFileList![i].path.split("/").last;
+//       //   print(fileName);
+//       //
+//       //   response = await http.post(Uri.parse(completeurl), body: {
+//       //     "image": base64Image.toString(),
+//       //     "name": fileName,
+//       //   });
+//       // }
+//       // if (response.statusCode == 200) {
+//       //   print('its 200 last one');
+//       //   print(response.body);
+//       //   var abPost = jsonDecode(response.body);
+//       //   print(abPost);
+//       //   return abPost;
+//       // } else {
+//       //   // _errorAddProperty = true;
+//       //   // _errorMessageAddProperty =
+//       //   //     'Error : It could be your Internet connection.';
+//       //   // _mapAddProperty = {};
+//       // }
+//     }
+//   }
+
+  // promerty images ends
+
+  // primary image shit starts here
+  // File? primaryImage;
+  File? primaryImage;
+
+  // var imagetoupload;
+
+  // late Future<File> file = primaryImage as Future<File>;
+
+  Future setPrimaryImage(img) async {
+    primaryImage = img;
+    // imagetoupload = img;
+    notifyListeners();
+  }
+
+  //primary image shit ends here
+
+  //form fields
+  String purposeIndex = 'Exchange';
+
   Future<void> setPurpose(value) async {
     purposeIndex = value;
+    notifyListeners();
+  }
+
+  String propertyTypeIndex = 'Residential';
+
+  Future<void> setproperty_type(value) async {
+    propertyTypeIndex = value;
+    notifyListeners();
+  }
+
+  String typeIndex = 'House';
+
+  Future<void> setType(value) async {
+    typeIndex = value;
+    notifyListeners();
+  }
+
+  String addressIndex = '';
+
+  Future<void> setAddress(value) async {
+    addressIndex = value;
+    notifyListeners();
+  }
+
+  String yearBuildIndex = '';
+
+  Future<void> setYearBuild(value) async {
+    yearBuildIndex = value;
+    notifyListeners();
+  }
+
+  String priceIndex = '';
+
+  Future<void> setPrice(value) async {
+    priceIndex = value;
+    notifyListeners();
+  }
+
+  String titleIndex = '';
+
+  Future<void> setTitle(value) async {
+    titleIndex = value;
+    notifyListeners();
+  }
+
+  String descriptionIndex = '';
+
+  Future<void> setDescription(value) async {
+    descriptionIndex = value;
     notifyListeners();
   }
 
@@ -36,7 +412,7 @@ class DataBase with ChangeNotifier {
   Future<String> getPrefval(key, value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String stringValue = (prefs.getString(key) ?? value);
-    print('added to pref ' + key + ' - ' + value);
+    print('gotten from pref ' + key + ' - ' + value);
     notifyListeners();
     return stringValue;
   }
@@ -52,31 +428,24 @@ class DataBase with ChangeNotifier {
 
   void setCity(city) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('initial_city', city);
+    prefs.setString('initial_city', city);
     print('new city set');
     print(city);
     initial_city = city;
     notifyListeners();
   }
 
-  String username = '';
+  String name = '';
+  String email = '';
+  String phone = '';
   String password = '';
   String id = '';
   String image = '';
   String timestamp = '';
-  String complete_name = '';
 
   addCity() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('initial_city', "Islamabad");
-    notifyListeners();
-  }
-
-  void _setPrefItems() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('initial_city', initial_city);
-    String username = '';
-    String password = '';
     notifyListeners();
   }
 
@@ -88,33 +457,33 @@ class DataBase with ChangeNotifier {
 
   void _getAuth() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    username = prefs.getString('username') ?? '';
+    name = prefs.getString('name') ?? '';
+    email = prefs.getString('email') ?? '';
     password = prefs.getString('password') ?? '';
     id = prefs.getString('id') ?? '';
     image = prefs.getString('image') ?? '';
+    phone = prefs.getString('phone') ?? '';
     timestamp = prefs.getString('timestamp') ?? '';
     notifyListeners();
   }
 
-  void addAuth(id, complete_name, username, password, image, timestamp) async {
+  void addAuth(id, name, email, password, image, phone, timestamp) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('id', id);
-    prefs.setString('complete_name', complete_name);
-    prefs.setString('username', username);
+    prefs.setString('name', name);
+    prefs.setString('email', email);
     prefs.setString('password', password);
     prefs.setString('image', image);
+    prefs.setString('phone', phone);
     prefs.setString('timestamp', timestamp);
     print('auth added ');
-    // String? us = await prefs.getString('image');
-    // print("Coming from the add auth " + us.toString());
-    // _setPrefItems();
     notifyListeners();
   }
 
   void removeUser() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    prefs.remove("username");
+    prefs.remove("name");
     prefs.remove("email");
     prefs.remove("password");
     prefs.remove("id");
@@ -122,45 +491,46 @@ class DataBase with ChangeNotifier {
     prefs.remove("phone");
     prefs.remove("timestamp");
     prefs.remove("initial_city");
+    notifyListeners();
   }
 
-  // void setCity(initial_city) async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   prefs.setString('initial_city', initial_city);
-  //   print(initial_city + ' was selected');
-  //   _setPrefItems();
-  //   notifyListeners();
-  // }
-
-  String getUsername() {
+  Future<String> getName() async {
     _getAuth();
-    return username;
+    // notifyListeners();
+    return name;
   }
 
-  String getPassword() {
+  Future<String> getEmail() async {
+    _getAuth();
+    return email;
+  }
+
+  Future<String> getPhone() async {
+    _getAuth();
+    return phone;
+  }
+
+  Future<String> getPassword() async {
     _getAuth();
     return password;
   }
 
-  String getImage() {
+  Future<String> getImage() async {
     _getAuth();
+
     return image;
   }
 
-  String getId() {
+  Future<String> getId() async {
     _getAuth();
+
     return id;
   }
 
-  String getTimestamp() {
+  Future<String> getTimestamp() async {
     _getAuth();
     return timestamp;
   }
-
-  // String getCity() {
-  //   _getPrefItems();
-  //   return initial_city;
-  // }
 
   Future<String> getCurrentCity() async {
     if (initial_city == null) {
@@ -172,7 +542,108 @@ class DataBase with ChangeNotifier {
     return initial_city;
   }
 
+  Future<String> removeWebPost(web_post_id) async {
+    String finalres = '';
+    String completeurl =
+        'https://teamworkpk.com/API/remove.php?id=' + web_post_id;
+    print(completeurl);
+    var response = await http.get(Uri.parse(completeurl));
+    if (response.statusCode == 200) {
+      print('your record is removed or is 200');
+      print(response.body);
+      var res = jsonDecode(response.body);
+      print(res['remove'][0]);
+      finalres = res['remove'].toString();
+    }
+
+    return finalres;
+  }
+
   //shared prefs end
+
+  //add property starts here
+
+  Map<String, dynamic> _mapAddProperty = {};
+  bool _errorAddProperty = false;
+  String _errorMessageAddProperty = '';
+
+  Map<String, dynamic> get mapAddProperty => _mapAddProperty;
+
+  bool get errorAddProperty => _errorAddProperty;
+
+  String get errorMessageAddProperty => _errorMessageAddProperty;
+
+  Future<void> addProperty(id, purpose, type, city, address, yearBuild, price,
+      title, description, property_type) async {
+    String completeurl = 'https://teamworkpk.com/API/addPost.php?purpose=' +
+        purpose +
+        '&type=' +
+        type +
+        '&city=' +
+        city +
+        '&address=' +
+        address +
+        '&year_build=' +
+        yearBuild +
+        '&price=' +
+        price +
+        '&title=' +
+        title +
+        '&description=' +
+        description +
+        '&property_type=' +
+        property_type +
+        '&user_id=' +
+        id;
+    print(completeurl);
+
+    final response;
+    if (primaryImage != null) {
+      String base64Image = base64Encode(primaryImage!.readAsBytesSync());
+      String fileName = primaryImage!.path.split("/").last;
+
+      response = await http.post(Uri.parse(completeurl), body: {
+        "image": base64Image,
+        "name": fileName,
+      });
+      if (response.statusCode == 200) {
+        print('its 200');
+        var abPost = jsonDecode(response.body);
+
+        if (response.body.isNotEmpty) {
+          // print(abPost['adpost'][0]['last_id'].toString());
+          post_id = abPost['adpost'][0]['last_id'].toString();
+          postedAd = true;
+          print('printing post_id');
+          print(post_id);
+          uploadImageToServer();
+          setPostId(post_id);
+        } else {
+          print('nope the status code is not 200' + response.body.toString());
+        }
+
+        try {
+          _mapAddProperty = jsonDecode(response.body);
+          _errorAddProperty = false;
+        } catch (e) {
+          _errorAddProperty = true;
+          _errorMessageAddProperty = e.toString();
+          _mapAddProperty = {};
+        }
+      } else {
+        _errorAddProperty = true;
+        _errorMessageAddProperty =
+            'Error : It could be your Internet connection.';
+        _mapAddProperty = {};
+      }
+    }
+
+    notifyListeners();
+  }
+
+  //add proeprty ends here
+
+  //user register starts here
 
   Map<String, dynamic> _mapRegister = {};
   bool _errorRegister = false;
@@ -184,42 +655,60 @@ class DataBase with ChangeNotifier {
 
   String get errorMessageRegister => _errorMessageRegister;
 
-  Future<void> userRegister(String email, String password, String phone) async {
-    final response = await get(
-      Uri.parse('https://teamworkpk.com/API/registrationapi.php?email=' +
-          email +
-          '&password=' +
-          password +
-          '&phone=' +
-          phone),
+  Future<void> userRegister(
+      String name, String email, String password, String phone) async {
+    String completeurl =
+        'https://teamworkpk.com/API/registrationapi.php?name=' +
+            name +
+            '&email=' +
+            email +
+            '&password=' +
+            password +
+            '&phone=' +
+            phone;
+    print(completeurl);
+    final response = await http.get(
+      Uri.parse(completeurl),
     );
     if (response.statusCode == 200) {
       try {
-        _mapListingDetail = jsonDecode(response.body);
-        _errorListingDetail = false;
+        _mapRegister = jsonDecode(response.body);
+        _errorRegister = false;
+
+        // var gottenmapreg = jsonDecode(response.body);
+        // print(gottenmapreg);
+        if (_mapRegister.isNotEmpty && _mapRegister['message'] == "True") {
+          print('yes its true from db and following is printing user object.');
+          print(_mapRegister['user']['id']);
+          id = _mapRegister['user']['id'].toString();
+          name = _mapRegister['user']['name'].toString();
+          email = _mapRegister['user']['email'].toString();
+          image = _mapRegister['user']['image'].toString();
+          timestamp = _mapRegister['user']['timestamp'].toString();
+          phone = _mapRegister['user']['phone'].toString();
+          addAuth(id, name, email, password, image, phone, timestamp);
+        }
       } catch (e) {
-        _errorListingDetail = true;
-        _errorMessageListingDetail = e.toString();
-        _mapListingDetail = {};
+        _errorRegister = true;
+        _errorMessageRegister = e.toString();
+        _mapRegister = {};
       }
     } else {
-      _errorListingDetail = true;
-      _errorMessageListingDetail =
-          'Error : It could be your Internet connection.';
-      _mapListingDetail = {};
+      _errorRegister = true;
+      _errorMessageRegister = 'Error : It could be your Internet connection.';
+      _mapRegister = {};
     }
     notifyListeners();
   }
 
+  //register ends here !!!
+
   // login starts here
   Map<String, dynamic> _mapLogin = {};
-  Map<String, dynamic> _user = {};
   bool _errorLogin = false;
   String _errorMessageLogin = '';
 
   Map<String, dynamic> get mapLogin => _mapLogin;
-
-  Map<String, dynamic> get user => _user;
 
   bool get errorLogin => _errorLogin;
 
@@ -231,7 +720,7 @@ class DataBase with ChangeNotifier {
         '&password=' +
         password;
     print(completeurl);
-    final response = await get(
+    final response = await http.get(
       Uri.parse('https://teamworkpk.com/API/loginapi.php?email=' +
           email +
           '&password=' +
@@ -245,10 +734,11 @@ class DataBase with ChangeNotifier {
           print('yes its true from db');
           print(_mapLogin['user'][0]['id'].toString());
           id = _mapLogin['user'][0]['id'].toString();
-          complete_name = _mapLogin['user'][0]['name'].toString();
+          name = _mapLogin['user'][0]['name'].toString();
           image = _mapLogin['user'][0]['image'].toString();
+          phone = _mapLogin['user'][0]['phone'].toString();
           timestamp = _mapLogin['user'][0]['timestamp'].toString();
-          addAuth(id, complete_name, email, password, image, timestamp);
+          addAuth(id, name, email, password, image, phone, timestamp);
         }
       } catch (e) {
         _errorLogin = true;
@@ -274,7 +764,7 @@ class DataBase with ChangeNotifier {
   String get errorMessageFeatured => _errorMessageFeatured;
 
   Future<void> get fetchFeatured async {
-    final response = await get(
+    final response = await http.get(
       Uri.parse('https://teamworkpk.com/API/featured.php'),
     );
     if (response.statusCode == 200) {
@@ -305,7 +795,7 @@ class DataBase with ChangeNotifier {
   String get errorMessageListingDetail => _errorMessageListingDetail;
 
   Future<void> fetchListingDetail(String id) async {
-    final response = await get(
+    final response = await http.get(
       Uri.parse(
           'https://teamworkpk.com/API/listing_detail.php?web_post_id=' + id),
     );
@@ -338,7 +828,7 @@ class DataBase with ChangeNotifier {
   String get errorMessageSearch => _errorMessageSearch;
 
   Future<void> Search(String curl) async {
-    final response = await get(
+    final response = await http.get(
       Uri.parse('https://teamworkpk.com/API/nonfeatured.php' + curl),
     );
     if (response.statusCode == 200) {
@@ -358,26 +848,23 @@ class DataBase with ChangeNotifier {
     notifyListeners();
   }
 
-  // Future<void> get fetchListingDetail async {
-  //   final response = await get(
-  //     Uri.parse('https://teamworkpk.com/API/listing_detail.php?web_post_id='),
-  //   );
-  //   if (response.statusCode == 200) {
-  //     try {
-  //       _mapFeatured = jsonDecode(response.body);
-  //       _errorFeatured = false;
-  //     } catch (e) {
-  //       _errorFeatured = true;
-  //       _errorMessageFeatured = e.toString();
-  //       _mapFeatured = {};
-  //     }
-  //   } else {
-  //     _errorFeatured = true;
-  //     _errorMessageFeatured = 'Error : It could be your Internet connection.';
-  //     _mapFeatured = {};
-  //   }
-  //   notifyListeners();
-  // }
+  Map<String, dynamic> _mapForgotten = {};
+
+  Map<String, dynamic> get mapForgotten => _mapForgotten;
+
+  Future checkUser(email) async {
+    var response = await http.post(Uri.parse(
+        'http://teamworkpk.com/API/forget_password.php?email=' +
+            email.toString()));
+
+    var link = jsonDecode(response.body);
+
+    if (link == "true") {
+      print('User has been sent an email for reset password.');
+    } else {}
+    print(link);
+    return link;
+  }
 
   Map<String, dynamic> _mapAccount = {};
   bool _errorAccount = false;
@@ -390,7 +877,7 @@ class DataBase with ChangeNotifier {
   String get errorMessageAccount => _errorMessageAccount;
 
   Future<void> fetchAccount(String id) async {
-    final response = await get(
+    final response = await http.get(
       Uri.parse('https://teamworkpk.com/API/account.php?public_user_id=' +
           id +
           '&selected=ads'),
@@ -426,7 +913,7 @@ class DataBase with ChangeNotifier {
   String get errorMessageListing => _errorMessageListing;
 
   Future<void> get fetchListing async {
-    final response = await get(
+    final response = await http.get(
       Uri.parse('https://teamworkpk.com/API/nonfeatured.php'),
     );
     if (response.statusCode == 200) {
@@ -457,7 +944,7 @@ class DataBase with ChangeNotifier {
   String get errorMessageProjects => _errorMessageProjects;
 
   Future<void> get fetchProjects async {
-    final response = await get(
+    final response = await http.get(
       Uri.parse('https://teamworkpk.com/API/projects.php'),
     );
     if (response.statusCode == 200) {
@@ -501,6 +988,18 @@ class DataBase with ChangeNotifier {
     _mapAccount = {};
     _errorAccount = false;
     _errorMessageAccount = '';
+
+    _mapLogin = {};
+    _errorLogin = false;
+    _errorMessageLogin = '';
+
+    _mapRegister = {};
+    _errorRegister = false;
+    _errorMessageRegister = '';
+
+    _mapAddProperty = {};
+    _errorAddProperty = false;
+    _errorMessageAddProperty = '';
 
     notifyListeners();
   }

@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:team_work/models/database.dart';
+import 'package:team_work/pages/Property/editProperty.dart';
 
 import '../detail/detail.dart';
 
@@ -13,6 +14,7 @@ class ManageAds extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var dbclass = context.read<DataBase>();
     final fetchAds = context.read<DataBase>().fetchAccount(id);
     // print(fetchAds);
 
@@ -54,9 +56,23 @@ class ManageAds extends StatelessWidget {
                                   shrinkWrap: true,
                                   itemCount: value.mapAccount['account'].length,
                                   itemBuilder: (context, index) {
-                                    return AccountCard(
-                                        map: value.mapAccount['account']
-                                            [index]);
+                                    if (value.mapAccount['account'][index]
+                                            ['message'] ==
+                                        "True") {
+                                      return AccountCard(
+                                          map: value.mapAccount['account']
+                                              [index]);
+                                    } else {
+                                      return Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Center(
+                                          child: Text(value
+                                              .mapAccount['account'][index]
+                                                  ['message']
+                                              .toString()),
+                                        ),
+                                      );
+                                    }
                                   },
                                 );
                     },
@@ -108,31 +124,39 @@ class AccountCard extends StatelessWidget {
                 ),
                 const SizedBox(width: 10),
                 Flexible(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        map['title'],
-                        style: Theme.of(context).textTheme.headline1!.copyWith(
-                            fontSize: 16, fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(height: 10),
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.location_on_outlined,
-                            color: Theme.of(context).primaryColor,
-                          ),
-                          Text(
-                            map['address'],
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyText1!
-                                .copyWith(fontSize: 12),
-                          )
-                        ],
-                      ),
-                    ],
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 30),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          map['title'],
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline1!
+                              .copyWith(
+                                  fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 10),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.location_on_outlined,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                            Expanded(
+                              child: Text(
+                                map['city'],
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .copyWith(fontSize: 12),
+                              ),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -159,7 +183,14 @@ class AccountCard extends StatelessWidget {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        print('this was hit !');
+                        // var dbclass = await context.read<DataBase>();
+                        // print(map.toString());
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                EditProperty(map: map),
+                          ),
+                        );
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(10.0),
@@ -192,9 +223,26 @@ class AccountCard extends StatelessWidget {
                                 child: Text('No'),
                               ),
                               FlatButton(
-                                onPressed: () {
-                                  print(
-                                      'delete this here and notify the fucking listeneres');
+                                onPressed: () async {
+                                  final dbclass =
+                                      await context.read<DataBase>();
+                                  String web_post_id = map['id'];
+                                  print('your ' +
+                                      web_post_id +
+                                      'has been removed');
+                                  var finalres =
+                                      await dbclass.removeWebPost(web_post_id);
+                                  if (finalres == "True" ||
+                                      finalres == "[True]") {
+                                    Navigator.of(context).pushReplacement(
+                                      MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            ManageAds(id: dbclass.id),
+                                      ),
+                                    );
+                                  } else {
+                                    print(finalres);
+                                  }
                                 },
                                 child: Text('Yes'),
                               ),

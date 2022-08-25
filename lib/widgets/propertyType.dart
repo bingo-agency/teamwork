@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:team_work/pages/listing/listing.dart';
 import 'package:team_work/widgets/best_offer.dart';
 
@@ -29,15 +30,15 @@ class PropertyType extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: const [
-                    Padding(
+                  children: [
+                    const Padding(
                       padding: EdgeInsets.all(8.0),
                       child: Image(
                           image: AssetImage('assets/icons/car.png'), width: 30),
                     ),
                     Text(
                       'Vehicle',
-                      style: TextStyle(
+                      style: GoogleFonts.ubuntu(
                         color: Colors.purple,
                       ),
                     )
@@ -67,9 +68,9 @@ class PropertyType extends StatelessWidget {
                         width: 30,
                       ),
                     ),
-                    const Text(
+                    Text(
                       'Land',
-                      style: TextStyle(
+                      style: GoogleFonts.ubuntu(
                         color: Colors.purple,
                       ),
                     )
@@ -99,9 +100,9 @@ class PropertyType extends StatelessWidget {
                         width: 30,
                       ),
                     ),
-                    const Text(
+                    Text(
                       'Plot',
-                      style: TextStyle(
+                      style: GoogleFonts.ubuntu(
                         color: Colors.purple,
                       ),
                     )
@@ -131,9 +132,9 @@ class PropertyType extends StatelessWidget {
                         width: 30,
                       ),
                     ),
-                    const Text(
+                    Text(
                       'Offices',
-                      style: TextStyle(
+                      style: GoogleFonts.ubuntu(
                         color: Colors.purple,
                       ),
                     )
@@ -163,9 +164,9 @@ class PropertyType extends StatelessWidget {
                         width: 30,
                       ),
                     ),
-                    const Text(
+                    Text(
                       'Restaurant',
-                      style: TextStyle(
+                      style: GoogleFonts.ubuntu(
                         color: Colors.purple,
                       ),
                     )
@@ -195,9 +196,9 @@ class PropertyType extends StatelessWidget {
                         width: 30,
                       ),
                     ),
-                    const Text(
+                    Text(
                       'Studio Home',
-                      style: TextStyle(
+                      style: GoogleFonts.ubuntu(
                         color: Colors.purple,
                       ),
                     )
@@ -227,9 +228,9 @@ class PropertyType extends StatelessWidget {
                         width: 30,
                       ),
                     ),
-                    const Text(
+                    Text(
                       'Apartments',
-                      style: TextStyle(
+                      style: GoogleFonts.ubuntu(
                         color: Colors.purple,
                       ),
                     )

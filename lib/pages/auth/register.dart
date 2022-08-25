@@ -1,5 +1,8 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:team_work/pages/auth/users.dart';
 
 import '../../models/database.dart';
 import 'login.dart';
@@ -9,13 +12,23 @@ class Register extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Map<String, dynamic> map;
+    String message;
     var dbclass = context.read<DataBase>();
+
     TextEditingController nameController = TextEditingController();
     TextEditingController emailController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
     TextEditingController phoneController = TextEditingController();
 
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).primaryColor,
+        title: Text(
+          "Register",
+          style: GoogleFonts.ubuntu(),
+        ),
+      ),
       body: Padding(
           padding: const EdgeInsets.all(10),
           child: ListView(
@@ -33,12 +46,11 @@ class Register extends StatelessWidget {
                           child: Container(
                             child: Text(
                               "Register & Find over 54,000 properties",
-                              style: TextStyle(
-                                  fontSize: 40.0,
+                              style: GoogleFonts.ubuntu(
+                                  fontSize: 30.0,
                                   color:
                                       Theme.of(context).secondaryHeaderColor),
                             ),
-
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                             ), //BoxDecoration
@@ -66,36 +78,47 @@ class Register extends StatelessWidget {
               Container(
                   alignment: Alignment.topLeft,
                   padding: const EdgeInsets.all(10),
-                  child: const Text(
+                  child: Text(
                     'Register',
-                    style: TextStyle(fontSize: 25, color: Colors.purple),
+                    style: GoogleFonts.ubuntu(
+                        fontSize: 25.0,
+                        color: Theme.of(context).secondaryHeaderColor),
                   )),
               Container(
-                padding: const EdgeInsets.all(10),
+                padding: EdgeInsets.all(10),
                 child: TextField(
                   controller: nameController,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                       hoverColor: Colors.purple,
-                      border: OutlineInputBorder(),
-                      focusedBorder: OutlineInputBorder(
+                      border: const OutlineInputBorder(),
+                      focusedBorder: const OutlineInputBorder(
                         borderSide: BorderSide(
                           color: Colors.purple,
                         ),
                       ),
                       labelText: 'Complete Name',
-                      labelStyle: TextStyle(color: Colors.purple)),
+                      labelStyle: GoogleFonts.ubuntu(
+                          color: Theme.of(context).primaryColor)),
                 ),
               ),
               Container(
                 padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                child: TextField(
+                child: TextFormField(
+                  onChanged: (value) =>
+                      EmailValidator.validate(value.toString())
+                          ? null
+                          : "Please enter a valid email.",
+                  validator: (value) =>
+                      EmailValidator.validate(value.toString())
+                          ? null
+                          : "Please enter a valid email.",
                   controller: emailController,
-                  decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      focusedBorder: OutlineInputBorder(
+                  decoration: InputDecoration(
+                      border: const OutlineInputBorder(),
+                      focusedBorder: const OutlineInputBorder(
                           borderSide: BorderSide(color: Colors.purple)),
                       labelText: 'Email',
-                      labelStyle: TextStyle(color: Colors.purple)),
+                      labelStyle: GoogleFonts.ubuntu(color: Colors.purple)),
                 ),
               ),
               Container(
@@ -103,12 +126,12 @@ class Register extends StatelessWidget {
                 child: TextField(
                   controller: passwordController,
                   obscureText: true,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    focusedBorder: OutlineInputBorder(
+                  decoration: InputDecoration(
+                    border: const OutlineInputBorder(),
+                    focusedBorder: const OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.purple)),
                     labelText: 'Password',
-                    labelStyle: TextStyle(color: Colors.purple),
+                    labelStyle: GoogleFonts.ubuntu(color: Colors.purple),
                   ),
                 ),
               ),
@@ -116,11 +139,10 @@ class Register extends StatelessWidget {
                 padding: const EdgeInsets.all(10),
                 child: TextField(
                   controller: phoneController,
-                  obscureText: true,
-                  decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
+                  decoration: InputDecoration(
+                      border: const OutlineInputBorder(),
                       labelText: 'Phone',
-                      labelStyle: TextStyle(color: Colors.purple)),
+                      labelStyle: GoogleFonts.ubuntu(color: Colors.purple)),
                 ),
               ),
               Container(
@@ -130,7 +152,92 @@ class Register extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                       primary: Theme.of(context).primaryColor),
                   child: const Text('Register'),
-                  onPressed: () {
+                  onPressed: () async {
+                    // print(loginMap['message']);
+                    var name = nameController.text.toString();
+                    var email = emailController.text.toString();
+                    var password = passwordController.text.toString();
+                    var phone = phoneController.text.toString();
+                    //print
+                    // await dbclass.userRegister(name, email, password, phone);
+                    var userclass = await dbclass.userRegister(
+                        name, email, password, phone);
+                    userclass;
+
+                    map = dbclass.mapRegister;
+                    message = dbclass.mapRegister['message'].toString();
+                    print(message);
+                    print('printing user');
+                    print(dbclass.mapRegister['user'].toString());
+                    //checking map if its empty or shit
+                    if (map.isEmpty) {
+                      print('map is empty');
+
+                      await showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: Text('Warning', style: GoogleFonts.ubuntu()),
+                          content: FutureBuilder(
+                            future: dbclass.userRegister(
+                                name, email, password, phone),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return Text(
+                                  snapshot.data.toString(),
+                                  softWrap: true,
+                                  style: GoogleFonts.ubuntu(
+                                      color: Theme.of(context).primaryColor,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16.0),
+                                );
+                              } else {
+                                return const SizedBox(
+                                  height: 100,
+                                  child: Center(
+                                    child: CircularProgressIndicator(),
+                                  ),
+                                );
+                              }
+                            },
+                          ),
+                          actions: <Widget>[
+                            FlatButton(
+                              onPressed: () {
+                                Navigator.of(context, rootNavigator: true)
+                                    .pop(); // dismisses only the dialog and returns nothing
+                              },
+                              child: Text('Try again'),
+                            ),
+                          ],
+                        ),
+                      );
+                    } else {
+                      if (message.isNotEmpty && message == 'True') {
+                        //shared prefs !!!
+
+                        print('True');
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                            builder: (BuildContext context) => const users()));
+                      } else if (message.isNotEmpty && message != 'True') {
+                        print('False');
+                        await showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: Text('Warning'),
+                            content: Text(message.toString()),
+                            actions: <Widget>[
+                              FlatButton(
+                                onPressed: () {
+                                  Navigator.of(context, rootNavigator: true)
+                                      .pop(); // dismisses only the dialog and returns nothing
+                                },
+                                child: Text('Try again'),
+                              ),
+                            ],
+                          ),
+                        );
+                      }
+                    }
                     print(nameController.text);
                     print(emailController.text);
                     print(passwordController.text);
@@ -141,7 +248,7 @@ class Register extends StatelessWidget {
               Center(
                 child: GestureDetector(
                   onTap: () {
-                    print(dbclass.getUsername());
+                    print(dbclass.getEmail());
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (BuildContext context) => const Login()));
                   },
@@ -149,11 +256,11 @@ class Register extends StatelessWidget {
                     padding: const EdgeInsets.all(8.0),
                     child: Container(
                       color: Theme.of(context).primaryColor,
-                      child: const Padding(
-                        padding: EdgeInsets.all(8.0),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
                         child: Text(
                           "Login instead",
-                          style: TextStyle(color: Colors.white),
+                          style: GoogleFonts.ubuntu(color: Colors.white),
                         ),
                       ),
                     ),

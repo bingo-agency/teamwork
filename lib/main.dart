@@ -29,6 +29,10 @@ class MyApp extends StatelessWidget {
                 onGenerateRoute: RouteManager.generateRoute,
                 debugShowCheckedModeBanner: false,
                 theme: ThemeData(
+                  colorScheme: ColorScheme.fromSeed(
+                    seedColor: const Color(0xFF811B83),
+                    primary: const Color(0xFF811B83), //<-- SEE HERE
+                  ),
                   backgroundColor: const Color(0xFFF5F6F6),
                   primaryColor: const Color(0xFF811B83),
                   secondaryHeaderColor: const Color(0xFF100E34),

@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:team_work/models/database.dart';
 import 'package:team_work/pages/detail/projectDetail.dart';
@@ -24,17 +25,13 @@ class Projects extends StatelessWidget {
               children: [
                 Text(
                   'Projects',
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline1!
-                      .copyWith(fontSize: 16, fontWeight: FontWeight.bold),
+                  style: GoogleFonts.ubuntu(
+                      fontSize: 16.0, fontWeight: FontWeight.bold),
                 ),
                 Text(
                   'View All',
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText1!
-                      .copyWith(fontSize: 14, fontWeight: FontWeight.bold),
+                  style: GoogleFonts.ubuntu(
+                      fontSize: 14.0, fontWeight: FontWeight.bold),
                 ),
               ],
             ),
@@ -102,7 +99,7 @@ class ProjectsCard extends StatelessWidget {
                   padding: const EdgeInsets.all(5.0),
                   child: Text(
                     map['ribbon'],
-                    style: const TextStyle(
+                    style: GoogleFonts.ubuntu(
                         color: Colors.white, fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -122,23 +119,18 @@ class ProjectsCard extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(map['title'],
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headline1!
-                                  .copyWith(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold)),
+                          Text(
+                            map['title'],
+                            style: GoogleFonts.ubuntu(
+                                fontSize: 16.0, fontWeight: FontWeight.bold),
+                          ),
                           const SizedBox(
                             height: 5,
                           ),
                           Text(
                             map['address'],
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyText1!
-                                .copyWith(
-                                    fontSize: 12, fontWeight: FontWeight.bold),
+                            style: GoogleFonts.ubuntu(
+                                fontSize: 12.0, fontWeight: FontWeight.bold),
                           )
                         ],
                       ),
@@ -148,13 +140,10 @@ class ProjectsCard extends StatelessWidget {
                         padding: const EdgeInsets.all(3.0),
                         child: Text(
                           map['price'] + ' PKR',
-                          style: Theme.of(context)
-                              .textTheme
-                              .displaySmall!
-                              .copyWith(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.purple),
+                          style: GoogleFonts.ubuntu(
+                              fontSize: 12.0,
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).primaryColor),
                         ),
                       ),
                     )

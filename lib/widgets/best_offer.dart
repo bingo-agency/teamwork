@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:team_work/models/house.dart';
 import 'package:team_work/pages/detail/detail.dart';
@@ -24,10 +25,10 @@ class Listing extends StatelessWidget {
             children: [
               Text(
                 'Listing',
-                style: Theme.of(context)
-                    .textTheme
-                    .headline1!
-                    .copyWith(fontSize: 16, fontWeight: FontWeight.bold),
+                style: GoogleFonts.ubuntu(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).secondaryHeaderColor),
               ),
               GestureDetector(
                 onTap: () {
@@ -39,10 +40,10 @@ class Listing extends StatelessWidget {
                 },
                 child: Text(
                   'View All',
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText1!
-                      .copyWith(fontSize: 14, fontWeight: FontWeight.bold),
+                  style: GoogleFonts.ubuntu(
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).secondaryHeaderColor),
                 ),
               ),
             ],
@@ -94,9 +95,9 @@ class Listing extends StatelessWidget {
                     child: Container(
                       alignment: Alignment.center,
                       padding: const EdgeInsets.symmetric(vertical: 15),
-                      child: const Text(
+                      child: Text(
                         'View More',
-                        style: TextStyle(
+                        style: GoogleFonts.ubuntu(
                             color: Colors.white,
                             fontSize: 16,
                             fontWeight: FontWeight.bold),
@@ -152,31 +153,38 @@ class ListingCard extends StatelessWidget {
                 ),
                 const SizedBox(width: 10),
                 Flexible(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        map['title'],
-                        style: Theme.of(context).textTheme.headline1!.copyWith(
-                            fontSize: 16, fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(height: 10),
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.location_on_outlined,
-                            color: Theme.of(context).primaryColor,
-                          ),
-                          Text(
-                            map['address'],
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyText1!
-                                .copyWith(fontSize: 12),
-                          )
-                        ],
-                      ),
-                    ],
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 30),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          map['title'],
+                          style: GoogleFonts.ubuntu(
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).secondaryHeaderColor),
+                        ),
+                        const SizedBox(height: 10),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.location_on_outlined,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                            Expanded(
+                              child: Text(
+                                map['address'],
+                                style: GoogleFonts.ubuntu(
+                                    fontSize: 12.0,
+                                    color:
+                                        Theme.of(context).secondaryHeaderColor),
+                              ),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -187,10 +195,10 @@ class ListingCard extends StatelessWidget {
                 padding: const EdgeInsets.all(2.0),
                 child: Text(
                   map['price'] + ' PKR',
-                  style: Theme.of(context).textTheme.displaySmall!.copyWith(
-                      fontSize: 18,
+                  style: GoogleFonts.ubuntu(
+                      fontSize: 16.0,
                       fontWeight: FontWeight.bold,
-                      color: Colors.purple),
+                      color: Theme.of(context).primaryColor),
                 ),
               ),
             )

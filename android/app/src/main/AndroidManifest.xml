@@ -3,6 +3,9 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <queries>
         <!-- If your app opens https URLs -->
@@ -26,9 +29,9 @@
             <data android:mimeType="*/*" />
         </intent>
     </queries>
-    
+
     <application
-        android:label="team_work"
+        android:label="Team Work"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

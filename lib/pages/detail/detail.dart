@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:team_work/pages/detail/widget/desc.dart';
 import 'package:team_work/pages/detail/widget/content_intro.dart';
@@ -83,9 +84,9 @@ class DetailPage extends StatelessWidget {
                       child: Container(
                         alignment: Alignment.center,
                         padding: const EdgeInsets.symmetric(vertical: 15),
-                        child: const Text(
+                        child: Text(
                           'Contact Now',
-                          style: TextStyle(
+                          style: GoogleFonts.ubuntu(
                               color: Colors.white,
                               fontSize: 16,
                               fontWeight: FontWeight.bold),
@@ -138,13 +139,11 @@ class Video_tw extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(left: 10.0),
+                  padding: const EdgeInsets.only(left: 18.0),
                   child: Text(
                     'Video',
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline1!
-                        .copyWith(fontSize: 20, fontWeight: FontWeight.bold),
+                    style: GoogleFonts.ubuntu(
+                        fontSize: 20.0, fontWeight: FontWeight.bold),
                   ),
                 ),
                 const SizedBox(

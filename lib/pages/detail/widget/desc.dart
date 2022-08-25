@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class About extends StatelessWidget {
   final String aboutText;
@@ -15,10 +16,8 @@ class About extends StatelessWidget {
         children: [
           Text(
             'About',
-            style: Theme.of(context)
-                .textTheme
-                .headline1!
-                .copyWith(fontSize: 20, fontWeight: FontWeight.bold),
+            style:
+                GoogleFonts.ubuntu(fontSize: 20.0, fontWeight: FontWeight.bold),
           ),
           const SizedBox(
             height: 10,
@@ -26,7 +25,7 @@ class About extends StatelessWidget {
           Text(
             aboutText,
             style:
-                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
+                GoogleFonts.ubuntu(fontSize: 14.0, fontWeight: FontWeight.bold),
           )
         ],
       ),

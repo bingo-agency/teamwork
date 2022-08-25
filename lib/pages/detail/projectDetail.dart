@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:team_work/pages/detail/widget/desc.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'detail.dart';
@@ -14,7 +15,10 @@ class ProjectDetail extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
-        title: const Text('Projects'),
+        title: Text(
+          'Projects',
+          style: GoogleFonts.ubuntu(),
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -82,9 +86,9 @@ class ProjCard extends StatelessWidget {
                 child: Container(
                   alignment: Alignment.center,
                   padding: const EdgeInsets.symmetric(vertical: 15),
-                  child: const Text(
+                  child: Text(
                     'Contact Now',
-                    style: TextStyle(
+                    style: GoogleFonts.ubuntu(
                         color: Colors.white,
                         fontSize: 16,
                         fontWeight: FontWeight.bold),

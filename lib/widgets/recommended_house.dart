@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:team_work/models/database.dart';
 import 'package:team_work/models/house.dart';
@@ -24,10 +25,10 @@ class RecommendedHouse extends StatelessWidget {
             children: [
               Text(
                 'Featured',
-                style: Theme.of(context)
-                    .textTheme
-                    .headline1!
-                    .copyWith(fontSize: 16, fontWeight: FontWeight.bold),
+                style: GoogleFonts.ubuntu(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).secondaryHeaderColor),
               ),
               GestureDetector(
                 onTap: () {
@@ -39,10 +40,10 @@ class RecommendedHouse extends StatelessWidget {
                 },
                 child: Text(
                   'View All',
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText1!
-                      .copyWith(fontSize: 14, fontWeight: FontWeight.bold),
+                  style: GoogleFonts.ubuntu(
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).secondaryHeaderColor),
                 ),
               ),
             ],
@@ -119,12 +120,13 @@ class TempCard extends StatelessWidget {
               top: 15,
               child: Card(
                 color: Theme.of(context).primaryColor,
-                child: const Padding(
-                  padding: EdgeInsets.all(5.0),
+                child: Padding(
+                  padding: const EdgeInsets.all(5.0),
                   child: Text(
                     'Featured',
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold),
+                    style: GoogleFonts.ubuntu(
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).backgroundColor),
                   ),
                 ),
               ),
@@ -143,23 +145,22 @@ class TempCard extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(map['title'],
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headline1!
-                                  .copyWith(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold)),
+                          Text(
+                            map['title'],
+                            style: GoogleFonts.ubuntu(
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).secondaryHeaderColor),
+                          ),
                           const SizedBox(
                             height: 5,
                           ),
                           Text(
                             map['address'],
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyText1!
-                                .copyWith(
-                                    fontSize: 12, fontWeight: FontWeight.bold),
+                            style: GoogleFonts.ubuntu(
+                                fontSize: 12.0,
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).secondaryHeaderColor),
                           ),
                         ],
                       ),
@@ -172,13 +173,10 @@ class TempCard extends StatelessWidget {
                         padding: const EdgeInsets.all(3.0),
                         child: Text(
                           map['price'] + ' PKR',
-                          style: Theme.of(context)
-                              .textTheme
-                              .displaySmall!
-                              .copyWith(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.purple),
+                          style: GoogleFonts.ubuntu(
+                              fontSize: 12.0,
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).primaryColor),
                         ),
                       ),
                     ),
@@ -246,24 +244,22 @@ class FeaturedCard extends StatelessWidget {
                             children: [
                               Text(
                                 'name',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headline1!
-                                    .copyWith(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold),
+                                style: GoogleFonts.ubuntu(
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.bold,
+                                    color:
+                                        Theme.of(context).secondaryHeaderColor),
                               ),
                               const SizedBox(
                                 height: 5,
                               ),
                               Text(
                                 'address',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyText1!
-                                    .copyWith(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold),
+                                style: GoogleFonts.ubuntu(
+                                    fontSize: 12.0,
+                                    fontWeight: FontWeight.bold,
+                                    color:
+                                        Theme.of(context).secondaryHeaderColor),
                               ),
                             ],
                           ),

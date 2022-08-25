@@ -51,6 +51,11 @@ dependencies:
   webview_flutter: ^3.0.4
   custom_radio_grouped_button: ^2.1.2
   font_awesome_flutter: ^10.1.0
+  email_validator: ^2.0.1
+  image_picker: ^0.8.4+3
+  multi_image_picker: ^4.8.0
+  dio: ^4.0.6
+  flutter_easyloading: ^3.0.5
 
 
 dev_dependencies:
@@ -100,6 +105,7 @@ flutter:
     - assets/images/banner6.png
     - assets/icons/hashtag.svg
     - images/bkgrndapp.png
+    - assets/images/noimage.jpeg
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
