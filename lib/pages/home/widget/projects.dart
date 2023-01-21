@@ -2,16 +2,28 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:team_work/AppState/providers/projectProvider.dart';
 import 'package:team_work/models/database.dart';
 import 'package:team_work/pages/detail/projectDetail.dart';
 import 'package:team_work/widgets/circle_icon_button.dart';
 
-class Projects extends StatelessWidget {
-  const Projects({Key? key}) : super(key: key);
+class Projects extends StatefulWidget {
+  @override
+  _ProjectsState createState() => new _ProjectsState();
+}
+
+class _ProjectsState extends State<Projects> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Provider.of<ProjectProvider>(context, listen: false).getAllProjects();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    context.read<DataBase>().fetchProjects;
+    // context.read<ProjectProvider>().getAllProjects();
     return Padding(
       padding: const EdgeInsets.all(1.0),
       child: Column(
@@ -37,28 +49,22 @@ class Projects extends StatelessWidget {
             ),
           ),
           Container(
-            padding: const EdgeInsets.all(15),
-            height: 400,
+            margin: const EdgeInsets.only(right: 5),
+            height: 350,
             child: RefreshIndicator(
               onRefresh: () async {},
-              child: Consumer<DataBase>(
+              child: Consumer<ProjectProvider>(
                 builder: (context, value, child) {
-                  return value.mapProjects.length == 0 && !value.errorProjects
+                  return value.isLoading
                       ? const Center(child: CircularProgressIndicator())
-                      : value.errorProjects
-                          ? Text(
-                              'Oops, something went wrong .${value.errorMessageProjects}',
-                              textAlign: TextAlign.center,
-                            )
-                          : ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              shrinkWrap: true,
-                              itemCount: value.mapProjects['projects'].length,
-                              itemBuilder: (context, index) {
-                                return ProjectsCard(
-                                    map: value.mapProjects['projects'][index]);
-                              },
-                            );
+                      : ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          shrinkWrap: true,
+                          itemCount: value.projects.length,
+                          itemBuilder: (context, index) {
+                            return ProjectsCard(map: value.projects[index]);
+                          },
+                        );
                 },
               ),
             ),
@@ -70,8 +76,8 @@ class Projects extends StatelessWidget {
 }
 
 class ProjectsCard extends StatelessWidget {
-  const ProjectsCard({Key? key, required this.map}) : super(key: key);
-  final Map<String, dynamic> map;
+  ProjectsCard({Key? key, required this.map}) : super(key: key);
+  var map;
 
   @override
   Widget build(BuildContext context) {
@@ -83,13 +89,18 @@ class ProjectsCard extends StatelessWidget {
         }));
       },
       child: Container(
+        margin: const EdgeInsets.only(right: 10),
         width: 350,
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
             color: Colors.white, borderRadius: BorderRadius.circular(8)),
         child: Stack(
           children: [
-            CachedNetworkImage(imageUrl: map['image_link'], fit: BoxFit.cover),
+            CachedNetworkImage(
+              imageUrl: map.image_link,
+              fit: BoxFit.cover,
+              height: 350,
+            ),
             Positioned(
               right: 15,
               top: 15,
@@ -98,7 +109,7 @@ class ProjectsCard extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(5.0),
                   child: Text(
-                    map['ribbon'],
+                    map.ribbon,
                     style: GoogleFonts.ubuntu(
                         color: Colors.white, fontWeight: FontWeight.bold),
                   ),
@@ -120,7 +131,7 @@ class ProjectsCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            map['title'],
+                            map.title,
                             style: GoogleFonts.ubuntu(
                                 fontSize: 16.0, fontWeight: FontWeight.bold),
                           ),
@@ -128,7 +139,7 @@ class ProjectsCard extends StatelessWidget {
                             height: 5,
                           ),
                           Text(
-                            map['address'],
+                            map.address,
                             style: GoogleFonts.ubuntu(
                                 fontSize: 12.0, fontWeight: FontWeight.bold),
                           )
@@ -139,7 +150,7 @@ class ProjectsCard extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.all(3.0),
                         child: Text(
-                          map['price'] + ' PKR',
+                          map.price + ' PKR',
                           style: GoogleFonts.ubuntu(
                               fontSize: 12.0,
                               fontWeight: FontWeight.bold,

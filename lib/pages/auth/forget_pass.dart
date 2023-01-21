@@ -93,7 +93,7 @@ class forgetPassword extends StatelessWidget {
                       ),
                       // Text(dbclass.mapForgotten.toString()),
                       actions: [
-                        FlatButton(
+                        ElevatedButton(
                           onPressed: () {
                             Navigator.of(context).pushReplacement(
                                 MaterialPageRoute(
@@ -102,7 +102,7 @@ class forgetPassword extends StatelessWidget {
                           },
                           child: Text('Back Home'),
                         ),
-                        FlatButton(
+                        ElevatedButton(
                           onPressed: () {
                             Navigator.pop(context);
                           },

@@ -709,7 +709,7 @@ class Addproperty extends StatelessWidget {
                             },
                           ),
                           actions: <Widget>[
-                            FlatButton(
+                            ElevatedButton(
                               onPressed: () {
                                 Navigator.of(context, rootNavigator: true)
                                     .pop(); // dismisses only the dialog and returns nothing

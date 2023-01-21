@@ -56,6 +56,7 @@ dependencies:
   multi_image_picker: ^4.8.0
   dio: ^4.0.6
   flutter_easyloading: ^3.0.5
+  shimmer: ^2.0.0
 
 
 dev_dependencies:

@@ -215,14 +215,14 @@ class AccountCard extends StatelessWidget {
                             content: Text(
                                 'Are you sure you want to delete this property ?'),
                             actions: <Widget>[
-                              FlatButton(
+                              ElevatedButton(
                                 onPressed: () {
                                   Navigator.of(context, rootNavigator: true)
                                       .pop(); // dismisses only the dialog and returns nothing
                                 },
                                 child: Text('No'),
                               ),
-                              FlatButton(
+                              ElevatedButton(
                                 onPressed: () async {
                                   final dbclass =
                                       await context.read<DataBase>();

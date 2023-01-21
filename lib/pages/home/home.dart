@@ -76,12 +76,12 @@ class HomePage extends StatelessWidget {
         drawer: const Mydrawer(),
         body: SingleChildScrollView(
           child: Column(
-            children: const [
-              WelcomeText(),
-              PropertyType(),
+            children: [
+              const WelcomeText(),
+              const PropertyType(),
               RecommendedHouse(),
               Listing(),
-              City(),
+              const City(),
               Projects()
             ],
           ),
@@ -125,7 +125,7 @@ class HomePage extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const ListingPage(
+                    builder: (context) => ListingPage(
                       curl: '?*',
                     ),
                   ),

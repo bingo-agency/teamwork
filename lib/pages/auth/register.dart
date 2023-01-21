@@ -201,7 +201,7 @@ class Register extends StatelessWidget {
                             },
                           ),
                           actions: <Widget>[
-                            FlatButton(
+                            ElevatedButton(
                               onPressed: () {
                                 Navigator.of(context, rootNavigator: true)
                                     .pop(); // dismisses only the dialog and returns nothing
@@ -226,7 +226,7 @@ class Register extends StatelessWidget {
                             title: Text('Warning'),
                             content: Text(message.toString()),
                             actions: <Widget>[
-                              FlatButton(
+                              ElevatedButton(
                                 onPressed: () {
                                   Navigator.of(context, rootNavigator: true)
                                       .pop(); // dismisses only the dialog and returns nothing

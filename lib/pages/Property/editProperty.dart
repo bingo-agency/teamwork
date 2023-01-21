@@ -138,7 +138,7 @@ class EditProperty extends StatelessWidget {
                               // ),
                               // Text('this ?'),
                               actions: [
-                                FlatButton(
+                                ElevatedButton(
                                   onPressed: () {
                                     Navigator.pop(context);
                                   },
@@ -262,7 +262,7 @@ class EditProperty extends StatelessWidget {
                               // ),
                               // Text('this ?'),
                               actions: [
-                                FlatButton(
+                                ElevatedButton(
                                   onPressed: () {
                                     Navigator.pop(context);
                                   },
@@ -442,7 +442,7 @@ class EditProperty extends StatelessWidget {
                               // ),
                               // Text('this ?'),
                               actions: [
-                                FlatButton(
+                                ElevatedButton(
                                   onPressed: () {
                                     Navigator.pop(context);
                                   },

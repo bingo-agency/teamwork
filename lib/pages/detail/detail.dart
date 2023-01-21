@@ -13,14 +13,13 @@ import '../../models/database.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class DetailPage extends StatelessWidget {
-  final Map<String, dynamic> map;
+  var map;
 
-  const DetailPage({Key? key, required this.map}) : super(key: key);
+  DetailPage({Key? key, required this.map}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final listingDetails =
-        context.read<DataBase>().fetchListingDetail(map['id']);
+    final listingDetails = context.read<DataBase>().fetchListingDetail(map.id);
     return Scaffold(
       body: listingDetails == 'null'
           ? const Center(
@@ -31,19 +30,19 @@ class DetailPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  DetailAppBar(id: map['id'].toString()),
+                  DetailAppBar(id: map.id.toString()),
                   const SizedBox(height: 20),
                   ContentIntro(map: map),
                   const SizedBox(height: 20),
                   HouseInfo(map: map),
                   const SizedBox(height: 20),
                   About(
-                    aboutText: map['description'].toString(),
+                    aboutText: map.description.toString(),
                   ),
                   const SizedBox(height: 25),
                   Video_tw(
-                      video: map['video_link'].toString(),
-                      primaryImage: map['primary_image'].toString()),
+                      video: map.video_link.toString(),
+                      primaryImage: map.primary_image.toString()),
                   const SizedBox(height: 20),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -54,9 +53,9 @@ class DetailPage extends StatelessWidget {
                         child: WebView(
                           initialUrl:
                               'https://teamworkpk.com/API/mapview?address=' +
-                                  map['address'].toString() +
+                                  map.address.toString() +
                                   '&city=' +
-                                  map['city'].toString(),
+                                  map.city.toString(),
                           javascriptMode: JavascriptMode.unrestricted,
                         ),
                       ),

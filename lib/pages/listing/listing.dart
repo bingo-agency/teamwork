@@ -2,19 +2,30 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:team_work/widgets/loadingWidgets/verticalListLoading.dart';
 
 import '../../models/database.dart';
 import '../../widgets/best_offer.dart';
 import '../detail/detail.dart';
 
-class ListingPage extends StatelessWidget {
+class ListingPage extends StatefulWidget {
   final String curl;
+  ListingPage({Key? key, required this.curl}) : super(key: key);
+  @override
+  ListingPageState createState() => ListingPageState();
+}
 
-  const ListingPage({Key? key, required this.curl}) : super(key: key);
+class ListingPageState extends State<ListingPage> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    //here ?
+  }
 
   @override
   Widget build(BuildContext context) {
-    final searchCurl = context.read<DataBase>().Search(curl);
+    final searchCurl = context.read<DataBase>().Search(widget.curl);
     print(searchCurl);
     Future getList() async {
       searchCurl;
@@ -24,9 +35,7 @@ class ListingPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(backgroundColor: Colors.purple),
       body: searchCurl == null
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
+          ? VerticalListLoading()
           : SingleChildScrollView(
               child: Container(
                 padding: const EdgeInsets.all(15),
@@ -36,7 +45,7 @@ class ListingPage extends StatelessWidget {
                   },
                   child: Consumer<DataBase>(
                     builder: (context, value, child) {
-                      print(curl);
+                      print(widget.curl);
                       return value.mapSearch.isEmpty && !value.errorSearch
                           ? const Center(child: CircularProgressIndicator())
                           : value.errorSearch

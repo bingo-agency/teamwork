@@ -6,9 +6,9 @@ import 'package:url_launcher/url_launcher_string.dart';
 import 'detail.dart';
 
 class ProjectDetail extends StatelessWidget {
-  final Map<String, dynamic> map;
+  var map;
 
-  const ProjectDetail({Key? key, required this.map}) : super(key: key);
+  ProjectDetail({Key? key, required this.map}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -2,15 +2,28 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:team_work/AppState/providers/listingProvider.dart';
 import 'package:team_work/models/house.dart';
 import 'package:team_work/pages/detail/detail.dart';
 import 'package:team_work/widgets/circle_icon_button.dart';
+import 'package:team_work/widgets/loadingWidgets/verticalListLoading.dart';
 
 import '../models/database.dart';
 import '../pages/listing/listing.dart';
 
-class Listing extends StatelessWidget {
-  const Listing({Key? key}) : super(key: key);
+class Listing extends StatefulWidget {
+  @override
+  _ListingState createState() => new _ListingState();
+}
+
+class _ListingState extends State<Listing> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Provider.of<ListingProvider>(context, listen: false).getAllListing();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,25 +63,19 @@ class Listing extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           // here it starts
-          Consumer<DataBase>(
+          Consumer<ListingProvider>(
             builder: (context, value, child) {
-              return value.mapListing.isEmpty && !value.errorListing
-                  ? const Center(child: CircularProgressIndicator())
-                  : value.errorListing
-                      ? Text(
-                          'Oops, something went wrong .${value.errorMessageListing}',
-                          textAlign: TextAlign.center,
-                        )
-                      : ListView.builder(
-                          scrollDirection: Axis.vertical,
-                          physics: const ClampingScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: value.mapListing['nonfeatured'].length,
-                          itemBuilder: (context, index) {
-                            return ListingCard(
-                                map: value.mapListing['nonfeatured'][index]);
-                          },
-                        );
+              return value.isLoading
+                  ? VerticalListLoading()
+                  : ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      physics: const ClampingScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: value.listing.length,
+                      itemBuilder: (context, index) {
+                        return ListingCard(map: value.listing[index]);
+                      },
+                    );
             },
           ),
           Row(
@@ -115,9 +122,9 @@ class Listing extends StatelessWidget {
 }
 
 class ListingCard extends StatelessWidget {
-  const ListingCard({Key? key, required this.map}) : super(key: key);
+  ListingCard({Key? key, required this.map}) : super(key: key);
 
-  final Map<String, dynamic> map;
+  var map;
 
   @override
   Widget build(BuildContext context) {
@@ -147,7 +154,7 @@ class ListingCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8),
                     image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: CachedNetworkImageProvider(map['primary_image']),
+                      image: CachedNetworkImageProvider(map.primary_image),
                     ),
                   ),
                 ),
@@ -159,7 +166,7 @@ class ListingCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          map['title'],
+                          map.title,
                           style: GoogleFonts.ubuntu(
                               fontSize: 16.0,
                               fontWeight: FontWeight.bold,
@@ -174,7 +181,7 @@ class ListingCard extends StatelessWidget {
                             ),
                             Expanded(
                               child: Text(
-                                map['address'],
+                                map.address,
                                 style: GoogleFonts.ubuntu(
                                     fontSize: 12.0,
                                     color:
@@ -194,7 +201,7 @@ class ListingCard extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(2.0),
                 child: Text(
-                  map['price'] + ' PKR',
+                  map.price + ' PKR',
                   style: GoogleFonts.ubuntu(
                       fontSize: 16.0,
                       fontWeight: FontWeight.bold,

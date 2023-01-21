@@ -163,7 +163,7 @@ class Login extends StatelessWidget {
                               },
                             ),
                             actions: <Widget>[
-                              FlatButton(
+                              ElevatedButton(
                                 onPressed: () {
                                   Navigator.of(context, rootNavigator: true)
                                       .pop(); // dismisses only the dialog and returns nothing
@@ -199,7 +199,7 @@ class Login extends StatelessWidget {
                                 style: GoogleFonts.ubuntu(),
                               ),
                               actions: <Widget>[
-                                FlatButton(
+                                ElevatedButton(
                                   onPressed: () {
                                     Navigator.of(context, rootNavigator: true)
                                         .pop(); // dismisses only the dialog and returns nothing
