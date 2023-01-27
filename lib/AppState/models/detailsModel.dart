@@ -1,4 +1,4 @@
-class FeaturedModel {
+class DetailsModel {
   final String id;
   final String? internal_lead_id;
   final String? title;
@@ -20,7 +20,7 @@ class FeaturedModel {
   final String? verification_status;
   final String? featured;
   final String? timestamp;
-  FeaturedModel({
+  DetailsModel({
     required this.id,
     required this.internal_lead_id,
     required this.title,

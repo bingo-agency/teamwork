@@ -103,9 +103,9 @@ class CarouselCard extends StatelessWidget {
         itemCount: list.length,
         options: CarouselOptions(
             autoPlay: true,
-            autoPlayCurve: Curves.fastOutSlowIn,
+            autoPlayCurve: Curves.easeIn,
             viewportFraction: 1.0,
-            enlargeCenterPage: false,
+            enlargeCenterPage: true,
             initialPage: 0),
         itemBuilder: (BuildContext context, index, ids) {
           if (list[index]['image_link'] == null ||

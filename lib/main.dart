@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:team_work/AppState/providers/detailsProvider.dart';
 import 'package:team_work/AppState/providers/featuredProvider.dart';
 import 'package:team_work/AppState/providers/listingProvider.dart';
 import 'package:team_work/AppState/providers/projectProvider.dart';
@@ -38,6 +39,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider.value(
           value: SearchProvider(),
+        ),
+        ChangeNotifierProvider.value(
+          value: DetailsProvider(),
         ),
       ],
       child: MaterialApp(
