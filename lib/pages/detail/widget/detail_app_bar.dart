@@ -21,7 +21,7 @@ class DetailAppBar extends StatelessWidget {
             child: const CircularProgressIndicator(),
           )
         : SizedBox(
-            height: 300,
+            height: 350,
             width: MediaQuery.of(context).size.width,
             child: Stack(
               children: [
@@ -37,7 +37,7 @@ class DetailAppBar extends StatelessWidget {
                               )
                             : ListView.builder(
                                 shrinkWrap: true,
-                                scrollDirection: Axis.horizontal,
+                                // scrollDirection: Axis.horizontal,
                                 itemCount:
                                     value.mapListingDetail['detail'].length,
                                 itemBuilder: (context, index) {
@@ -55,37 +55,40 @@ class DetailAppBar extends StatelessWidget {
                   },
                 ),
                 SafeArea(
-                    child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: Container(
-                          height: 20,
-                          width: 20,
-                          padding: const EdgeInsets.all(5),
-                          decoration: const BoxDecoration(
-                              color: Colors.grey, shape: BoxShape.circle),
-                          child: SvgPicture.asset('assets/icons/arrow.svg'),
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Container(
+                            height: 30,
+                            width: 30,
+                            margin: const EdgeInsets.only(top: 10),
+                            padding: const EdgeInsets.all(5),
+                            decoration: const BoxDecoration(
+                                color: Colors.grey, shape: BoxShape.circle),
+                            child: SvgPicture.asset('assets/icons/arrow.svg'),
+                          ),
                         ),
-                      ),
-                      Container(
-                        height: 20,
-                        width: 20,
-                        padding: const EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                            color: Theme.of(context).accentColor,
-                            shape: BoxShape.circle),
-                        child: SvgPicture.asset('assets/icons/mark.svg'),
-                      )
-                    ],
+                        Container(
+                          height: 30,
+                          width: 30,
+                          margin: const EdgeInsets.only(top: 10),
+                          padding: const EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                              color: Theme.of(context).primaryColor,
+                              shape: BoxShape.circle),
+                          child: SvgPicture.asset('assets/icons/share.svg'),
+                        )
+                      ],
+                    ),
                   ),
-                ))
+                ),
               ],
             ),
           );
@@ -101,15 +104,22 @@ class CarouselCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return CarouselSlider.builder(
         itemCount: list.length,
+        carouselController: CarouselController(),
         options: CarouselOptions(
-            autoPlay: true,
-            autoPlayCurve: Curves.easeIn,
-            viewportFraction: 1.0,
+            enableInfiniteScroll: true,
+            autoPlayInterval: const Duration(seconds: 3),
+            autoPlayAnimationDuration: const Duration(milliseconds: 800),
+            autoPlayCurve: Curves.fastOutSlowIn,
             enlargeCenterPage: true,
+            autoPlay: true,
+            enlargeFactor: 0.0,
+            scrollDirection: Axis.horizontal,
+            viewportFraction: 1.0,
             initialPage: 0),
         itemBuilder: (BuildContext context, index, ids) {
           if (list[index]['image_link'] == null ||
               list[index]['image_link'] == "" ||
+              list[index]['image_link'] == '[]' ||
               list[index]['image_link'] == "{}") {
             return const Center(
               child: Text('No images found.'),
@@ -127,7 +137,7 @@ class CarouselCard extends StatelessWidget {
                   imageUrl: list[index]['image_link'].toString(),
                   fit: BoxFit.cover,
                   useOldImageOnUrlChange: false,
-                  fadeInDuration: const Duration(milliseconds: 1000),
+                  fadeInDuration: const Duration(milliseconds: 100),
                   // width: MediaQuery.of(context).size.width,
                   // height: MediaQuery.of(context).size.height / 1.75,
                   // width: MediaQuery.of(context).size.width,

@@ -33,9 +33,9 @@ class ProjectDetail extends StatelessWidget {
 }
 
 class ProjCard extends StatelessWidget {
-  final Map<String, dynamic> map;
+  var map;
 
-  const ProjCard({Key? key, required this.map}) : super(key: key);
+  ProjCard({Key? key, required this.map}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +49,7 @@ class ProjCard extends StatelessWidget {
               height: 350,
               width: MediaQuery.of(context).size.width,
               child: CachedNetworkImage(
-                imageUrl: map['image_link'],
+                imageUrl: map.image_link.toString(),
                 fit: BoxFit.cover,
               ),
             ),
@@ -59,12 +59,12 @@ class ProjCard extends StatelessWidget {
             // HouseInfo(map: map),
             // const SizedBox(height: 20),
             About(
-              aboutText: map['description'].toString(),
+              aboutText: map.description.toString(),
             ),
             const SizedBox(height: 25),
             Video_tw(
-                video: map['video_link'].toString(),
-                primaryImage: map['image_link'].toString()),
+                video: map.video_link.toString(),
+                primaryImage: map.image_link.toString()),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: ElevatedButton(

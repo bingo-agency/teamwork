@@ -14,7 +14,7 @@ class ListingProvider extends ChangeNotifier {
     isLoading = true;
     notifyListeners();
 
-    final response = await _service.getAllListing();
+    final response = await _service.getAllListing(curl);
 
     _listing = response;
     isLoading = false;

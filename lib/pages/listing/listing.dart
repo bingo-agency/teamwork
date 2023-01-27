@@ -38,34 +38,25 @@ class ListingPageState extends State<ListingPage> {
     }
 
     return Scaffold(
-      appBar: AppBar(backgroundColor: Colors.purple),
-      body: searchCurl == null
-          ? VerticalListLoading()
-          : SingleChildScrollView(
-              child: Container(
-                padding: const EdgeInsets.all(15),
-                child: RefreshIndicator(
-                  onRefresh: () async {
-                    getList;
-                  },
-                  child: Consumer<ListingProvider>(
-                    builder: (context, value, child) {
-                      print(widget.curl);
-                      return value.isLoading
-                          ? VerticalListLoading()
-                          : ListView.builder(
-                              scrollDirection: Axis.vertical,
-                              physics: const ClampingScrollPhysics(),
-                              shrinkWrap: true,
-                              itemCount: value.listing.length,
-                              itemBuilder: (context, index) {
-                                return SearchCard(map: value.listing[index]);
-                              });
-                    },
-                  ),
-                ),
-              ),
-            ),
+      appBar: AppBar(backgroundColor: Theme.of(context).primaryColor),
+      body: SingleChildScrollView(
+        child: Consumer<ListingProvider>(
+          builder: (context, value, child) {
+            print(widget.curl);
+            return value.isLoading
+                ? VerticalListLoading()
+                : ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    physics: const ClampingScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: value.listing.length,
+                    itemBuilder: (context, index) {
+                      return SearchCard(map: value.listing[index]);
+                      // return Text(value.listing.length.toString());
+                    });
+          },
+        ),
+      ),
     );
   }
 }
@@ -77,7 +68,6 @@ class SearchCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(map.length);
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(

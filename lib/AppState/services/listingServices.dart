@@ -4,8 +4,8 @@ import 'package:http/http.dart' as http;
 import 'package:team_work/AppState/models/listingModel.dart';
 
 class ListingServices {
-  Future<List<ListingModel>> getAllListing() async {
-    const url = 'https://teamworkpk.com/API/nonfeatured';
+  Future<List<ListingModel>> getAllListing(curl) async {
+    var url = 'https://teamworkpk.com/API/nonfeatured' + curl;
     final uri = Uri.parse(url);
     final response = await http.get(uri);
     if (response.statusCode == 200) {
