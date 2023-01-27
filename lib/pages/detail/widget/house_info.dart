@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class HouseInfo extends StatelessWidget {
-  final Map<String, dynamic> map;
+  var map;
 
-  const HouseInfo({Key? key, required this.map}) : super(key: key);
+  HouseInfo({Key? key, required this.map}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,13 +16,13 @@ class HouseInfo extends StatelessWidget {
             children: [
               MenuInfo(
                   imageUrl: 'assets/icons/hashtag.svg',
-                  content: map['id'].toString()),
+                  content: map.id.toString()),
               MenuInfo(
                   imageUrl: 'assets/icons/plot.svg',
-                  content: map['type'].toString()),
+                  content: map.type.toString()),
               MenuInfo(
                   imageUrl: 'assets/icons/home.svg',
-                  content: map['internal_lead_id'].toString()),
+                  content: map.internal_lead_id.toString()),
             ],
           ),
           SizedBox(height: 10),
@@ -31,10 +31,10 @@ class HouseInfo extends StatelessWidget {
               MenuInfo(imageUrl: 'assets/icons/parking.svg', content: 'Yes'),
               MenuInfo(
                   imageUrl: 'assets/icons/shape24.svg',
-                  content: map['land_area'].toString()),
+                  content: map.land_area.toString()),
               MenuInfo(
                   imageUrl: 'assets/icons/more.svg',
-                  content: map['property_type']),
+                  content: map.property_type),
             ],
           )
         ],

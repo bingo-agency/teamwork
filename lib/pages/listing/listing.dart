@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:team_work/AppState/providers/listingProvider.dart';
 import 'package:team_work/widgets/loadingWidgets/verticalListLoading.dart';
 
 import '../../models/database.dart';
@@ -20,6 +21,10 @@ class ListingPageState extends State<ListingPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Provider.of<ListingProvider>(context, listen: false)
+          .getAllListing(widget.curl);
+    });
     //here ?
   }
 
@@ -43,46 +48,19 @@ class ListingPageState extends State<ListingPage> {
                   onRefresh: () async {
                     getList;
                   },
-                  child: Consumer<DataBase>(
+                  child: Consumer<ListingProvider>(
                     builder: (context, value, child) {
                       print(widget.curl);
-                      return value.mapSearch.isEmpty && !value.errorSearch
-                          ? const Center(child: CircularProgressIndicator())
-                          : value.errorSearch
-                              ? Text(
-                                  'Oops, something went wrong .${value.errorMessageSearch}',
-                                  textAlign: TextAlign.center,
-                                )
-                              : ListView.builder(
-                                  scrollDirection: Axis.vertical,
-                                  physics: const ClampingScrollPhysics(),
-                                  shrinkWrap: true,
-                                  itemCount:
-                                      value.mapSearch['nonfeatured'].length,
-                                  itemBuilder: (context, index) {
-                                    if (value.mapSearch['nonfeatured'][0]
-                                            ['msg'] !=
-                                        'True') {
-                                      return Center(
-                                        child: Container(
-                                          width: double.infinity,
-                                          height: 500,
-                                          alignment: Alignment.center,
-                                          padding:
-                                              const EdgeInsets.only(top: 200),
-                                          child: Text(value
-                                              .mapSearch['nonfeatured'][0]
-                                                  ['msg']
-                                              .toString()),
-                                        ),
-                                      );
-                                    } else {
-                                      return SearchCard(
-                                          map: value.mapSearch['nonfeatured']
-                                              [index]);
-                                    }
-                                  },
-                                );
+                      return value.isLoading
+                          ? VerticalListLoading()
+                          : ListView.builder(
+                              scrollDirection: Axis.vertical,
+                              physics: const ClampingScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: value.listing.length,
+                              itemBuilder: (context, index) {
+                                return SearchCard(map: value.listing[index]);
+                              });
                     },
                   ),
                 ),
@@ -93,9 +71,9 @@ class ListingPageState extends State<ListingPage> {
 }
 
 class SearchCard extends StatelessWidget {
-  const SearchCard({Key? key, required this.map}) : super(key: key);
+  SearchCard({Key? key, required this.map}) : super(key: key);
 
-  final Map<String, dynamic> map;
+  var map;
 
   @override
   Widget build(BuildContext context) {
@@ -126,7 +104,7 @@ class SearchCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8),
                     image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: CachedNetworkImageProvider(map['primary_image']),
+                      image: CachedNetworkImageProvider(map.primary_image),
                     ),
                   ),
                 ),
@@ -138,7 +116,7 @@ class SearchCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          map['title'],
+                          map.title,
                           style: GoogleFonts.ubuntu(
                               fontSize: 16.0,
                               fontWeight: FontWeight.bold,
@@ -153,7 +131,7 @@ class SearchCard extends StatelessWidget {
                             ),
                             Expanded(
                               child: Text(
-                                map['address'],
+                                map.address,
                                 style: GoogleFonts.ubuntu(
                                     fontSize: 12.0,
                                     color:
@@ -173,7 +151,7 @@ class SearchCard extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(2.0),
                 child: Text(
-                  map['price'] + ' PKR',
+                  map.price + ' PKR',
                   style: GoogleFonts.ubuntu(
                       fontSize: 16.0,
                       fontWeight: FontWeight.bold,

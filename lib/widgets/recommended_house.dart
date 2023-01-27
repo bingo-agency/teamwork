@@ -2,12 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:team_work/AppState/models/featuredModel.dart';
 import 'package:team_work/AppState/providers/featuredProvider.dart';
-import 'package:team_work/models/database.dart';
-import 'package:team_work/models/house.dart';
 import 'package:team_work/pages/detail/detail.dart';
-import 'package:team_work/widgets/circle_icon_button.dart';
+import 'package:team_work/pages/listing/featuredListing.dart';
 import 'package:team_work/widgets/loadingWidgets/featuredLoading.dart';
 
 import '../pages/listing/listing.dart';
@@ -49,8 +46,7 @@ class _RecommendedHouseState extends State<RecommendedHouse> {
                   curl = "?feature=yes";
                   print(curl);
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (BuildContext context) =>
-                          ListingPage(curl: curl)));
+                      builder: (BuildContext context) => FeaturedListing()));
                 },
                 child: Text(
                   'View All',
@@ -66,24 +62,20 @@ class _RecommendedHouseState extends State<RecommendedHouse> {
         Container(
           padding: const EdgeInsets.all(15),
           height: 350,
-          child: RefreshIndicator(
-            onRefresh: () async {},
-            child: Consumer<FeaturedProvider>(
-              builder: (context, value, child) {
-                if (value.isLoading) {
-                  return FeaturedLoading();
-                }
-                return ListView.builder(
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  itemCount: value.featured.length,
-                  itemBuilder: (context, index) {
-                    final featured = value.featured;
-                    return TempCard(map: featured[index]);
-                  },
-                );
-              },
-            ),
+          child: Consumer<FeaturedProvider>(
+            builder: (context, value, child) {
+              return value.isLoading
+                  ? FeaturedLoading()
+                  : ListView.builder(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      itemCount: value.featured.length,
+                      itemBuilder: (context, index) {
+                        final featured = value.featured;
+                        return TempCard(map: featured[index]);
+                      },
+                    );
+            },
           ),
         ),
       ],

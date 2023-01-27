@@ -10,7 +10,7 @@ class ListingProvider extends ChangeNotifier {
   List<ListingModel> _listing = [];
   List<ListingModel> get listing => _listing;
 
-  Future<void> getAllListing() async {
+  Future<void> getAllListing(curl) async {
     isLoading = true;
     notifyListeners();
 

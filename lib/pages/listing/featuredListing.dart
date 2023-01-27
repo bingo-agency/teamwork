@@ -2,71 +2,37 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:team_work/AppState/providers/listingProvider.dart';
-import 'package:team_work/models/house.dart';
+import 'package:team_work/AppState/providers/featuredProvider.dart';
 import 'package:team_work/pages/detail/detail.dart';
-import 'package:team_work/widgets/circle_icon_button.dart';
 import 'package:team_work/widgets/loadingWidgets/verticalListLoading.dart';
 
-import '../models/database.dart';
-import '../pages/listing/listing.dart';
-
-class Listing extends StatefulWidget {
+class FeaturedListing extends StatefulWidget {
   @override
-  _ListingState createState() => new _ListingState();
+  _FeaturedListingState createState() => new _FeaturedListingState();
 }
 
-class _ListingState extends State<Listing> {
+class _FeaturedListingState extends State<FeaturedListing> {
   @override
   void initState() {
+    // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      Provider.of<ListingProvider>(context, listen: false).getAllListing('?*');
+      Provider.of<FeaturedProvider>(context, listen: false).getAllFeatured();
     });
+    //here ?
   }
 
   @override
   Widget build(BuildContext context) {
-    String curl = "?*";
-    context.read<DataBase>().fetchListing;
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Listing',
-                style: GoogleFonts.ubuntu(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).secondaryHeaderColor),
-              ),
-              GestureDetector(
-                onTap: () {
-                  curl = "?*";
-                  print(curl);
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (BuildContext context) =>
-                          ListingPage(curl: curl),
-                    ),
-                  );
-                },
-                child: Text(
-                  'View All',
-                  style: GoogleFonts.ubuntu(
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).secondaryHeaderColor),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 10),
-          // here it starts
-          Consumer<ListingProvider>(
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).primaryColor,
+        title: const Text("Featured Listing"),
+      ),
+      body: SingleChildScrollView(
+        child: Container(
+          padding: const EdgeInsets.all(15),
+          child: Consumer<FeaturedProvider>(
             builder: (context, value, child) {
               return value.isLoading
                   ? VerticalListLoading()
@@ -74,60 +40,22 @@ class _ListingState extends State<Listing> {
                       scrollDirection: Axis.vertical,
                       physics: const ClampingScrollPhysics(),
                       shrinkWrap: true,
-                      itemCount: value.listing.length,
+                      itemCount: value.featured.length,
                       itemBuilder: (context, index) {
-                        return ListingCard(map: value.listing[index]);
-                      },
-                    );
+                        return SearchCard(map: value.featured[index]);
+                        // return Text(value.featured[index].id.toString());
+                      });
             },
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    primary: Theme.of(context).primaryColor,
-                  ),
-                  child: GestureDetector(
-                    onTap: () {
-                      curl = "?*";
-                      print(curl);
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              ListingPage(curl: curl)));
-                    },
-                    child: Container(
-                      alignment: Alignment.center,
-                      padding: const EdgeInsets.symmetric(vertical: 15),
-                      child: Text(
-                        'View More',
-                        style: GoogleFonts.ubuntu(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
+        ),
       ),
     );
   }
 }
 
-class ListingCard extends StatelessWidget {
-  ListingCard({Key? key, required this.map}) : super(key: key);
-
+class SearchCard extends StatelessWidget {
   var map;
+  SearchCard({Key? key, required this.map}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -157,7 +85,8 @@ class ListingCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8),
                     image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: CachedNetworkImageProvider(map.primary_image),
+                      image: CachedNetworkImageProvider(
+                          map.primary_image.toString()),
                     ),
                   ),
                 ),
@@ -204,7 +133,7 @@ class ListingCard extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(2.0),
                 child: Text(
-                  map.price + ' PKR',
+                  map.price.toString() + ' PKR',
                   style: GoogleFonts.ubuntu(
                       fontSize: 16.0,
                       fontWeight: FontWeight.bold,

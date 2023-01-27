@@ -2,15 +2,15 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:team_work/pages/detail/widget/desc.dart';
 import 'package:team_work/pages/detail/widget/content_intro.dart';
+import 'package:team_work/pages/detail/widget/desc.dart';
 import 'package:team_work/pages/detail/widget/detail_app_bar.dart';
 import 'package:team_work/pages/detail/widget/house_info.dart';
-import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import '../../models/database.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import '../../widgets/loadingWidgets/detailLoading.dart';
 
 class DetailPage extends StatelessWidget {
   var map;
@@ -22,9 +22,7 @@ class DetailPage extends StatelessWidget {
     final listingDetails = context.read<DataBase>().fetchListingDetail(map.id);
     return Scaffold(
       body: listingDetails == 'null'
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
+          ? DetailLoading()
           : SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -111,8 +109,6 @@ class Video_tw extends StatelessWidget {
   Widget build(BuildContext context) {
     String? vid;
     vid = YoutubePlayer.convertUrlToId(video.toString());
-    print(vid);
-
     YoutubePlayerController _controller = YoutubePlayerController(
       initialVideoId: vid.toString(),
       flags: const YoutubePlayerFlags(
@@ -161,13 +157,10 @@ class Video_tw extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-
                 //some other widgets
               ],
             );
           });
-
-      // Text(video);
     }
   }
 }

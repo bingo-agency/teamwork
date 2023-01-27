@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class ContentIntro extends StatelessWidget {
-  final Map<String, dynamic> map;
+  var map;
 
-  const ContentIntro({Key? key, required this.map}) : super(key: key);
+  ContentIntro({Key? key, required this.map}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +12,7 @@ class ContentIntro extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(map['title'].toString(),
+          Text(map.title.toString(),
               style: Theme.of(context)
                   .textTheme
                   .headline1!
@@ -20,11 +20,11 @@ class ContentIntro extends StatelessWidget {
           SizedBox(
             height: 10,
           ),
-          Text(
-            map['status'].toString(),
-            style:
-                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
-          ),
+          // Text(
+          //   map.status.toString(),
+          //   style:
+          //       Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
+          // ),
           SizedBox(height: 10),
           Row(
             children: [
@@ -36,7 +36,7 @@ class ContentIntro extends StatelessWidget {
                     .copyWith(fontSize: 14, fontWeight: FontWeight.bold),
               ),
               Text(
-                map['type'].toString(),
+                map.type.toString(),
                 style: Theme.of(context)
                     .textTheme
                     .bodyText2!
@@ -51,7 +51,7 @@ class ContentIntro extends StatelessWidget {
             text: TextSpan(
               children: [
                 TextSpan(
-                    text: map['price'].toString(),
+                    text: map.price.toString(),
                     style: Theme.of(context)
                         .textTheme
                         .headline1!

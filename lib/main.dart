@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:team_work/AppState/providers/featuredProvider.dart';
 import 'package:team_work/AppState/providers/listingProvider.dart';
 import 'package:team_work/AppState/providers/projectProvider.dart';
+import 'package:team_work/AppState/providers/searchProvider.dart';
 import 'package:team_work/models/database.dart';
 import 'package:team_work/notifier/responce_notifier.dart';
 
@@ -34,6 +35,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider.value(
           value: ProjectProvider(),
+        ),
+        ChangeNotifierProvider.value(
+          value: SearchProvider(),
         ),
       ],
       child: MaterialApp(
