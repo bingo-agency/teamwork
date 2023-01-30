@@ -5,6 +5,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:provider/provider.dart';
 import 'package:share/share.dart';
+import 'package:photo_view/photo_view.dart';
+import 'package:photo_view/photo_view_gallery.dart';
 
 import '../../../models/database.dart';
 
@@ -145,6 +147,38 @@ class DetailAppBar extends StatelessWidget {
   }
 }
 
+class HeroPhotoViewRouteWrapper extends StatelessWidget {
+  const HeroPhotoViewRouteWrapper({
+    required this.imageProvider,
+    required this.index,
+    this.backgroundDecoration,
+    this.minScale,
+    this.maxScale,
+  });
+
+  final int index;
+  final CachedNetworkImageProvider imageProvider;
+  final BoxDecoration? backgroundDecoration;
+  final dynamic minScale;
+  final dynamic maxScale;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      constraints: BoxConstraints.expand(
+        height: MediaQuery.of(context).size.height,
+      ),
+      child: PhotoView(
+        imageProvider: imageProvider,
+        backgroundDecoration: backgroundDecoration,
+        minScale: minScale,
+        maxScale: maxScale,
+        heroAttributes: PhotoViewHeroAttributes(tag: index),
+      ),
+    );
+  }
+}
+
 class CarouselCard extends StatelessWidget {
   final List<dynamic> list;
 
@@ -180,20 +214,38 @@ class CarouselCard extends StatelessWidget {
               child: SizedBox(
                 height: double.infinity,
                 width: double.infinity,
-                child: CachedNetworkImage(
-                  progressIndicatorBuilder: (context, url, progress) {
-                    return const Center(child: CircularProgressIndicator());
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => HeroPhotoViewRouteWrapper(
+                          index: index,
+                          imageProvider: CachedNetworkImageProvider(
+                            list[index]['image_link'].toString(),
+                          ),
+                        ),
+                      ),
+                    );
                   },
-                  imageUrl: list[index]['image_link'].toString(),
-                  fit: BoxFit.cover,
-                  useOldImageOnUrlChange: false,
-                  fadeInDuration: const Duration(milliseconds: 100),
-                  // width: MediaQuery.of(context).size.width,
-                  // height: MediaQuery.of(context).size.height / 1.75,
-                  // width: MediaQuery.of(context).size.width,
+                  child: Hero(
+                    tag: index,
+                    child: CachedNetworkImage(
+                      progressIndicatorBuilder: (context, url, progress) {
+                        return const Center(child: CircularProgressIndicator());
+                      },
+                      imageUrl: list[index]['image_link'].toString(),
+                      fit: BoxFit.cover,
+                      useOldImageOnUrlChange: false,
+                      fadeInDuration: const Duration(milliseconds: 100),
+                      // width: MediaQuery.of(context).size.width,
+                      // height: MediaQuery.of(context).size.height / 1.75,
+                      // width: MediaQuery.of(context).size.width,
 
-                  // height: double.infinity,
-                  // width: double.infinity,
+                      // height: double.infinity,
+                      // width: double.infinity,
+                    ),
+                  ),
                 ),
               ),
             );
