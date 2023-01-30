@@ -2,9 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class HouseInfo extends StatelessWidget {
-  var map;
+  var id;
+  var type;
+  var internal_lead_id;
+  var land_area;
+  var property_type;
 
-  HouseInfo({Key? key, required this.map}) : super(key: key);
+  HouseInfo({
+    Key? key,
+    required this.id,
+    required this.type,
+    required this.internal_lead_id,
+    required this.land_area,
+    required this.property_type,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,15 +25,10 @@ class HouseInfo extends StatelessWidget {
         children: [
           Row(
             children: [
+              MenuInfo(imageUrl: 'assets/icons/hashtag.svg', content: id),
+              MenuInfo(imageUrl: 'assets/icons/plot.svg', content: type),
               MenuInfo(
-                  imageUrl: 'assets/icons/hashtag.svg',
-                  content: map.id.toString()),
-              MenuInfo(
-                  imageUrl: 'assets/icons/plot.svg',
-                  content: map.type.toString()),
-              MenuInfo(
-                  imageUrl: 'assets/icons/home.svg',
-                  content: map.internal_lead_id.toString()),
+                  imageUrl: 'assets/icons/home.svg', content: internal_lead_id),
             ],
           ),
           SizedBox(height: 10),
@@ -30,11 +36,9 @@ class HouseInfo extends StatelessWidget {
             children: [
               MenuInfo(imageUrl: 'assets/icons/parking.svg', content: 'Yes'),
               MenuInfo(
-                  imageUrl: 'assets/icons/shape24.svg',
-                  content: map.land_area.toString()),
+                  imageUrl: 'assets/icons/shape24.svg', content: land_area),
               MenuInfo(
-                  imageUrl: 'assets/icons/more.svg',
-                  content: map.property_type),
+                  imageUrl: 'assets/icons/more.svg', content: property_type),
             ],
           )
         ],

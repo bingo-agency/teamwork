@@ -1,8 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:team_work/pages/Property/Addproperty.dart';
 import 'package:team_work/pages/auth/login.dart';
+import 'package:team_work/pages/detail/detail.dart';
 import 'package:team_work/pages/home/widget/city.dart';
 import 'package:team_work/pages/home/widget/projects.dart';
 import 'package:team_work/widgets/Drawer.dart';
@@ -24,6 +28,31 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var post_id = null;
+    void getPostId() async {
+      print('getting post id ');
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      post_id = await prefs.getString('post_id');
+
+      print('post_id at home : ');
+      print(post_id);
+      print('orinting final post id ' + post_id.toString());
+      Timer(const Duration(seconds: 3), () {
+        if (post_id != null) {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => DetailPage(id: post_id),
+            ),
+          );
+        } else {
+          print('its null so stay here !');
+        }
+        prefs.remove('post_id');
+      });
+    }
+
+    getPostId();
+
     var dbclass = context.read<DataBase>();
 
     return Scaffold(
@@ -134,13 +163,20 @@ class HomePage extends StatelessWidget {
               if (i == 2) {
                 print('ads');
                 if (dbclass.id == "") {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const Login()));
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const Login(),
+                    ),
+                  );
+                  // Navigator.pushNamed(context, '/login');
                 } else {
                   Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ManageAds(id: dbclass.id)));
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ManageAds(id: dbclass.id),
+                    ),
+                  );
                 }
               }
               if (i == 3) {

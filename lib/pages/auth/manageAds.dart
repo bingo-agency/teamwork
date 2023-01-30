@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:team_work/models/database.dart';
 import 'package:team_work/pages/Property/editProperty.dart';
 
+import '../../widgets/loadingWidgets/verticalListLoading.dart';
 import '../detail/detail.dart';
 
 class ManageAds extends StatelessWidget {
@@ -30,9 +31,7 @@ class ManageAds extends StatelessWidget {
         backgroundColor: Theme.of(context).primaryColor,
       ),
       body: id == null
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
+          ? VerticalListLoading()
           : SingleChildScrollView(
               child: Container(
                 padding: const EdgeInsets.all(15),
@@ -44,7 +43,7 @@ class ManageAds extends StatelessWidget {
                     builder: (context, value, child) {
                       print(id);
                       return value.mapAccount.isEmpty && !value.errorAccount
-                          ? const Center(child: CircularProgressIndicator())
+                          ? VerticalListLoading()
                           : value.errorAccount
                               ? Text(
                                   'Oops, something went wrong .${value.errorMessageAccount}',
@@ -85,9 +84,9 @@ class ManageAds extends StatelessWidget {
 }
 
 class AccountCard extends StatelessWidget {
-  const AccountCard({Key? key, required this.map}) : super(key: key);
+  AccountCard({Key? key, required this.map}) : super(key: key);
 
-  final Map<String, dynamic> map;
+  var map;
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +96,7 @@ class AccountCard extends StatelessWidget {
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) {
-              return DetailPage(map: map);
+              return DetailPage(id: map.id);
             },
           ),
         );
@@ -260,7 +259,7 @@ class AccountCard extends StatelessWidget {
                               .copyWith(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.purple),
+                                  color: Theme.of(context).primaryColor),
                         ),
                       ),
                     ),

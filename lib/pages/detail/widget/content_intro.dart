@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 
 class ContentIntro extends StatelessWidget {
-  var map;
+  String title;
+  String type;
+  String price;
 
-  ContentIntro({Key? key, required this.map}) : super(key: key);
+  ContentIntro({
+    Key? key,
+    required this.title,
+    required this.type,
+    required this.price,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -12,12 +19,12 @@ class ContentIntro extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(map.title.toString(),
+          Text(title,
               style: Theme.of(context)
                   .textTheme
                   .headline1!
                   .copyWith(fontSize: 20, fontWeight: FontWeight.bold)),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           // Text(
@@ -25,7 +32,7 @@ class ContentIntro extends StatelessWidget {
           //   style:
           //       Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
           // ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Row(
             children: [
               Text(
@@ -36,7 +43,7 @@ class ContentIntro extends StatelessWidget {
                     .copyWith(fontSize: 14, fontWeight: FontWeight.bold),
               ),
               Text(
-                map.type.toString(),
+                type,
                 style: Theme.of(context)
                     .textTheme
                     .bodyText2!
@@ -44,14 +51,14 @@ class ContentIntro extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 5,
           ),
           RichText(
             text: TextSpan(
               children: [
                 TextSpan(
-                    text: map.price.toString(),
+                    text: price,
                     style: Theme.of(context)
                         .textTheme
                         .headline1!

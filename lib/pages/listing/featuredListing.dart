@@ -64,7 +64,7 @@ class SearchCard extends StatelessWidget {
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) {
-              return DetailPage(map: map);
+              return DetailPage(id: map.id);
             },
           ),
         );

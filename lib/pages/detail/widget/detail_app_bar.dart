@@ -1,15 +1,24 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:provider/provider.dart';
+import 'package:share/share.dart';
 
 import '../../../models/database.dart';
 
 class DetailAppBar extends StatelessWidget {
   final String id;
+  final String title;
+  final String primaryImage;
 
-  const DetailAppBar({Key? key, required this.id}) : super(key: key);
+  const DetailAppBar(
+      {Key? key,
+      required this.id,
+      required this.title,
+      required this.primaryImage})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,15 +27,17 @@ class DetailAppBar extends StatelessWidget {
 
     return fetchingList == null
         ? const Center(
-            child: const CircularProgressIndicator(),
+            child: CircularProgressIndicator(),
           )
         : SizedBox(
-            height: 350,
+            height: 300,
             width: MediaQuery.of(context).size.width,
             child: Stack(
               children: [
                 Consumer<DataBase>(
                   builder: (context, value, child) {
+                    print('Printing title.');
+                    print(fetchingList);
                     return value.mapListingDetail.isEmpty &&
                             !value.errorListingDetail
                         ? const Center(child: CircularProgressIndicator())
@@ -66,8 +77,8 @@ class DetailAppBar extends StatelessWidget {
                             Navigator.of(context).pop();
                           },
                           child: Container(
-                            height: 30,
-                            width: 30,
+                            height: 35,
+                            width: 35,
                             margin: const EdgeInsets.only(top: 10),
                             padding: const EdgeInsets.all(5),
                             decoration: const BoxDecoration(
@@ -75,15 +86,54 @@ class DetailAppBar extends StatelessWidget {
                             child: SvgPicture.asset('assets/icons/arrow.svg'),
                           ),
                         ),
-                        Container(
-                          height: 30,
-                          width: 30,
-                          margin: const EdgeInsets.only(top: 10),
-                          padding: const EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                              color: Theme.of(context).primaryColor,
-                              shape: BoxShape.circle),
-                          child: SvgPicture.asset('assets/icons/share.svg'),
+                        GestureDetector(
+                          onTap: () async {
+                            String url = 'https://teamworkshare.page.link/';
+                            print('share is hit and id is ' + id);
+                            final dynamicLinkParams = DynamicLinkParameters(
+                              link: Uri.parse(
+                                  "https://teamworkpk.com/listing_detail?post_id=" +
+                                      id),
+                              uriPrefix: url,
+                              // link: Uri.parse(url + id),
+                              androidParameters: AndroidParameters(
+                                packageName: 'com.teamworkpk.teamwork',
+                                fallbackUrl: Uri.parse(
+                                    'https://play.google.com/store/apps/details?id=com.teamworkpk.teamwork&hl=en&gl=US'),
+                                minimumVersion: 0,
+                              ),
+                              socialMetaTagParameters: SocialMetaTagParameters(
+                                title: title,
+                                imageUrl: Uri.parse(primaryImage),
+                              ),
+                            );
+
+                            Uri link = await FirebaseDynamicLinks.instance
+                                .buildLink(dynamicLinkParams);
+
+                            final ShortDynamicLink dynamicUrl =
+                                await FirebaseDynamicLinks.instance
+                                    .buildShortLink(dynamicLinkParams);
+                            print('Your link is ' +
+                                dynamicUrl.shortUrl.toString());
+
+                            String? desc = dynamicUrl.shortUrl.toString();
+
+                            await Share.share(
+                              dynamicUrl.shortUrl.toString(),
+                              subject: 'TeamWork Property Exchange',
+                            );
+                          },
+                          child: Container(
+                            height: 35,
+                            width: 35,
+                            margin: const EdgeInsets.only(top: 10),
+                            padding: const EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                                color: Theme.of(context).primaryColor,
+                                shape: BoxShape.circle),
+                            child: SvgPicture.asset('assets/icons/share.svg'),
+                          ),
                         )
                       ],
                     ),

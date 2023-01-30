@@ -4,9 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:team_work/AppState/providers/listingProvider.dart';
 import 'package:team_work/widgets/loadingWidgets/verticalListLoading.dart';
-
 import '../../models/database.dart';
-import '../../widgets/best_offer.dart';
 import '../detail/detail.dart';
 
 class ListingPage extends StatefulWidget {
@@ -73,7 +71,7 @@ class SearchCard extends StatelessWidget {
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) {
-              return DetailPage(map: map);
+              return DetailPage(id: map.id);
             },
           ),
         );
@@ -82,7 +80,9 @@ class SearchCard extends StatelessWidget {
         margin: const EdgeInsets.only(bottom: 10),
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
-            color: Colors.white, borderRadius: BorderRadius.circular(8)),
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(8),
+        ),
         child: Stack(
           children: [
             Row(
