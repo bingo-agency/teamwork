@@ -9,22 +9,12 @@ import 'package:team_work/widgets/loadingWidgets/featuredLoading.dart';
 
 import '../pages/listing/listing.dart';
 
-class RecommendedHouse extends StatefulWidget {
+class RecommendedHouse extends StatelessWidget {
   @override
-  _RecommendedHouseState createState() => new _RecommendedHouseState();
-}
-
-class _RecommendedHouseState extends State<RecommendedHouse> {
-  @override
-  void initState() {
-    super.initState();
+  Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       Provider.of<FeaturedProvider>(context, listen: false).getAllFeatured();
     });
-  }
-
-  @override
-  Widget build(BuildContext context) {
     String curl = "?*";
     // context.read<DataBase>().fetchFeatured;
     return Column(

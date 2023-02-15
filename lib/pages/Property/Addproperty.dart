@@ -5,7 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:multi_image_picker/multi_image_picker.dart';
+// import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
@@ -564,26 +564,26 @@ class Addproperty extends StatelessWidget {
                     return SizedBox(
                       width: MediaQuery.of(context).size.width,
                       height: 300,
-                      child: GridView.count(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        crossAxisCount: 3,
-                        children: List.generate(dbclass.propertyImages.length,
-                            (index) {
-                          Asset asset = dbclass.propertyImages[index];
-                          if (dbclass.propertyImages.isNotEmpty) {
-                            return AssetThumb(
-                              asset: asset,
-                              width: 300,
-                              height: 300,
-                            );
-                          } else {
-                            return const GridTile(
-                              child: Text('No Images Selected.'),
-                            );
-                          }
-                        }),
-                      ),
+                      // child: GridView.count(
+                      //   shrinkWrap: true,
+                      //   physics: const NeverScrollableScrollPhysics(),
+                      //   crossAxisCount: 3,
+                      //   children: List.generate(dbclass.propertyImages.length,
+                      //       (index) {
+                      //     Asset asset = dbclass.propertyImages[index];
+                      //     if (dbclass.propertyImages.isNotEmpty) {
+                      //       return AssetThumb(
+                      //         asset: asset,
+                      //         width: 300,
+                      //         height: 300,
+                      //       );
+                      //     } else {
+                      //       return const GridTile(
+                      //         child: Text('No Images Selected.'),
+                      //       );
+                      //     }
+                      //   }),
+                      // ),
                     );
                   }),
                   const SizedBox(height: 20),

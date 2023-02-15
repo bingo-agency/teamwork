@@ -11,22 +11,13 @@ import 'package:team_work/widgets/loadingWidgets/verticalListLoading.dart';
 import '../models/database.dart';
 import '../pages/listing/listing.dart';
 
-class Listing extends StatefulWidget {
+class Listing extends StatelessWidget {
   @override
-  _ListingState createState() => new _ListingState();
-}
-
-class _ListingState extends State<Listing> {
   @override
-  void initState() {
-    super.initState();
+  Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       Provider.of<ListingProvider>(context, listen: false).getAllListing('?*');
     });
-  }
-
-  @override
-  Widget build(BuildContext context) {
     String curl = "?*";
     context.read<DataBase>().fetchListing;
     return Container(

@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:multi_image_picker/multi_image_picker.dart';
+// import 'package:multi_image_picker/multi_image_picker.dart';
 
 import 'dart:async';
 
@@ -21,7 +21,7 @@ class DataBase with ChangeNotifier {
 
   //property images starts
 
-  List<Asset> propertyImages = <Asset>[];
+  // List<Asset> propertyImages = <Asset>[];
 
   // String loadAssets = 'No Error Dectected';
   bool showSpinner = false;
@@ -35,23 +35,23 @@ class DataBase with ChangeNotifier {
   List<XFile>? imageFileList = [];
 
   Future<void> loadAssets() async {
-    List<Asset> resultList = <Asset>[];
+    // List<Asset> resultList = <Asset>[];
     String error = 'No Error Detected';
 
     try {
-      resultList = await MultiImagePicker.pickImages(
-        maxImages: 300,
-        enableCamera: true,
-        selectedAssets: propertyImages,
-        cupertinoOptions: const CupertinoOptions(takePhotoIcon: "chat"),
-        materialOptions: const MaterialOptions(
-          actionBarColor: "#6f1c74",
-          actionBarTitle: "Select Property Images",
-          allViewTitle: "All Photos",
-          useDetailsView: false,
-          selectCircleStrokeColor: "#5e1863",
-        ),
-      );
+      // resultList = await MultiImagePicker.pickImages(
+      //   maxImages: 300,
+      //   enableCamera: true,
+      //   selectedAssets: propertyImages,
+      //   cupertinoOptions: const CupertinoOptions(takePhotoIcon: "chat"),
+      //   materialOptions: const MaterialOptions(
+      //     actionBarColor: "#6f1c74",
+      //     actionBarTitle: "Select Property Images",
+      //     allViewTitle: "All Photos",
+      //     useDetailsView: false,
+      //     selectCircleStrokeColor: "#5e1863",
+      //   ),
+      // );
     } on Exception catch (e) {
       error = e.toString();
     }
@@ -61,7 +61,7 @@ class DataBase with ChangeNotifier {
     // setState to update our non-existent appearance.
     // if (!mounted) return;
 
-    propertyImages = resultList;
+    // propertyImages = resultList;
     error = error;
 
     notifyListeners();
@@ -74,29 +74,29 @@ class DataBase with ChangeNotifier {
 
   Dio dio = Dio();
 
-  Future uploadImageToServer() async {
-    String completeurl =
-        'https://teamworkpk.com/API/add_property_images.php?post_id=' + post_id;
-    print(completeurl);
-    for (var i = 0; i < propertyImages.length; i++) {
-      // print(i);
-      ByteData byteData = await propertyImages[i].getByteData();
-      List<int> imageData = byteData.buffer.asUint8List();
+  // Future uploadImageToServer() async {
+  //   String completeurl =
+  //       'https://teamworkpk.com/API/add_property_images.php?post_id=' + post_id;
+  //   print(completeurl);
+  //   for (var i = 0; i < propertyImages.length; i++) {
+  //     // print(i);
+  //     ByteData byteData = await propertyImages[i].getByteData();
+  //     List<int> imageData = byteData.buffer.asUint8List();
 
-      MultipartFile multiPartFile = MultipartFile.fromBytes(
-        imageData,
-        filename: propertyImages[i].name,
-        contentType: MediaType('image', 'jpeg'),
-      );
-      FormData formData = FormData.fromMap({'image': multiPartFile});
-      var response = await dio.post(completeurl, data: formData);
-      if (response.statusCode == 200) {
-        print(response.data);
-      } else {
-        print(response.statusCode);
-      }
-    }
-  }
+  //     MultipartFile multiPartFile = MultipartFile.fromBytes(
+  //       imageData,
+  //       filename: propertyImages[i].name,
+  //       contentType: MediaType('image', 'jpeg'),
+  //     );
+  //     FormData formData = FormData.fromMap({'image': multiPartFile});
+  //     var response = await dio.post(completeurl, data: formData);
+  //     if (response.statusCode == 200) {
+  //       print(response.data);
+  //     } else {
+  //       print(response.statusCode);
+  //     }
+  //   }
+  // }
 
   // Future uploadImageToServer() async {
   //   String completeurl =
@@ -616,7 +616,7 @@ class DataBase with ChangeNotifier {
           postedAd = true;
           print('printing post_id');
           print(post_id);
-          uploadImageToServer();
+          // uploadImageToServer();
           setPostId(post_id);
         } else {
           print('nope the status code is not 200' + response.body.toString());

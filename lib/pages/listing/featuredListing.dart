@@ -6,24 +6,12 @@ import 'package:team_work/AppState/providers/featuredProvider.dart';
 import 'package:team_work/pages/detail/detail.dart';
 import 'package:team_work/widgets/loadingWidgets/verticalListLoading.dart';
 
-class FeaturedListing extends StatefulWidget {
+class FeaturedListing extends StatelessWidget {
   @override
-  _FeaturedListingState createState() => new _FeaturedListingState();
-}
-
-class _FeaturedListingState extends State<FeaturedListing> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
+  Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       Provider.of<FeaturedProvider>(context, listen: false).getAllFeatured();
     });
-    //here ?
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,

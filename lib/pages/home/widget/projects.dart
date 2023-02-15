@@ -7,25 +7,14 @@ import 'package:team_work/models/database.dart';
 import 'package:team_work/pages/detail/projectDetail.dart';
 import 'package:team_work/widgets/circle_icon_button.dart';
 
-class Projects extends StatefulWidget {
+class Projects extends StatelessWidget {
   @override
-  _ProjectsState createState() => new _ProjectsState();
-}
-
-class _ProjectsState extends State<Projects> {
-  @override
-  void initState() {
-    super.initState();
+  Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       Provider.of<ProjectProvider>(context, listen: false).getAllProjects();
     });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // context.read<ProjectProvider>().getAllProjects();
     return Padding(
-      padding: const EdgeInsets.all(1.0),
+      padding: const EdgeInsets.all(5.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,

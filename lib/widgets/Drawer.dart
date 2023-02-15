@@ -17,25 +17,40 @@ class Mydrawer extends StatelessWidget {
     var dbclass = context.read<DataBase>();
     String curl = "?*";
 
-    return Drawer(
-      child: ListView(
+    return Scaffold(
+      body: Column(
         children: [
           DrawerHeader(
-              margin: EdgeInsets.zero,
-              padding: EdgeInsets.zero,
-              decoration: const BoxDecoration(
-                  image: DecorationImage(
-                      fit: BoxFit.fill, image: AssetImage('images/2.png'))),
-              child: Stack(children: <Widget>[
+            margin: EdgeInsets.zero,
+            padding: EdgeInsets.zero,
+            decoration: const BoxDecoration(
+                image: DecorationImage(
+                    fit: BoxFit.cover, image: AssetImage('images/2.png'))),
+            child: Stack(
+              children: <Widget>[
                 Positioned(
-                    bottom: 12.0,
-                    left: 16.0,
-                    child: Text("TeamWork - ",
-                        style: GoogleFonts.ubuntu(
-                            color: Theme.of(context).primaryColor,
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.w700))),
-              ])),
+                    top: 1.0,
+                    left: 1.0,
+                    child: IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: const Icon(Icons.arrow_back_rounded),
+                    )),
+                Positioned(
+                  bottom: 12.0,
+                  left: 16.0,
+                  child: Text(
+                    "TeamWork ",
+                    style: GoogleFonts.ubuntu(
+                        color: Theme.of(context).primaryColor,
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.w700),
+                  ),
+                ),
+              ],
+            ),
+          ),
           ListTile(
             title: Row(
               children: <Widget>[

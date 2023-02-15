@@ -37,7 +37,7 @@ class HomePage extends StatelessWidget {
       print('post_id at home : ');
       print(post_id);
       print('orinting final post id ' + post_id.toString());
-      Timer(const Duration(seconds: 3), () {
+      Timer(const Duration(seconds: 1), () {
         if (post_id != null) {
           Navigator.of(context).push(
             MaterialPageRoute(
