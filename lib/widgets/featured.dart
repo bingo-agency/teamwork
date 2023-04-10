@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -9,7 +11,7 @@ import 'package:team_work/widgets/loadingWidgets/featuredLoading.dart';
 
 import '../pages/listing/listing.dart';
 
-class RecommendedHouse extends StatelessWidget {
+class Featured extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -51,7 +53,7 @@ class RecommendedHouse extends StatelessWidget {
         ),
         Container(
           padding: const EdgeInsets.all(15),
-          height: 350,
+          height: 300,
           child: Consumer<FeaturedProvider>(
             builder: (context, value, child) {
               return value.isLoading
@@ -107,7 +109,7 @@ class TempCard extends StatelessWidget {
                 imageUrl: map.primary_image,
                 fit: BoxFit.cover,
                 width: 350,
-                height: 350),
+                height: 300),
             Positioned(
               right: 15,
               top: 15,
@@ -163,11 +165,11 @@ class TempCard extends StatelessWidget {
                     //     color: Theme.of(context).primaryColor)
                     Card(
                       child: Padding(
-                        padding: const EdgeInsets.all(3.0),
+                        padding: const EdgeInsets.all(4.0),
                         child: Text(
                           map.price + ' PKR',
                           style: GoogleFonts.ubuntu(
-                              fontSize: 12.0,
+                              fontSize: 13.0,
                               fontWeight: FontWeight.bold,
                               color: Theme.of(context).primaryColor),
                         ),

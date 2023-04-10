@@ -91,152 +91,98 @@ class WelcomeText extends StatelessWidget {
                   }
                 },
                 decoration: InputDecoration(
-                    fillColor: Colors.white,
-                    filled: true,
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide.none,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    hintText: 'Search here ...',
-                    prefixIcon: Container(
-                      padding: const EdgeInsets.all(15),
-                      child: SvgPicture.asset('assets/icons/search.svg'),
-                    ),
-                    suffixIcon: GestureDetector(
-                      onTap: () {
-                        print('cities were tapped !!!');
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              // Retrieve the text the that user has entered by using the
-                              // TextEditingController.
-                              content: SizedBox(
-                                height: 300,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    ListTile(
-                                      onTap: () {
-                                        dbclass.setCity('Islamabad');
-                                        print('Islamabad selected');
-                                        Navigator.of(context).pop();
-                                      },
-                                      title: const Text('Islamabad'),
-                                    ),
-                                    ListTile(
-                                      onTap: () {
-                                        dbclass.setCity('Lahore');
-                                        Navigator.of(context).pop();
-                                      },
-                                      title: const Text('Lahore'),
-                                    ),
-                                    ListTile(
-                                      onTap: () {
-                                        dbclass.setCity('Karachi');
-                                        Navigator.of(context).pop();
-                                      },
-                                      title: const Text('Karachi'),
-                                    ),
-                                    ListTile(
-                                      onTap: () {
-                                        dbclass.setCity('Peshawar');
-                                        Navigator.of(context).pop();
-                                      },
-                                      title: const Text('Peshawar'),
-                                    ),
-                                    ListTile(
-                                      onTap: () {
-                                        dbclass.setCity('Abbotabad');
-                                        Navigator.of(context).pop();
-                                      },
-                                      title: const Text('Abbotabad'),
-                                    ),
-                                  ],
-                                ),
+                  fillColor: Colors.white,
+                  filled: true,
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  hintText: 'Search here ...',
+                  prefixIcon: Container(
+                    padding: const EdgeInsets.all(15),
+                    child: SvgPicture.asset('assets/icons/search.svg'),
+                  ),
+                  suffixIcon: GestureDetector(
+                    onTap: () {
+                      print('cities were tapped !!!');
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            // Retrieve the text the that user has entered by using the
+                            // TextEditingController.
+                            content: SizedBox(
+                              height: 300,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  ListTile(
+                                    onTap: () {
+                                      dbclass.setCity('Islamabad');
+                                      print('Islamabad selected');
+                                      Navigator.of(context).pop();
+                                    },
+                                    title: const Text('Islamabad'),
+                                  ),
+                                  ListTile(
+                                    onTap: () {
+                                      dbclass.setCity('Lahore');
+                                      Navigator.of(context).pop();
+                                    },
+                                    title: const Text('Lahore'),
+                                  ),
+                                  ListTile(
+                                    onTap: () {
+                                      dbclass.setCity('Karachi');
+                                      Navigator.of(context).pop();
+                                    },
+                                    title: const Text('Karachi'),
+                                  ),
+                                  ListTile(
+                                    onTap: () {
+                                      dbclass.setCity('Peshawar');
+                                      Navigator.of(context).pop();
+                                    },
+                                    title: const Text('Peshawar'),
+                                  ),
+                                  ListTile(
+                                    onTap: () {
+                                      dbclass.setCity('Abbotabad');
+                                      Navigator.of(context).pop();
+                                    },
+                                    title: const Text('Abbotabad'),
+                                  ),
+                                ],
                               ),
-                            );
-                          },
+                            ),
+                          );
+                        },
+                      );
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(15),
+                      child:
+                          Consumer<DataBase>(builder: (context, value, child) {
+                        return Text(
+                          value.initial_city,
+                          softWrap: true,
+                          style: GoogleFonts.ubuntu(
+                              color: Theme.of(context).primaryColor,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0),
                         );
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.all(15),
-                        child: FutureBuilder(
-                          future: dbclass.getCity(),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              return Text(
-                                snapshot.data.toString(),
-                                softWrap: true,
-                                style: GoogleFonts.ubuntu(
-                                    color: Theme.of(context).primaryColor,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16.0),
-                              );
-                            } else {
-                              return Text(
-                                'Select City',
-                                softWrap: true,
-                                style: GoogleFonts.ubuntu(
-                                    color: Theme.of(context).primaryColor,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16.0),
-                              );
-                            }
-                          },
-                        ),
-                      ),
+                        // }
+                      }),
                     ),
-                    contentPadding: const EdgeInsets.all(2)),
+                  ),
+                  contentPadding: const EdgeInsets.all(2),
+                ),
               ),
             ),
           )
         ],
       ),
     );
-
-    // ;
-    // return Container(
-    //   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-    //   child: Column(
-    //     crossAxisAlignment: CrossAxisAlignment.start,
-    //     mainAxisSize: MainAxisSize.min,
-    //     children: [
-    //       Row(
-    //         mainAxisAlignment: MainAxisAlignment.end,
-    //         mainAxisSize: MainAxisSize.max,
-    //         children: [
-    //           Align(
-    //             alignment: Alignment.topLeft,
-    //             child: Image.asset(
-    //               'images/bkgrndapp.png',
-    //               width: 150,
-    //             ),
-    //           ),
-    //         ],
-    //       ),
-    //       const Text(
-    //         'TeamWork Property Exchange',
-    //       ),
-    //       // Consumer<DataBase>(builder: (context, value, child) {
-    //       //   Future.delayed(Duration.zero, () {
-    //       //     value.setDetailParam('hello Khurshid');
-    //       //   });
-    //       //   return Text(
-    //       //     '${value.web_post_id}',
-    //       //   );
-    //       // }),
-    //       const SizedBox(height: 10),
-    //       Text(
-    //         'Find the perfect value of your Property Exchange',
-    //         style: Theme.of(context).textTheme.headline1!.copyWith(
-    //             fontSize: 20,
-    //             fontWeight: FontWeight.bold,
-    //             color: Theme.of(context).secondaryHeaderColor),
-    //       ),
-    //     ],
-    //   ),
-    // );
   }
 }

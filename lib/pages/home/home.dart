@@ -12,7 +12,7 @@ import 'package:team_work/pages/home/widget/projects.dart';
 import 'package:team_work/widgets/Drawer.dart';
 import 'package:team_work/widgets/best_offer.dart';
 import 'package:team_work/widgets/propertyType.dart';
-import 'package:team_work/widgets/recommended_house.dart';
+import 'package:team_work/widgets/featured.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:team_work/widgets/welcome_text.dart';
 import '../../models/database.dart';
@@ -108,7 +108,7 @@ class HomePage extends StatelessWidget {
             children: [
               const WelcomeText(),
               const PropertyType(),
-              RecommendedHouse(),
+              Featured(),
               Listing(),
               const City(),
               Projects()

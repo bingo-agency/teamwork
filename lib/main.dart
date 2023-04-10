@@ -95,6 +95,7 @@ class _MyAppState extends State<MyApp> {
         onGenerateRoute: RouteManager.generateRoute,
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
+          useMaterial3: true,
           colorScheme: ColorScheme.fromSeed(
             seedColor: const Color(0xFF811B83),
             primary: const Color(0xFF811B83), //<-- SEE HERE
