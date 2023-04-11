@@ -54,6 +54,7 @@ dependencies:
   email_validator: ^2.0.1
   image_picker: ^0.8.4+3
   # multi_image_picker: ^4.8.0
+  flutter_typeahead: ^4.0.0
   dio: ^4.0.6
   flutter_easyloading: ^3.0.5
   shimmer: ^2.0.0
@@ -62,10 +63,14 @@ dependencies:
   share_plus: ^6.3.0
   photo_view: ^0.14.0
   google_maps_flutter: ^2.2.3
-  
+  location: ^4.4.0
+  permission_handler: ^10.0.0
+  geocoding: ^2.0.4
+  geolocator: ^9.0.0
   firebase_dynamic_links: ^5.0.11
   firebase_core: ^2.4.1
   firebase_analytics: ^10.1.0
+  antdesign_icons: ^0.0.3
 
 
 dev_dependencies:

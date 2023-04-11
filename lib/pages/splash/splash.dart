@@ -13,11 +13,11 @@ class Splash extends StatelessWidget {
             MaterialPageRoute(builder: (BuildContext context) => HomePage())));
     return Scaffold(
       body: Container(
-        color: const Color(0xFF6F1C74),
+        // color: const Color(0xFF6F1C74),
         child: const Center(
           child: Image(
             image: AssetImage(
-              "assets/images/preloader.gif",
+              "assets/images/colorColors.white.gif",
             ),
           ),
         ),

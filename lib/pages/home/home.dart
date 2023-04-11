@@ -1,7 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:antdesign_icons/antdesign_icons.dart';
+
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:team_work/pages/Property/Addproperty.dart';
@@ -54,6 +55,7 @@ class HomePage extends StatelessWidget {
     getPostId();
 
     var dbclass = context.read<DataBase>();
+    dbclass.getCity();
 
     return Scaffold(
         resizeToAvoidBottomInset: false,
@@ -61,7 +63,7 @@ class HomePage extends StatelessWidget {
         backgroundColor: Theme.of(context).backgroundColor,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
-          elevation: 0,
+          elevation: 5,
           title: const Image(
             image: AssetImage('images/teamWrkNew.png'),
             width: 120,
@@ -124,7 +126,7 @@ class HomePage extends StatelessWidget {
               child: Container(
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    border: Border.all(color: Colors.white, width: 5),
+                    // border: Border.all(color: Colors.white, width: 5),
                     color: Colors.purple),
                 child: FloatingActionButton(
                   onPressed: () async {
@@ -140,8 +142,8 @@ class HomePage extends StatelessWidget {
                     }
                   },
                   elevation: 0,
-                  backgroundColor: Colors.transparent,
-                  child: const Icon(Icons.add),
+                  backgroundColor: Theme.of(context).primaryColor,
+                  child: const Icon(Icons.add, color: Colors.white),
                 ),
               ),
             ),
@@ -198,19 +200,19 @@ class HomePage extends StatelessWidget {
             selectedItemColor: Theme.of(context).primaryColor,
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(
-                icon: Icon(Icons.home),
+                icon: Icon(AntIcons.homeOutlined),
                 label: 'Home',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.amp_stories_outlined),
+                icon: Icon(AntIcons.unorderedListOutlined),
                 label: 'Listings',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.house_outlined),
+                icon: Icon(AntIcons.apartmentOutlined),
                 label: 'Ads',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.settings),
+                icon: Icon(AntIcons.settingOutlined),
                 label: 'Settings',
               ),
               // Mybottom(),

@@ -3,12 +3,13 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
 import 'package:http_parser/http_parser.dart';
-
+import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:geolocator/geolocator.dart';
 // import 'package:multi_image_picker/multi_image_picker.dart';
 
 import 'dart:async';
@@ -30,6 +31,95 @@ class DataBase with ChangeNotifier {
   //   propertyImages = listofimages;
   //   notifyListeners();
   // }
+
+  getPermission() async {
+    var status = await Permission.location.status;
+    if (status.isDenied) {
+      if (await Permission.location.request().isGranted) {
+        // Either the permission was already granted before or the user just granted it.
+      }
+
+// You can request multiple permissions at once.
+      Map<Permission, PermissionStatus> statuses = await [
+        Permission.location,
+        Permission.storage,
+      ].request();
+      print(statuses[Permission.location]);
+      getCurrentlocation();
+      getCityLocation();
+      // We didn't ask for permission yet or the permission has been denied before but not permanently.
+    } else {
+      print('is not dnied');
+    }
+    notifyListeners();
+  }
+
+  double x = 0.0;
+  double y = 0.0;
+
+  void getCurrentlocation() async {
+    var position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    var lastPosition = await Geolocator.getLastKnownPosition();
+    x = await position.latitude;
+    y = await position.longitude;
+    Getlocation(x.toString(), y.toString());
+    print('${lastPosition}last position');
+    notifyListeners();
+  }
+
+  Map<String, dynamic> _mapLocation = {};
+  bool _errorLocation = false;
+  String _errorMessageLocation = '';
+
+  Map<String, dynamic> get mapLocation => _mapLocation;
+
+  bool get errorLocation => _errorLocation;
+
+  String get errorMessageLocation => _errorMessageLocation;
+
+  Future<void> Getlocation(String lat, String lng) async {
+    final response = await http.get(Uri.parse(
+        'https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$lng&key=AIzaSyCb3U_z-owpRwGS321AP0JX09crvvQj4dw&sensor=false'));
+
+    if (response.statusCode == 200) {
+      try {
+        _mapLocation = jsonDecode(response.body);
+        print(_mapLocation.toString());
+
+        _errorLocation = false;
+        if (_mapLocation.isNotEmpty) {
+          getCityLocation();
+
+          // addlocation( lat , lng);
+        }
+      } catch (e) {
+        _errorLocation = true;
+        _errorMessageLocation = e.toString();
+        _mapLocation = {};
+      }
+    } else {
+      _errorLocation = true;
+      _errorMessageLocation = 'Error : It could be your Internet connection.';
+      _mapLocation = {};
+    }
+    notifyListeners();
+  }
+
+  Future<void> getCityLocation() async {
+    var gotten_city = await _mapLocation['results'][0]['address_components'][5]
+            ['long_name']
+        .toString();
+    initial_city = gotten_city;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('initial_city', gotten_city);
+    initial_city = prefs.getString('initial_city') ?? '';
+    print('printing city name$initial_city');
+    // SetCityForSearchbar(Cityname.toString());
+
+    notifyListeners();
+  }
+
   final ImagePicker imagePicker = ImagePicker();
 
   List<XFile>? imageFileList = [];

@@ -78,7 +78,7 @@ class Login extends StatelessWidget {
                   child: Text(
                     'Login',
                     style: GoogleFonts.ubuntu(
-                        fontSize: 20, color: Theme.of(context).primaryColor),
+                        fontSize: 22, color: Theme.of(context).primaryColor),
                   )),
               const SizedBox(
                 height: 30,
@@ -120,11 +120,13 @@ class Login extends StatelessWidget {
               Container(
                   height: 50,
                   padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                  color: Colors.purple,
+                  // color: Colors.purple,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                         primary: Theme.of(context).primaryColor),
-                    child: const Text('Login'),
+                    child: const Text('Login',
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold)),
                     onPressed: () async {
                       // print(loginMap['message']);
                       var email = emailController.text.toString();

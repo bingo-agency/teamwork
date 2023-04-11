@@ -147,11 +147,16 @@ class Register extends StatelessWidget {
               ),
               Container(
                 height: 50,
-                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                // padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                       primary: Theme.of(context).primaryColor),
-                  child: const Text('Register'),
+                  child: const Text(
+                    'Register',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
                   onPressed: () async {
                     // print(loginMap['message']);
                     var name = nameController.text.toString();
