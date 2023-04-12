@@ -21,7 +21,7 @@ class SearchInput extends StatelessWidget {
               padding: const EdgeInsets.all(15),
               child: SvgPicture.asset('assets/icons/search.svg'),
             ),
-            contentPadding: const EdgeInsets.all(2)),
+            contentPadding: const EdgeInsets.all(2),),
       ),
     );
   }

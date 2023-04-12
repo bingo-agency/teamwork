@@ -116,7 +116,7 @@ class TempCard extends StatelessWidget {
               child: Card(
                 color: Theme.of(context).primaryColor,
                 child: Padding(
-                  padding: const EdgeInsets.all(5.0),
+                  padding: const EdgeInsets.all(7.0),
                   child: Text(
                     'Featured',
                     style: GoogleFonts.ubuntu(
@@ -160,16 +160,13 @@ class TempCard extends StatelessWidget {
                         ],
                       ),
                     ),
-                    // CircleIconButton(
-                    //     iconUrl: 'assets/icons/mark.svg',
-                    //     color: Theme.of(context).primaryColor)
                     Card(
                       child: Padding(
-                        padding: const EdgeInsets.all(4.0),
+                        padding: const EdgeInsets.all(7.0),
                         child: Text(
                           map.price + ' PKR',
                           style: GoogleFonts.ubuntu(
-                              fontSize: 13.0,
+                              // fontSize: 13.0,
                               fontWeight: FontWeight.bold,
                               color: Theme.of(context).primaryColor),
                         ),
@@ -185,92 +182,3 @@ class TempCard extends StatelessWidget {
     );
   }
 }
-
-// class FeaturedCard extends StatelessWidget {
-//   FeaturedCard({Key? key, required this.map}) : super(key: key);
-//   var map;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Padding(
-//       padding: const EdgeInsets.all(8.0),
-//       child: Card(
-//         elevation: 10,
-//         child: Column(
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: [
-//             // Text('this ?'),
-//             // Image.network('https://teamworkpk.com/${map['primary_image']}'),
-//             Container(
-//               width: 230,
-//               padding: const EdgeInsets.all(10),
-//               decoration: BoxDecoration(
-//                   color: Colors.white, borderRadius: BorderRadius.circular(8)),
-//               child: Stack(
-//                 children: [
-//                   CachedNetworkImage(
-//                     progressIndicatorBuilder: (context, url, progress) =>
-//                         Center(
-//                       child: CircularProgressIndicator(
-//                         value: progress.progress,
-//                       ),
-//                     ),
-//                     imageUrl: '${map.primary_image}',
-//                   ),
-//                   Positioned(
-//                     right: 15,
-//                     top: 15,
-//                     child: CircleIconButton(
-//                         iconUrl: 'assets/icons/mark.svg',
-//                         color: Theme.of(context).accentColor),
-//                   ),
-//                   Positioned(
-//                     bottom: 0,
-//                     left: 0,
-//                     right: 0,
-//                     child: Container(
-//                       color: Colors.white54,
-//                       padding: const EdgeInsets.all(10),
-//                       child: Row(
-//                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                         children: [
-//                           Column(
-//                             crossAxisAlignment: CrossAxisAlignment.start,
-//                             children: [
-//                               Text(
-//                                 'name',
-//                                 style: GoogleFonts.ubuntu(
-//                                     fontSize: 16.0,
-//                                     fontWeight: FontWeight.bold,
-//                                     color:
-//                                         Theme.of(context).secondaryHeaderColor),
-//                               ),
-//                               const SizedBox(
-//                                 height: 5,
-//                               ),
-//                               Text(
-//                                 'address',
-//                                 style: GoogleFonts.ubuntu(
-//                                     fontSize: 12.0,
-//                                     fontWeight: FontWeight.bold,
-//                                     color:
-//                                         Theme.of(context).secondaryHeaderColor),
-//                               ),
-//                             ],
-//                           ),
-//                           CircleIconButton(
-//                               iconUrl: 'assets/icons/mark.svg',
-//                               color: Theme.of(context).accentColor)
-//                         ],
-//                       ),
-//                     ),
-//                   ),
-//                 ],
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }

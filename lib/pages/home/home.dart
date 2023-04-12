@@ -63,15 +63,15 @@ class HomePage extends StatelessWidget {
         backgroundColor: Theme.of(context).backgroundColor,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
-          elevation: 5,
+          elevation: 2,
           title: const Image(
-            image: AssetImage('images/teamWrkNew.png'),
-            width: 120,
+            image: AssetImage('assets/images/teamWrkLogo.png'),
+            width: 150,
           ),
           leading: IconButton(
             icon: SvgPicture.asset(
               'assets/icons/menu.svg',
-              color: Colors.purple,
+              color: Theme.of(context).primaryColor,
             ),
             onPressed: () => _scaffoldKey.currentState!.openDrawer(),
           ),
@@ -94,10 +94,10 @@ class HomePage extends StatelessWidget {
                           builder: (BuildContext context) => const users()));
                     }
                   },
-                  child: const Icon(
+                  child: Icon(
                     Icons.account_circle_rounded,
                     size: 40,
-                    color: Colors.purple,
+                    color: Theme.of(context).primaryColor,
                   ),
                 );
               },
@@ -127,7 +127,7 @@ class HomePage extends StatelessWidget {
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     // border: Border.all(color: Colors.white, width: 5),
-                    color: Colors.purple),
+                    color: Theme.of(context).primaryColor),
                 child: FloatingActionButton(
                   onPressed: () async {
                     if (dbclass.id == "") {

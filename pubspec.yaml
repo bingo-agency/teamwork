@@ -118,9 +118,11 @@ flutter:
     - assets/icons/shape22.svg
     - assets/images/banner4.png
     - assets/images/banner6.png
+    - assets/images/offer02.jpeg
     - assets/icons/hashtag.svg
     - images/bkgrndapp.png
     - assets/images/noimage.jpeg
+    - assets/images/teamWrkLogo.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

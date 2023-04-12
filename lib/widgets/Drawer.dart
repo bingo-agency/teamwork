@@ -1,3 +1,4 @@
+import 'package:antdesign_icons/antdesign_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -24,8 +25,13 @@ class Mydrawer extends StatelessWidget {
             margin: EdgeInsets.zero,
             padding: EdgeInsets.zero,
             decoration: const BoxDecoration(
-                image: DecorationImage(
-                    fit: BoxFit.cover, image: AssetImage('images/2.png'))),
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                colorFilter:
+                    ColorFilter.mode(Colors.white70, BlendMode.softLight),
+                image: AssetImage('assets/images/offer02.jpeg'),
+              ),
+            ),
             child: Stack(
               children: <Widget>[
                 Positioned(
@@ -40,12 +46,13 @@ class Mydrawer extends StatelessWidget {
                 Positioned(
                   bottom: 12.0,
                   left: 16.0,
-                  child: Text(
-                    "TeamWork ",
-                    style: GoogleFonts.ubuntu(
-                        color: Theme.of(context).primaryColor,
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.w700),
+                  child: Center(
+                    child: Image(
+                      width: MediaQuery.of(context).size.width / 2,
+                      image: const AssetImage(
+                        "assets/images/teamWrkLogo.png",
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -54,7 +61,7 @@ class Mydrawer extends StatelessWidget {
           ListTile(
             title: Row(
               children: <Widget>[
-                Icon(Icons.add_location_alt,
+                Icon(AntIcons.usergroupAddOutlined,
                     color: Theme.of(context).primaryColor),
                 Padding(
                   padding: const EdgeInsets.only(left: 8.0),
@@ -62,7 +69,8 @@ class Mydrawer extends StatelessWidget {
                     'Add Property',
                     style: GoogleFonts.ubuntu(
                         color: Theme.of(context).primaryColor,
-                        fontWeight: FontWeight.w700),
+                        fontWeight: FontWeight.w700,
+                        fontSize: 18.0),
                     softWrap: true,
                   ),
                 )
@@ -84,14 +92,16 @@ class Mydrawer extends StatelessWidget {
           ListTile(
             title: Row(
               children: <Widget>[
-                Icon(Icons.home_filled, color: Theme.of(context).primaryColor),
+                Icon(AntIcons.homeOutlined,
+                    color: Theme.of(context).primaryColor),
                 Padding(
                   padding: const EdgeInsets.only(left: 8.0),
                   child: Text(
                     'Home',
                     style: GoogleFonts.ubuntu(
                         color: Theme.of(context).primaryColor,
-                        fontWeight: FontWeight.w700),
+                        fontWeight: FontWeight.w700,
+                        fontSize: 18.0),
                     softWrap: true,
                   ),
                 )
@@ -101,10 +111,11 @@ class Mydrawer extends StatelessWidget {
               Navigator.pop(context);
             },
           ),
+          const Divider(),
           ListTile(
             title: Row(
               children: <Widget>[
-                Icon(Icons.amp_stories_outlined,
+                Icon(AntIcons.unorderedListOutlined,
                     color: Theme.of(context).primaryColor),
                 Padding(
                   padding: const EdgeInsets.only(left: 8.0),
@@ -112,7 +123,8 @@ class Mydrawer extends StatelessWidget {
                     'Listing',
                     style: GoogleFonts.ubuntu(
                         color: Theme.of(context).primaryColor,
-                        fontWeight: FontWeight.w700),
+                        fontWeight: FontWeight.w700,
+                        fontSize: 18.0),
                     softWrap: true,
                   ),
                 )
@@ -138,14 +150,16 @@ class Mydrawer extends StatelessWidget {
               },
               child: Row(
                 children: <Widget>[
-                  Icon(Icons.call, color: Theme.of(context).primaryColor),
+                  Icon(AntIcons.phoneOutlined,
+                      color: Theme.of(context).primaryColor),
                   Padding(
                     padding: const EdgeInsets.only(left: 8.0),
                     child: Text(
                       'Contact',
                       style: GoogleFonts.ubuntu(
                           color: Theme.of(context).primaryColor,
-                          fontWeight: FontWeight.w700),
+                          fontWeight: FontWeight.w700,
+                          fontSize: 18.0),
                       softWrap: true,
                     ),
                   )
@@ -158,7 +172,7 @@ class Mydrawer extends StatelessWidget {
           ListTile(
             title: Row(
               children: <Widget>[
-                Icon(Icons.add_business_outlined,
+                Icon(AntIcons.bulbOutlined,
                     color: Theme.of(context).primaryColor),
                 Padding(
                   padding: const EdgeInsets.only(left: 8.0),
@@ -166,7 +180,8 @@ class Mydrawer extends StatelessWidget {
                     'About',
                     style: GoogleFonts.ubuntu(
                         color: Theme.of(context).primaryColor,
-                        fontWeight: FontWeight.w700),
+                        fontWeight: FontWeight.w700,
+                        fontSize: 18.0),
                     softWrap: true,
                   ),
                 )
@@ -198,7 +213,7 @@ class checkLogoutButton extends StatelessWidget {
       return ListTile(
         title: Row(
           children: <Widget>[
-            Icon(Icons.account_circle_rounded,
+            Icon(AntIcons.userAddOutlined,
                 color: Theme.of(context).primaryColor),
             Padding(
               padding: const EdgeInsets.only(left: 8.0),
@@ -206,7 +221,8 @@ class checkLogoutButton extends StatelessWidget {
                 'Login',
                 style: GoogleFonts.ubuntu(
                     color: Theme.of(context).primaryColor,
-                    fontWeight: FontWeight.w700),
+                    fontWeight: FontWeight.w700,
+                    fontSize: 18.0),
                 softWrap: true,
               ),
             )
@@ -221,14 +237,16 @@ class checkLogoutButton extends StatelessWidget {
       return ListTile(
         title: Row(
           children: <Widget>[
-            Icon(Icons.block, color: Theme.of(context).primaryColor),
+            Icon(AntIcons.userDeleteOutlined,
+                color: Theme.of(context).primaryColor),
             Padding(
               padding: const EdgeInsets.only(left: 8.0),
               child: Text(
                 'Log Out',
                 style: GoogleFonts.ubuntu(
                     color: Theme.of(context).primaryColor,
-                    fontWeight: FontWeight.w700),
+                    fontWeight: FontWeight.w700,
+                    fontSize: 18.0),
                 softWrap: true,
               ),
             )
@@ -238,11 +256,13 @@ class checkLogoutButton extends StatelessWidget {
           // dbclass.addAuth('', '');
           dbclass.removeUser();
           Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (BuildContext context) => HomePage()));
+            MaterialPageRoute(
+              builder: (BuildContext context) => HomePage(),
+            ),
+          );
         },
       );
     }
-
-    return Container();
+    // return Container();
   }
 }

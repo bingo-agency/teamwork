@@ -176,8 +176,9 @@ class WelcomeText extends StatelessWidget {
 
                                           typeAheadController2.text =
                                               city.name.toString();
-                                          print('completed');
-                                          dbclass.initial_city.toString();
+                                          print(city.name.toString());
+                                          dbclass.setCity(city.name.toString());
+                                          // dbclass.initial_city = city.name;
                                           Navigator.pop(context);
                                         },
                                       ),
