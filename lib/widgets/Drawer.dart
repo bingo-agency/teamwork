@@ -17,8 +17,8 @@ class Mydrawer extends StatelessWidget {
     var dbclass = context.read<DataBase>();
     String curl = "?*";
 
-    return Scaffold(
-      body: Column(
+    return Drawer(
+      child: Column(
         children: [
           DrawerHeader(
             margin: EdgeInsets.zero,
