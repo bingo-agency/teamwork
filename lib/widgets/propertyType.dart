@@ -143,38 +143,38 @@ class PropertyType extends StatelessWidget {
               ),
             ),
           ),
-          GestureDetector(
-            onTap: () {
-              curl = "?property_type=restaurant";
-              print(curl);
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) => ListingPage(curl: curl)));
-            },
-            child: Card(
-              elevation: 3.0,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: SvgPicture.asset(
-                        'assets/icons/shape25.svg',
-                        width: 30,
-                      ),
-                    ),
-                    Text(
-                      'Restaurant',
-                      style: GoogleFonts.ubuntu(
-                        color: Colors.purple,
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ),
-          ),
+          // GestureDetector(
+          //   onTap: () {
+          //     curl = "?property_type=restaurant";
+          //     print(curl);
+          //     Navigator.of(context).push(MaterialPageRoute(
+          //         builder: (BuildContext context) => ListingPage(curl: curl)));
+          //   },
+          //   child: Card(
+          //     elevation: 3.0,
+          //     child: Padding(
+          //       padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+          //       child: Row(
+          //         mainAxisAlignment: MainAxisAlignment.spaceAround,
+          //         children: [
+          //           Padding(
+          //             padding: const EdgeInsets.all(8.0),
+          //             child: SvgPicture.asset(
+          //               'assets/icons/shape25.svg',
+          //               width: 30,
+          //             ),
+          //           ),
+          //           Text(
+          //             'Restaurant',
+          //             style: GoogleFonts.ubuntu(
+          //               color: Colors.purple,
+          //             ),
+          //           )
+          //         ],
+          //       ),
+          //     ),
+          //   ),
+          // ),
           GestureDetector(
             onTap: () {
               curl = "?property_type=studio";

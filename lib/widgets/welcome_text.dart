@@ -47,7 +47,7 @@ class WelcomeText extends StatelessWidget {
                 textInputAction: TextInputAction.search,
                 controller: textController,
                 onSubmitted: (value) async {
-                  newval = await value.toString();
+                  newval = value.toString();
                   print('go was hit !');
                   print(newval);
                   if (newval == '' || newSetCity == '') {

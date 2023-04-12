@@ -8,17 +8,18 @@ class Splash extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Timer(
-        const Duration(seconds: 3),
-        () => Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (BuildContext context) => HomePage())));
-    return Scaffold(
-      body: Container(
-        // color: const Color(0xFF6F1C74),
-        child: const Center(
-          child: Image(
-            image: AssetImage(
-              "assets/images/colorColors.white.gif",
-            ),
+      const Duration(seconds: 2),
+      () => Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (BuildContext context) => HomePage(),
+        ),
+      ),
+    );
+    return const Scaffold(
+      body: Center(
+        child: Image(
+          image: AssetImage(
+            "assets/images/preloader.gif",
           ),
         ),
       ),
