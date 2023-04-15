@@ -1,6 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -9,14 +8,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:team_work/AppState/providers/detailsProvider.dart';
 import 'package:team_work/AppState/providers/featuredProvider.dart';
 import 'package:team_work/AppState/providers/listingProvider.dart';
+import 'package:team_work/AppState/providers/homeListingProvider.dart';
 import 'package:team_work/AppState/providers/projectProvider.dart';
 import 'package:team_work/AppState/providers/searchProvider.dart';
 import 'package:team_work/models/database.dart';
-import 'package:team_work/pages/detail/detail.dart';
-// import 'package:team_work/notifier/responce_notifier.dart';
-// import 'AppState.dart';
 import 'routes/routes.dart';
-// import 'package:google_fonts/google_fonts.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -79,6 +75,9 @@ class _MyAppState extends State<MyApp> {
         ),
         ChangeNotifierProvider.value(
           value: ListingProvider(),
+        ),
+        ChangeNotifierProvider.value(
+          value: HomeListingProvider(),
         ),
         ChangeNotifierProvider.value(
           value: ProjectProvider(),

@@ -35,47 +35,41 @@ class ManageAds extends StatelessWidget {
           : SingleChildScrollView(
               child: Container(
                 padding: const EdgeInsets.all(15),
-                child: RefreshIndicator(
-                  onRefresh: () async {
-                    getList;
+                child: Consumer<DataBase>(
+                  builder: (context, value, child) {
+                    print(id);
+                    return value.mapAccount.isEmpty && !value.errorAccount
+                        ? VerticalListLoading()
+                        : value.errorAccount
+                            ? Text(
+                                'Oops, something went wrong .${value.errorMessageAccount}',
+                                textAlign: TextAlign.center,
+                              )
+                            : ListView.builder(
+                                scrollDirection: Axis.vertical,
+                                physics: const ClampingScrollPhysics(),
+                                shrinkWrap: true,
+                                itemCount: value.mapAccount['account'].length,
+                                itemBuilder: (context, index) {
+                                  if (value.mapAccount['account'][index]
+                                          ['message'] ==
+                                      "True") {
+                                    return AccountCard(
+                                        map: value.mapAccount['account']
+                                            [index]);
+                                  } else {
+                                    return Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Center(
+                                        child: Text(value.mapAccount['account']
+                                                [index]['message']
+                                            .toString()),
+                                      ),
+                                    );
+                                  }
+                                },
+                              );
                   },
-                  child: Consumer<DataBase>(
-                    builder: (context, value, child) {
-                      print(id);
-                      return value.mapAccount.isEmpty && !value.errorAccount
-                          ? VerticalListLoading()
-                          : value.errorAccount
-                              ? Text(
-                                  'Oops, something went wrong .${value.errorMessageAccount}',
-                                  textAlign: TextAlign.center,
-                                )
-                              : ListView.builder(
-                                  scrollDirection: Axis.vertical,
-                                  physics: const ClampingScrollPhysics(),
-                                  shrinkWrap: true,
-                                  itemCount: value.mapAccount['account'].length,
-                                  itemBuilder: (context, index) {
-                                    if (value.mapAccount['account'][index]
-                                            ['message'] ==
-                                        "True") {
-                                      return AccountCard(
-                                          map: value.mapAccount['account']
-                                              [index]);
-                                    } else {
-                                      return Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Center(
-                                          child: Text(value
-                                              .mapAccount['account'][index]
-                                                  ['message']
-                                              .toString()),
-                                        ),
-                                      );
-                                    }
-                                  },
-                                );
-                    },
-                  ),
                 ),
               ),
             ),

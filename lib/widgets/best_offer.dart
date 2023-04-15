@@ -2,13 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:team_work/AppState/providers/listingProvider.dart';
-import 'package:team_work/models/house.dart';
+import 'package:team_work/AppState/providers/homeListingProvider.dart';
 import 'package:team_work/pages/detail/detail.dart';
-import 'package:team_work/widgets/circle_icon_button.dart';
 import 'package:team_work/widgets/loadingWidgets/verticalListLoading.dart';
-
-import '../models/database.dart';
 import '../pages/listing/listing.dart';
 
 class Listing extends StatelessWidget {
@@ -16,10 +12,10 @@ class Listing extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      Provider.of<ListingProvider>(context, listen: false).getAllListing('?*');
+      Provider.of<HomeListingProvider>(context, listen: false).getHomeListing();
     });
     String curl = "?*";
-    context.read<DataBase>().fetchListing;
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
       child: Column(
@@ -57,7 +53,7 @@ class Listing extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           // here it starts
-          Consumer<ListingProvider>(
+          Consumer<HomeListingProvider>(
             builder: (context, value, child) {
               return value.isLoading
                   ? VerticalListLoading()
@@ -65,9 +61,9 @@ class Listing extends StatelessWidget {
                       scrollDirection: Axis.vertical,
                       physics: const ClampingScrollPhysics(),
                       shrinkWrap: true,
-                      itemCount: value.listing.length,
+                      itemCount: value.homeListing.length,
                       itemBuilder: (context, index) {
-                        return ListingCard(map: value.listing[index]);
+                        return ListingCard(map: value.homeListing[index]);
                       },
                     );
             },

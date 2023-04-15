@@ -19,9 +19,18 @@ class users extends StatelessWidget {
 
     //here fetch the data from sharedPreferences only !!! otherwise take us to signup page !!!!
     return Scaffold(
+      backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        title: const Text('Account'),
+        title: Text(
+          "Account",
+          style: GoogleFonts.ubuntu(
+              fontWeight: FontWeight.w700,
+              color: Theme.of(context).backgroundColor),
+        ),
         backgroundColor: Theme.of(context).primaryColor,
+        leading: const BackButton(
+          color: Colors.white, // <-- SEE HERE
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(10),
@@ -92,7 +101,14 @@ class users extends StatelessWidget {
                 child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                         primary: Theme.of(context).primaryColor),
-                    child: Text('Edit Profile', style: GoogleFonts.ubuntu()),
+                    child: Text(
+                      'Edit Profile',
+                      style: GoogleFonts.ubuntu(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16.0,
+                        color: Colors.white,
+                      ),
+                    ),
                     onPressed: () async {
                       // String id = await id;
                       print("manage ads were tapped on id=" +
@@ -112,7 +128,14 @@ class users extends StatelessWidget {
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                       primary: Theme.of(context).primaryColor),
-                  child: Text('Manage Ads', style: GoogleFonts.ubuntu()),
+                  child: Text(
+                    'Manage Ads',
+                    style: GoogleFonts.ubuntu(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 16.0,
+                      color: Colors.white,
+                    ),
+                  ),
                   onPressed: () async {
                     print("manage ads were tapped on id =" +
                         dbclass.id.toString());
@@ -127,20 +150,27 @@ class users extends StatelessWidget {
             const Divider(),
             Container(
               height: 50,
-              // padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+              padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
               color: Theme.of(context).primaryColor,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                     primary: Theme.of(context).primaryColor),
                 child: Text(
                   'Logout',
-                  style: GoogleFonts.ubuntu(),
+                  style: GoogleFonts.ubuntu(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 16.0,
+                    color: Colors.white,
+                  ),
                 ),
                 onPressed: () {
                   // dbclass.addAuth('', '');
                   dbclass.removeUser();
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (BuildContext context) => HomePage()));
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => HomePage(),
+                    ),
+                  );
                 },
               ),
             ),

@@ -1,17 +1,17 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:team_work/AppState/models/listingModel.dart';
+import 'package:team_work/AppState/models/homeListingModel.dart';
 
-class ListingServices {
-  Future<List<ListingModel>> getAllListing(curl) async {
-    var url = 'https://teamworkpk.com/API/nonfeatured' + curl;
+class HomeListingServices {
+  Future<List<HomeListingModel>> getHomeListing() async {
+    var url = 'https://teamworkpk.com/API/new_listing';
     final uri = Uri.parse(url);
     final response = await http.get(uri);
     if (response.statusCode == 200) {
       final rsbody = jsonDecode(response.body);
-      final json = rsbody['nonfeatured'] as List;
-      final listing = json.map((e) {
-        return ListingModel(
+      final json = rsbody['new_listing'] as List;
+      final homeListing = json.map((e) {
+        return HomeListingModel(
           id: e['id'],
           internal_lead_id: e['internal_lead_id'],
           title: e['title'],
@@ -37,7 +37,7 @@ class ListingServices {
           msg: e['msg'],
         );
       }).toList();
-      return listing;
+      return homeListing;
     }
     return [];
     // throw "Something went wrong";

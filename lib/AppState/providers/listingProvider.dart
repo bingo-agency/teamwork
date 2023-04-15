@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:team_work/AppState/models/featuredModel.dart';
 import 'package:team_work/AppState/models/listingModel.dart';
-import 'package:team_work/AppState/services/featuredServices.dart';
 import 'package:team_work/AppState/services/listingServices.dart';
 
 class ListingProvider extends ChangeNotifier {

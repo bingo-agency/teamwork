@@ -13,9 +13,18 @@ class FeaturedListing extends StatelessWidget {
       Provider.of<FeaturedProvider>(context, listen: false).getAllFeatured();
     });
     return Scaffold(
+      backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
+        leading: const BackButton(
+          color: Colors.white, // <-- SEE HERE
+        ),
         backgroundColor: Theme.of(context).primaryColor,
-        title: const Text("Featured Listing"),
+        title: Text(
+          "Featured Listing",
+          style: GoogleFonts.ubuntu(
+              fontWeight: FontWeight.w700,
+              color: Theme.of(context).backgroundColor),
+        ),
       ),
       body: SingleChildScrollView(
         child: Container(

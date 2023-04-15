@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:antdesign_icons/antdesign_icons.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -76,6 +77,14 @@ class HomePage extends StatelessWidget {
             onPressed: () => _scaffoldKey.currentState!.openDrawer(),
           ),
           actions: [
+            Icon(
+              Icons.notifications,
+              size: 30,
+              color: Theme.of(context).primaryColor,
+            ),
+            const SizedBox(
+              width: 2.0,
+            ),
             FutureBuilder(
               future: dbclass.getEmail(),
               initialData: const Center(
@@ -91,12 +100,13 @@ class HomePage extends StatelessWidget {
                     } else {
                       // print(dbclass.email);
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (BuildContext context) => const users()));
+                          builder: (BuildContext context) =>
+                              profilepage(id: dbclass.id)));
                     }
                   },
                   child: Icon(
                     Icons.account_circle_rounded,
-                    size: 40,
+                    size: 35,
                     color: Theme.of(context).primaryColor,
                   ),
                 );
@@ -132,13 +142,19 @@ class HomePage extends StatelessWidget {
                   onPressed: () async {
                     if (dbclass.id == "") {
                       // print(dbclass.getEmail());
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (BuildContext context) => const Login()));
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (BuildContext context) => const Login(),
+                        ),
+                      );
                     } else {
                       // print(dbclass.email);
-                      Navigator.of(context).push(MaterialPageRoute(
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
                           builder: (BuildContext context) =>
-                              Addproperty(id: dbclass.id)));
+                              Addproperty(id: dbclass.id),
+                        ),
+                      );
                     }
                   },
                   elevation: 0,
@@ -150,73 +166,78 @@ class HomePage extends StatelessWidget {
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
-            onTap: (int i) {
-              if (i == 1) {
-                print('Listing');
+          onTap: (int i) {
+            if (i == 1) {
+              print('Listing');
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ListingPage(
+                    curl: '?*',
+                  ),
+                ),
+              );
+            }
+            if (i == 2) {
+              print('ads');
+              if (dbclass.id == "") {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ListingPage(
-                      curl: '?*',
-                    ),
+                    builder: (context) => const Login(),
+                  ),
+                );
+                // Navigator.pushNamed(context, '/login');
+              } else {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ManageAds(id: dbclass.id),
                   ),
                 );
               }
-              if (i == 2) {
-                print('ads');
-                if (dbclass.id == "") {
-                  Navigator.push(
+            }
+            if (i == 3) {
+              print('settings');
+              if (dbclass.id == "") {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const Login()));
+              } else {
+                Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const Login(),
-                    ),
-                  );
-                  // Navigator.pushNamed(context, '/login');
-                } else {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ManageAds(id: dbclass.id),
-                    ),
-                  );
-                }
+                        builder: (context) => profilepage(id: dbclass.id)));
               }
-              if (i == 3) {
-                print('settings');
-                if (dbclass.id == "") {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const Login()));
-                } else {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => profilepage(id: dbclass.id)));
-                }
-              }
-            },
-            backgroundColor: Colors.white,
-            currentIndex: 0,
-            type: BottomNavigationBarType.fixed,
-            selectedItemColor: Theme.of(context).primaryColor,
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: Icon(AntIcons.homeOutlined),
-                label: 'Home',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(AntIcons.unorderedListOutlined),
-                label: 'Listings',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(AntIcons.apartmentOutlined),
-                label: 'Ads',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(AntIcons.settingOutlined),
-                label: 'Settings',
-              ),
-              // Mybottom(),
-            ])
+            }
+          },
+          backgroundColor: Theme.of(context).backgroundColor,
+          currentIndex: 0,
+          type: BottomNavigationBarType.fixed,
+          selectedItemColor: Theme.of(context).primaryColor,
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(AntIcons.homeOutlined),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(AntIcons.unorderedListOutlined),
+              label: 'Listings',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(AntIcons.apartmentOutlined),
+              label: 'My Ads',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(AntIcons.settingOutlined),
+              label: 'Settings',
+            ),
+            // Mybottom(),
+          ],
+          selectedLabelStyle:
+              GoogleFonts.ubuntu(fontWeight: FontWeight.w800, fontSize: 14.0),
+          unselectedLabelStyle:
+              GoogleFonts.ubuntu(fontWeight: FontWeight.w600, fontSize: 14.0),
+        )
         // Mybottom(),
         );
   }

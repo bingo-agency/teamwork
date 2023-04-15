@@ -45,6 +45,14 @@ class Addproperty extends StatelessWidget {
     final cityController = TextEditingController(text: city);
     return Scaffold(
       appBar: AppBar(
+        title: Text(
+          "Add New Property",
+          style: GoogleFonts.ubuntu(
+              fontWeight: FontWeight.w700, color: Colors.white),
+        ),
+        leading: const BackButton(
+          color: Colors.white, // <-- SEE HERE
+        ),
         backgroundColor: Theme.of(context).primaryColor,
       ),
       body: SingleChildScrollView(
@@ -95,10 +103,7 @@ class Addproperty extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   CustomRadioButton(
-                    shapeRadius: 100.0,
-                    radius: 100.0,
-                    elevation: 0,
-                    absoluteZeroSpacing: false,
+                    absoluteZeroSpacing: true,
                     unSelectedColor: Theme.of(context).canvasColor,
                     buttonLables: ['Exchange', 'Sale'],
                     buttonValues: ["Exchange", "Sale"],

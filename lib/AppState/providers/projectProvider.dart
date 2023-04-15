@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:team_work/AppState/models/projectModel.dart';
-
 import '../services/projectServices.dart';
 
 class ProjectProvider extends ChangeNotifier {

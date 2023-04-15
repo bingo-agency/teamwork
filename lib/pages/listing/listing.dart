@@ -36,7 +36,18 @@ class ListingPageState extends State<ListingPage> {
     }
 
     return Scaffold(
-      appBar: AppBar(backgroundColor: Theme.of(context).primaryColor),
+      backgroundColor: Theme.of(context).backgroundColor,
+      appBar: AppBar(
+        title: Text(
+          "Listing",
+          style: GoogleFonts.ubuntu(
+              fontWeight: FontWeight.w700, color: Colors.white),
+        ),
+        backgroundColor: Theme.of(context).primaryColor,
+        leading: const BackButton(
+          color: Colors.white, // <-- SEE HERE
+        ),
+      ),
       body: SingleChildScrollView(
         child: Consumer<ListingProvider>(
           builder: (context, value, child) {

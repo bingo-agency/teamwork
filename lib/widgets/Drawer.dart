@@ -234,34 +234,73 @@ class checkLogoutButton extends StatelessWidget {
         },
       );
     } else {
-      return ListTile(
-        title: Row(
-          children: <Widget>[
-            Icon(AntIcons.userDeleteOutlined,
-                color: Theme.of(context).primaryColor),
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: Text(
-                'Log Out',
-                style: GoogleFonts.ubuntu(
-                    color: Theme.of(context).primaryColor,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 18.0),
-                softWrap: true,
-              ),
-            )
+      return Container(
+        margin: const EdgeInsets.only(top: 10.0, bottom: 10),
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Stack(
+          children: [
+            Row(
+              children: [
+                const SizedBox(
+                  child: Icon(AntIcons.logoutOutlined,
+                      size: 40.0, color: Colors.redAccent),
+                ),
+                const SizedBox(width: 10),
+                Flexible(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Logout',
+                        style: GoogleFonts.ubuntu(
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.redAccent),
+                      ),
+                      const Icon(
+                        AntIcons.rightOutlined,
+                        color: Colors.redAccent,
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
-        onTap: () {
-          // dbclass.addAuth('', '');
-          dbclass.removeUser();
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(
-              builder: (BuildContext context) => HomePage(),
-            ),
-          );
-        },
       );
+      // return ListTile(
+      //   title: Row(
+      //     children: <Widget>[
+      //       Icon(AntIcons.userDeleteOutlined,
+      //           color: Theme.of(context).primaryColor),
+      //       Padding(
+      //         padding: const EdgeInsets.only(left: 8.0),
+      //         child: Text(
+      //           'Log Out',
+      //           style: GoogleFonts.ubuntu(
+      //               color: Theme.of(context).primaryColor,
+      //               fontWeight: FontWeight.w700,
+      //               fontSize: 18.0),
+      //           softWrap: true,
+      //         ),
+      //       )
+      //     ],
+      //   ),
+      //   onTap: () {
+      //     // dbclass.addAuth('', '');
+      //     dbclass.removeUser();
+      //     Navigator.of(context).pushReplacement(
+      //       MaterialPageRoute(
+      //         builder: (BuildContext context) => HomePage(),
+      //       ),
+      //     );
+      //   },
+      // );
     }
     // return Container();
   }
