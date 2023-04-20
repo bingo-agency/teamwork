@@ -13,16 +13,10 @@ class profilepage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var dbclass = context.read<DataBase>();
-
-    final nameController = TextEditingController(text: dbclass.name);
-    final passwordController = TextEditingController(text: dbclass.password);
-    final phoneController = TextEditingController(text: dbclass.phone);
-
     return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
-        backgroundColor: Theme.of(context).backgroundColor,
+        backgroundColor: Theme.of(context).colorScheme.background,
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -46,7 +40,7 @@ class profilepage extends StatelessWidget {
                       Consumer<DataBase>(
                         builder: (context, value, child) {
                           return Text(
-                            'Welcome,\n' + value.name,
+                            'Welcome,\n${value.name}',
                             style: GoogleFonts.ubuntu(fontSize: 26),
                           );
                         },
@@ -81,7 +75,7 @@ class profilepage extends StatelessWidget {
                 children: [
                   InkWell(
                     onTap: () {
-                      print('Settings were tapped.');
+                      // print('Settings were tapped.');
                     },
                     child: Card(
                       elevation: 3.0,
@@ -110,7 +104,7 @@ class profilepage extends StatelessWidget {
                   ),
                   InkWell(
                     onTap: () {
-                      print('Saved Searches.');
+                      // print('Saved Searches.');
                     },
                     child: Card(
                       elevation: 3.0,
@@ -139,7 +133,7 @@ class profilepage extends StatelessWidget {
                   ),
                   InkWell(
                     onTap: () {
-                      print('Favourites');
+                      // print('Favourites');
                     },
                     child: Card(
                       elevation: 3.0,
@@ -168,7 +162,7 @@ class profilepage extends StatelessWidget {
                   ),
                   InkWell(
                     onTap: () {
-                      print('My Properties');
+                      // print('My Properties');
                     },
                     child: Card(
                       elevation: 3.0,
@@ -197,7 +191,7 @@ class profilepage extends StatelessWidget {
                   ),
                   InkWell(
                     onTap: () {
-                      print('Drafts');
+                      // print('Drafts');
                     },
                     child: Card(
                       elevation: 3.0,
@@ -226,7 +220,7 @@ class profilepage extends StatelessWidget {
                   ),
                   InkWell(
                     onTap: () {
-                      print('Shares & Investments');
+                      // print('Shares & Investments');
                     },
                     child: Card(
                       elevation: 3.0,

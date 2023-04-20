@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
 class DetailLoading extends StatelessWidget {
+  const DetailLoading({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
@@ -85,6 +87,8 @@ loadingTile(context) {
                     child: Padding(
                       padding: const EdgeInsets.only(top: 20.0),
                       child: SizedBox(
+                        width: 100,
+                        height: 10,
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius: const BorderRadius.only(
@@ -103,8 +107,6 @@ loadingTile(context) {
                             border: Border.all(color: Colors.black12),
                           ),
                         ),
-                        width: 100,
-                        height: 10,
                       ),
                     ),
                   ),
@@ -112,6 +114,8 @@ loadingTile(context) {
                     height: 10,
                   ),
                   SizedBox(
+                    width: 100,
+                    height: 10,
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: const BorderRadius.only(
@@ -130,13 +134,13 @@ loadingTile(context) {
                         border: Border.all(color: Colors.black12),
                       ),
                     ),
-                    width: 100,
-                    height: 10,
                   ),
                   const SizedBox(height: 10),
                   Row(
                     children: [
                       SizedBox(
+                        width: 20,
+                        height: 10,
                         child: Container(
                           margin: const EdgeInsets.only(
                             right: 10,
@@ -158,11 +162,11 @@ loadingTile(context) {
                             border: Border.all(color: Colors.black12),
                           ),
                         ),
-                        width: 20,
-                        height: 10,
                       ),
                       Expanded(
                         child: SizedBox(
+                          width: 100,
+                          height: 10,
                           child: Container(
                             decoration: BoxDecoration(
                               borderRadius: const BorderRadius.only(
@@ -181,8 +185,6 @@ loadingTile(context) {
                               border: Border.all(color: Colors.black12),
                             ),
                           ),
-                          width: 100,
-                          height: 10,
                         ),
                       )
                     ],
@@ -197,6 +199,8 @@ loadingTile(context) {
           child: Padding(
             padding: const EdgeInsets.all(2.0),
             child: SizedBox(
+              width: 100,
+              height: 10,
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.only(
@@ -215,8 +219,6 @@ loadingTile(context) {
                   border: Border.all(color: Colors.black12),
                 ),
               ),
-              width: 100,
-              height: 10,
             ),
           ),
         )

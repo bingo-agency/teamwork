@@ -15,10 +15,10 @@ class forgetPassword extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Forgot password'),
+        title: const Text('Forgot password'),
       ),
       body: ListView(children: [
-        SizedBox(
+        const SizedBox(
           height: 40,
         ),
         Container(
@@ -27,7 +27,7 @@ class forgetPassword extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: TextFormField(
               controller: email,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 16,
                 color: Colors.black,
                 fontWeight: FontWeight.w600,
@@ -49,7 +49,7 @@ class forgetPassword extends StatelessWidget {
                 hintText: "Email",
 
                 //make hint text
-                hintStyle: TextStyle(
+                hintStyle: const TextStyle(
                   color: Colors.grey,
                   fontSize: 16,
                   fontFamily: "verdana_regular",
@@ -59,7 +59,7 @@ class forgetPassword extends StatelessWidget {
                 //create lable
                 labelText: 'Email',
                 //lable style
-                labelStyle: TextStyle(
+                labelStyle: const TextStyle(
                   color: Colors.grey,
                   fontSize: 16,
                   fontFamily: "verdana_regular",
@@ -68,7 +68,7 @@ class forgetPassword extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
         Container(
@@ -80,14 +80,15 @@ class forgetPassword extends StatelessWidget {
                   context: context,
                   builder: (context) {
                     return AlertDialog(
-                      title: Text('Recovery'),
+                      title: const Text('Recovery'),
                       content: FutureBuilder(
                         future: dbclass.checkUser(email),
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
                             return Text(snapshot.data.toString());
                           } else {
-                            return Text('A link has been sent to your Email.');
+                            return const Text(
+                                'A link has been sent to your Email.');
                           }
                         },
                       ),
@@ -100,19 +101,19 @@ class forgetPassword extends StatelessWidget {
                                     builder: (BuildContext context) =>
                                         HomePage()));
                           },
-                          child: Text('Back Home'),
+                          child: const Text('Back Home'),
                         ),
                         ElevatedButton(
                           onPressed: () {
                             Navigator.pop(context);
                           },
-                          child: Text('Close'),
+                          child: const Text('Close'),
                         ),
                       ],
                     );
                   });
             },
-            child: Text('Recover Password'),
+            child: const Text('Recover Password'),
           ),
         ),
         // Container(

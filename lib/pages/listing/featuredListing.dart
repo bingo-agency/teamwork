@@ -7,13 +7,15 @@ import 'package:team_work/pages/detail/detail.dart';
 import 'package:team_work/widgets/loadingWidgets/verticalListLoading.dart';
 
 class FeaturedListing extends StatelessWidget {
+  const FeaturedListing({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       Provider.of<FeaturedProvider>(context, listen: false).getAllFeatured();
     });
     return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
         leading: const BackButton(
           color: Colors.white, // <-- SEE HERE
@@ -23,7 +25,7 @@ class FeaturedListing extends StatelessWidget {
           "Featured Listing",
           style: GoogleFonts.ubuntu(
               fontWeight: FontWeight.w700,
-              color: Theme.of(context).backgroundColor),
+              color: Theme.of(context).colorScheme.background),
         ),
       ),
       body: SingleChildScrollView(
@@ -32,7 +34,7 @@ class FeaturedListing extends StatelessWidget {
           child: Consumer<FeaturedProvider>(
             builder: (context, value, child) {
               return value.isLoading
-                  ? VerticalListLoading()
+                  ? const VerticalListLoading()
                   : ListView.builder(
                       scrollDirection: Axis.vertical,
                       physics: const ClampingScrollPhysics(),
@@ -130,7 +132,7 @@ class SearchCard extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(2.0),
                 child: Text(
-                  map.price.toString() + ' PKR',
+                  '${map.price} PKR',
                   style: GoogleFonts.ubuntu(
                       fontSize: 16.0,
                       fontWeight: FontWeight.bold,

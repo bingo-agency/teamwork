@@ -5,7 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:provider/provider.dart';
 import 'package:photo_view/photo_view.dart';
-import 'package:photo_view/photo_view_gallery.dart';
+// import 'package:photo_view/photo_view_gallery.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../../models/database.dart';
@@ -38,8 +38,8 @@ class DetailAppBar extends StatelessWidget {
               children: [
                 Consumer<DataBase>(
                   builder: (context, value, child) {
-                    print('Printing title.');
-                    print(fetchingList);
+                    // print('Printing title.');
+                    // print(fetchingList);
                     return value.mapListingDetail.isEmpty &&
                             !value.errorListingDetail
                         ? const Center(child: CircularProgressIndicator())
@@ -91,11 +91,10 @@ class DetailAppBar extends StatelessWidget {
                         GestureDetector(
                           onTap: () async {
                             String url = 'https://teamworkshare.page.link/';
-                            print('share is hit and id is ' + id);
+                            // print('share is hit and id is ' + id);
                             final dynamicLinkParams = DynamicLinkParameters(
                               link: Uri.parse(
-                                  "https://teamworkpk.com/listing_detail?post_id=" +
-                                      id),
+                                  "https://teamworkpk.com/listing_detail?post_id=$id"),
                               uriPrefix: url,
                               // link: Uri.parse(url + id),
                               androidParameters: AndroidParameters(
@@ -110,16 +109,16 @@ class DetailAppBar extends StatelessWidget {
                               ),
                             );
 
-                            Uri link = await FirebaseDynamicLinks.instance
-                                .buildLink(dynamicLinkParams);
+                            // Uri link = await FirebaseDynamicLinks.instance
+                            //     .buildLink(dynamicLinkParams);
 
                             final ShortDynamicLink dynamicUrl =
                                 await FirebaseDynamicLinks.instance
                                     .buildShortLink(dynamicLinkParams);
-                            print('Your link is ' +
-                                dynamicUrl.shortUrl.toString());
+                            // print('Your link is ' +
+                            //     dynamicUrl.shortUrl.toString());
 
-                            String? desc = dynamicUrl.shortUrl.toString();
+                            // String? desc = dynamicUrl.shortUrl.toString();
 
                             await Share.share(
                               dynamicUrl.shortUrl.toString(),
@@ -149,12 +148,13 @@ class DetailAppBar extends StatelessWidget {
 
 class HeroPhotoViewRouteWrapper extends StatelessWidget {
   const HeroPhotoViewRouteWrapper({
+    Key? key,
     required this.imageProvider,
     required this.index,
     this.backgroundDecoration,
     this.minScale,
     this.maxScale,
-  });
+  }) : super(key: key);
 
   final int index;
   final CachedNetworkImageProvider imageProvider;

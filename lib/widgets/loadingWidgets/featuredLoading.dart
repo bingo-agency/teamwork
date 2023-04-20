@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:shimmer/shimmer.dart';
+// import 'package:shimmer/shimmer.dart';
 
 class FeaturedLoading extends StatelessWidget {
+  const FeaturedLoading({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -32,33 +34,30 @@ Widget featuredLoadingCard(context) {
     child: Stack(
       children: [
         SizedBox(
-            child: Container(
-              //here could chbe
-              child: SizedBox(
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.only(
-                      topRight: Radius.circular(4.0),
-                      bottomRight: Radius.circular(4.0),
-                      topLeft: Radius.circular(4.0),
-                      bottomLeft: Radius.circular(4.0),
-                    ),
-                    color: Colors.grey[20],
-                    boxShadow: [
-                      BoxShadow(
-                          color: Color(0xffd4d4d9),
-                          spreadRadius: 0.1,
-                          blurRadius: 0.1),
-                    ],
-                    border: Border.all(color: Colors.black12),
-                  ),
-                ),
-                width: 50,
-                height: 10,
-              ),
-            ),
             width: 350,
-            height: 350),
+            height: 350,
+            child: SizedBox(
+              width: 50,
+              height: 10,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.only(
+                    topRight: Radius.circular(4.0),
+                    bottomRight: Radius.circular(4.0),
+                    topLeft: Radius.circular(4.0),
+                    bottomLeft: Radius.circular(4.0),
+                  ),
+                  color: Colors.grey[20],
+                  boxShadow: const [
+                    BoxShadow(
+                        color: Color(0xffd4d4d9),
+                        spreadRadius: 0.1,
+                        blurRadius: 0.1),
+                  ],
+                  border: Border.all(color: Colors.black12),
+                ),
+              ),
+            )),
         Positioned(
           right: 15,
           top: 15,
@@ -67,6 +66,8 @@ Widget featuredLoadingCard(context) {
             child: Padding(
               padding: const EdgeInsets.all(1.0),
               child: SizedBox(
+                width: 70,
+                height: 15,
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: const BorderRadius.only(
@@ -76,7 +77,7 @@ Widget featuredLoadingCard(context) {
                       bottomLeft: Radius.circular(4.0),
                     ),
                     color: Colors.grey[20],
-                    boxShadow: [
+                    boxShadow: const [
                       BoxShadow(
                           color: Colors.grey,
                           spreadRadius: 0.2,
@@ -85,8 +86,6 @@ Widget featuredLoadingCard(context) {
                     border: Border.all(color: Colors.black12),
                   ),
                 ),
-                width: 70,
-                height: 15,
               ),
             ),
           ),
@@ -106,6 +105,8 @@ Widget featuredLoadingCard(context) {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(
+                        width: 120,
+                        height: 12,
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius: const BorderRadius.only(
@@ -115,7 +116,7 @@ Widget featuredLoadingCard(context) {
                               bottomLeft: Radius.circular(4.0),
                             ),
                             color: Colors.grey[10],
-                            boxShadow: [
+                            boxShadow: const [
                               BoxShadow(
                                   color: Color(0xffd4d4d9),
                                   spreadRadius: 0.1,
@@ -124,13 +125,13 @@ Widget featuredLoadingCard(context) {
                             border: Border.all(color: Colors.black12),
                           ),
                         ),
-                        width: 120,
-                        height: 12,
                       ),
                       const SizedBox(
                         height: 5,
                       ),
                       SizedBox(
+                        width: 70,
+                        height: 12,
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius: const BorderRadius.only(
@@ -140,7 +141,7 @@ Widget featuredLoadingCard(context) {
                               bottomLeft: Radius.circular(8.0),
                             ),
                             color: Colors.grey[10],
-                            boxShadow: [
+                            boxShadow: const [
                               BoxShadow(
                                   color: Color(0xffd4d4d9),
                                   spreadRadius: 0.1,
@@ -149,8 +150,6 @@ Widget featuredLoadingCard(context) {
                             border: Border.all(color: Colors.black12),
                           ),
                         ),
-                        width: 70,
-                        height: 12,
                       ),
                     ],
                   ),
@@ -159,6 +158,8 @@ Widget featuredLoadingCard(context) {
                   child: Padding(
                     padding: const EdgeInsets.all(1.0),
                     child: SizedBox(
+                      width: 70,
+                      height: 12,
                       child: Container(
                         decoration: BoxDecoration(
                           borderRadius: const BorderRadius.only(
@@ -168,7 +169,7 @@ Widget featuredLoadingCard(context) {
                             bottomLeft: Radius.circular(8.0),
                           ),
                           color: Colors.grey[20],
-                          boxShadow: [
+                          boxShadow: const [
                             BoxShadow(
                                 color: Color(0xffd4d4d9),
                                 spreadRadius: 0.1,
@@ -177,8 +178,6 @@ Widget featuredLoadingCard(context) {
                           border: Border.all(color: Colors.grey),
                         ),
                       ),
-                      width: 70,
-                      height: 12,
                     ),
                   ),
                 ),

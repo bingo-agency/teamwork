@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:team_work/models/database.dart';
 import 'package:team_work/pages/auth/forget_pass.dart';
 import 'package:team_work/pages/auth/register.dart';
@@ -28,13 +27,13 @@ class Login extends StatelessWidget {
         ),
       ),
       body: Padding(
-          padding: EdgeInsets.all(10),
+          padding: const EdgeInsets.all(10),
           child: ListView(
             children: <Widget>[
               Container(
                   height: 350,
                   alignment: Alignment.center,
-                  padding: EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -42,14 +41,14 @@ class Login extends StatelessWidget {
                           flex: 1,
                           fit: FlexFit.tight,
                           child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
                             child: Text(
                               "Login & Find over 54,000 properties",
                               style: GoogleFonts.ubuntu(
                                   fontSize: 30.0,
                                   color: Theme.of(context).primaryColor),
-                            ),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
                             ), //BoxDecoration
                           ), //Container
                         ),
@@ -62,12 +61,12 @@ class Login extends StatelessWidget {
                           flex: 1,
                           fit: FlexFit.loose,
                           child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
                               child: const Image(
                                 fit: BoxFit.contain,
                                 image: AssetImage('assets/images/banner6.png'),
-                              ),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
                               ) //BoxDecoration
                               ), //Container
                         )
@@ -123,7 +122,7 @@ class Login extends StatelessWidget {
                   // color: Colors.purple,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                        primary: Theme.of(context).primaryColor),
+                        backgroundColor: Theme.of(context).primaryColor),
                     child: const Text('Login',
                         style: TextStyle(
                             color: Colors.white, fontWeight: FontWeight.bold)),
@@ -132,12 +131,11 @@ class Login extends StatelessWidget {
                       var email = emailController.text.toString();
                       var password = passwordController.text.toString();
                       //print
-                      var userclass = await dbclass.userLogin(email, password);
-                      map = await dbclass.mapLogin;
-                      message = await dbclass.mapLogin['message'].toString();
+                      map = dbclass.mapLogin;
+                      message = dbclass.mapLogin['message'].toString();
                       //checking map if its empty or shit
                       if (map.isEmpty) {
-                        print('map is empty');
+                        // print('map is empty');
                         await showDialog(
                           context: context,
                           builder: (context) => AlertDialog(
@@ -182,13 +180,13 @@ class Login extends StatelessWidget {
                         if (message.isNotEmpty && message == 'True') {
                           //shared prefs !!!
 
-                          print('True');
+                          // print('True');
                           Navigator.of(context).pushReplacement(
                               MaterialPageRoute(
                                   builder: (BuildContext context) =>
                                       const users()));
                         } else if (message.isNotEmpty && message == 'False') {
-                          print('False');
+                          // print('False');
                           await showDialog(
                             context: context,
                             builder: (context) => AlertDialog(
@@ -216,12 +214,13 @@ class Login extends StatelessWidget {
                           );
                         }
                       }
-                      print(emailController.text);
-                      print(passwordController.text);
+                      // print(emailController.text);
+                      // print(passwordController.text);
                     },
                   )),
               const Divider(),
               Row(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Text(
                     'Does not have account?',
@@ -240,7 +239,6 @@ class Login extends StatelessWidget {
                     },
                   )
                 ],
-                mainAxisAlignment: MainAxisAlignment.start,
               ),
             ],
           )),

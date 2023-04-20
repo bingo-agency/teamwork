@@ -22,7 +22,7 @@ class ContentIntro extends StatelessWidget {
           Text(title,
               style: Theme.of(context)
                   .textTheme
-                  .headline1!
+                  .displayLarge!
                   .copyWith(fontSize: 20, fontWeight: FontWeight.bold)),
           const SizedBox(
             height: 10,
@@ -39,14 +39,14 @@ class ContentIntro extends StatelessWidget {
                 'Type  ',
                 style: Theme.of(context)
                     .textTheme
-                    .bodyText1!
+                    .bodyLarge!
                     .copyWith(fontSize: 14, fontWeight: FontWeight.bold),
               ),
               Text(
                 type,
                 style: Theme.of(context)
                     .textTheme
-                    .bodyText2!
+                    .bodyMedium!
                     .copyWith(fontSize: 14),
               ),
             ],
@@ -61,13 +61,13 @@ class ContentIntro extends StatelessWidget {
                     text: price,
                     style: Theme.of(context)
                         .textTheme
-                        .headline1!
+                        .displayLarge!
                         .copyWith(fontSize: 16, fontWeight: FontWeight.bold)),
                 TextSpan(
                   text: ' PKR',
                   style: Theme.of(context)
                       .textTheme
-                      .bodyText1!
+                      .bodyLarge!
                       .copyWith(fontSize: 14),
                 ),
               ],

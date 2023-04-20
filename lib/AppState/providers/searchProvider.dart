@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:team_work/AppState/models/listingModel.dart';
 import 'package:team_work/AppState/models/searchModel.dart';
 import 'package:team_work/AppState/services/searchServices.dart';
 

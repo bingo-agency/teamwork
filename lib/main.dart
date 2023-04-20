@@ -26,7 +26,7 @@ Future<void> main() async {
 
 class MyApp extends StatefulWidget {
   final PendingDynamicLinkData? initialLink;
-  MyApp({Key? key, this.initialLink}) : super(key: key);
+  const MyApp({Key? key, this.initialLink}) : super(key: key);
 
   @override
   _MyAppState createState() => _MyAppState();
@@ -35,7 +35,6 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   void initState() {
-    // TODO: implement initState
     // final PendingDynamicLinkData? initialLink;
     initDynamicLinks();
     super.initState();
@@ -43,24 +42,22 @@ class _MyAppState extends State<MyApp> {
 
   void initDynamicLinks() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    // Future.delayed(Duration(seconds: 2));
-    print('future is delayed.');
-    print('and initial link from widget is : ' + widget.initialLink.toString());
-    var data = await widget.initialLink;
+    var data = widget.initialLink;
     var deepLink = data?.link;
-    print('printing deep link -> ');
-    print(deepLink);
-    final queryParams = deepLink!.queryParameters;
-    if (queryParams.length > 0) {
-      var post_id = queryParams['post_id'];
-      print('post_id => ');
-      print(post_id);
-      if (post_id != null) {
-        prefs.setString('post_id', post_id);
-      } else {
-        prefs.remove('post_id');
+
+    if (deepLink != null) {
+      Map<String, String> queryParams = deepLink.queryParameters;
+      if (queryParams.isNotEmpty) {
+        dynamic postId = queryParams['post_id'];
+        if (postId != null) {
+          prefs.setString('post_id', postId);
+        } else {
+          prefs.remove('post_id');
+        }
       }
     }
+
+    // Map<String, String> queryParams = deepLink!.queryParameters;
   }
 
   @override
@@ -95,30 +92,29 @@ class _MyAppState extends State<MyApp> {
         onGenerateRoute: RouteManager.generateRoute,
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          appBarTheme: AppBarTheme(
+          appBarTheme: const AppBarTheme(
             systemOverlayStyle: SystemUiOverlayStyle(
               statusBarColor: Colors.purple,
             ),
           ),
           useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(
-            seedColor: const Color(0xFF811B83),
-            primary: const Color(0xFF811B83), //<-- SEE HERE
-          ),
-          backgroundColor: const Color(0xFFF5F6F6),
           primaryColor: const Color(0xFF811B83),
           secondaryHeaderColor: const Color(0xFF100E34),
           // accentColor: const Color(0xFFFE9936),
-          accentColor: const Color(0xFF100E34),
+          // accentColor: const Color(0xFF100E34),
           textTheme: TextTheme(
-            headline1: const TextStyle(
+            displayLarge: const TextStyle(
               color: Color(0xFF100E34),
             ),
-            bodyText1: TextStyle(
+            bodyLarge: TextStyle(
               color: const Color(0xFF100E34).withOpacity(0.5),
             ),
           ),
           primaryTextTheme: GoogleFonts.ubuntuCondensedTextTheme(),
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: const Color(0xFF811B83),
+            primary: const Color(0xFF811B83), //<-- SEE HERE
+          ).copyWith(background: const Color(0xFFF5F6F6)),
         ),
       ),
     );

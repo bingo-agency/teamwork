@@ -44,15 +44,15 @@ class Register extends StatelessWidget {
                           flex: 1,
                           fit: FlexFit.tight,
                           child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
                             child: Text(
                               "Register & Find over 54,000 properties",
                               style: GoogleFonts.ubuntu(
                                   fontSize: 30.0,
                                   color:
                                       Theme.of(context).secondaryHeaderColor),
-                            ),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
                             ), //BoxDecoration
                           ), //Container
                         ),
@@ -65,12 +65,12 @@ class Register extends StatelessWidget {
                           flex: 1,
                           fit: FlexFit.loose,
                           child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
                               child: const Image(
                                 fit: BoxFit.contain,
                                 image: AssetImage('assets/images/banner6.png'),
-                              ),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
                               ) //BoxDecoration
                               ), //Container
                         )
@@ -85,7 +85,7 @@ class Register extends StatelessWidget {
                         color: Theme.of(context).secondaryHeaderColor),
                   )),
               Container(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: TextField(
                   controller: nameController,
                   decoration: InputDecoration(
@@ -145,12 +145,12 @@ class Register extends StatelessWidget {
                       labelStyle: GoogleFonts.ubuntu(color: Colors.purple)),
                 ),
               ),
-              Container(
+              SizedBox(
                 height: 50,
                 // padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                      primary: Theme.of(context).primaryColor),
+                      backgroundColor: Theme.of(context).primaryColor),
                   child: const Text(
                     'Register',
                     style: TextStyle(
@@ -171,12 +171,12 @@ class Register extends StatelessWidget {
 
                     map = dbclass.mapRegister;
                     message = dbclass.mapRegister['message'].toString();
-                    print(message);
-                    print('printing user');
-                    print(dbclass.mapRegister['user'].toString());
+                    // print(message);
+                    // print('printing user');
+                    // print(dbclass.mapRegister['user'].toString());
                     //checking map if its empty or shit
                     if (map.isEmpty) {
-                      print('map is empty');
+                      // print('map is empty');
 
                       await showDialog(
                         context: context,
@@ -211,7 +211,7 @@ class Register extends StatelessWidget {
                                 Navigator.of(context, rootNavigator: true)
                                     .pop(); // dismisses only the dialog and returns nothing
                               },
-                              child: Text('Try again'),
+                              child: const Text('Try again'),
                             ),
                           ],
                         ),
@@ -220,15 +220,15 @@ class Register extends StatelessWidget {
                       if (message.isNotEmpty && message == 'True') {
                         //shared prefs !!!
 
-                        print('True');
+                        // print('True');
                         Navigator.of(context).pushReplacement(MaterialPageRoute(
                             builder: (BuildContext context) => const users()));
                       } else if (message.isNotEmpty && message != 'True') {
-                        print('False');
+                        // print('False');
                         await showDialog(
                           context: context,
                           builder: (context) => AlertDialog(
-                            title: Text('Warning'),
+                            title: const Text('Warning'),
                             content: Text(message.toString()),
                             actions: <Widget>[
                               ElevatedButton(
@@ -236,24 +236,24 @@ class Register extends StatelessWidget {
                                   Navigator.of(context, rootNavigator: true)
                                       .pop(); // dismisses only the dialog and returns nothing
                                 },
-                                child: Text('Try again'),
+                                child: const Text('Try again'),
                               ),
                             ],
                           ),
                         );
                       }
                     }
-                    print(nameController.text);
-                    print(emailController.text);
-                    print(passwordController.text);
-                    print(phoneController.text);
+                    // print(nameController.text);
+                    // print(emailController.text);
+                    // print(passwordController.text);
+                    // print(phoneController.text);
                   },
                 ),
               ),
               Center(
                 child: GestureDetector(
                   onTap: () {
-                    print(dbclass.getEmail());
+                    // print(dbclass.getEmail());
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (BuildContext context) => const Login()));
                   },

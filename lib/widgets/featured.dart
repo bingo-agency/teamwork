@@ -1,4 +1,3 @@
-import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -9,9 +8,10 @@ import 'package:team_work/pages/detail/detail.dart';
 import 'package:team_work/pages/listing/featuredListing.dart';
 import 'package:team_work/widgets/loadingWidgets/featuredLoading.dart';
 
-import '../pages/listing/listing.dart';
 
 class Featured extends StatelessWidget {
+  const Featured({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -38,7 +38,7 @@ class Featured extends StatelessWidget {
                   curl = "?feature=yes";
                   print(curl);
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (BuildContext context) => FeaturedListing()));
+                      builder: (BuildContext context) => const FeaturedListing()));
                 },
                 child: Text(
                   'View All',
@@ -57,7 +57,7 @@ class Featured extends StatelessWidget {
           child: Consumer<FeaturedProvider>(
             builder: (context, value, child) {
               return value.isLoading
-                  ? FeaturedLoading()
+                  ? const FeaturedLoading()
                   : ListView.builder(
                       shrinkWrap: true,
                       scrollDirection: Axis.horizontal,
@@ -121,7 +121,7 @@ class TempCard extends StatelessWidget {
                     'Featured',
                     style: GoogleFonts.ubuntu(
                         fontWeight: FontWeight.bold,
-                        color: Theme.of(context).backgroundColor),
+                        color: Theme.of(context).colorScheme.background),
                   ),
                 ),
               ),

@@ -76,8 +76,8 @@ class Contact extends StatelessWidget {
               style: GoogleFonts.ubuntu(color: Colors.black38, fontSize: 20),
             ),
           ),
-          ListTile(
-            leading: const Icon(
+          const ListTile(
+            leading: Icon(
               Icons.call,
               color: Colors.purple,
             ),
@@ -85,8 +85,8 @@ class Contact extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('(+92) 345 8514492'),
-                const Text('(+92) 51 5402683')
+                Text('(+92) 345 8514492'),
+                Text('(+92) 51 5402683')
               ],
             ),
           ),
@@ -96,42 +96,42 @@ class Contact extends StatelessWidget {
               Icons.share,
               color: Colors.purple,
             ),
-            title: Column(
+            title: const Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [const Text('Social share:')],
+              children: [Text('Social share:')],
             ),
             subtitle: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 InkWell(
                   onTap: () {
-                    print('this will work');
+                    // print('this will work');
                   },
                   child: Container(
                     height: 30,
                     width: 30,
                     decoration: const BoxDecoration(color: Colors.black12),
+                    alignment: Alignment.center,
                     child: const FaIcon(
                       FontAwesomeIcons.facebook,
                       color: Colors.purple,
                     ),
-                    alignment: Alignment.center,
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: InkWell(
                     onTap: () {
-                      print('this will also work');
+                      // print('this will also work');
                     },
                     child: Container(
                       height: 30,
                       width: 30,
                       decoration: const BoxDecoration(color: Colors.black12),
+                      alignment: Alignment.center,
                       child: const FaIcon(FontAwesomeIcons.whatsapp,
                           color: Colors.purple),
-                      alignment: Alignment.center,
                     ),
                   ),
                 )

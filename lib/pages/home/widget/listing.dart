@@ -4,10 +4,12 @@ import 'package:team_work/widgets/circle_icon_button.dart';
 
 class BestOffer extends StatelessWidget {
   final listOfOffer = House.generateBestOffer();
+
+  BestOffer({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
       child: Column(
         children: [
           Row(
@@ -17,23 +19,23 @@ class BestOffer extends StatelessWidget {
                 'Best Offer',
                 style: Theme.of(context)
                     .textTheme
-                    .headline1!
+                    .displayLarge!
                     .copyWith(fontSize: 16, fontWeight: FontWeight.bold),
               ),
               Text(
                 'See All',
                 style: Theme.of(context)
                     .textTheme
-                    .bodyText1!
+                    .bodyLarge!
                     .copyWith(fontSize: 14, fontWeight: FontWeight.bold),
               ),
             ],
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           ...listOfOffer
               .map((el) => Container(
-                    margin: EdgeInsets.only(bottom: 10),
-                    padding: EdgeInsets.all(10),
+                    margin: const EdgeInsets.only(bottom: 10),
+                    padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(8)),
@@ -50,31 +52,31 @@ class BestOffer extends StatelessWidget {
                                       fit: BoxFit.cover),
                                   borderRadius: BorderRadius.circular(8)),
                             ),
-                            SizedBox(width: 10),
+                            const SizedBox(width: 10),
                             Column(
                               children: [
                                 Text(
                                   el.name,
                                   style: Theme.of(context)
                                       .textTheme
-                                      .headline1!
+                                      .displayLarge!
                                       .copyWith(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold),
                                 ),
-                                SizedBox(height: 10),
+                                const SizedBox(height: 10),
                                 Text(
                                   el.address,
                                   style: Theme.of(context)
                                       .textTheme
-                                      .bodyText1!
+                                      .bodyLarge!
                                       .copyWith(fontSize: 12),
                                 )
                               ],
                             ),
                           ],
                         ),
-                        Positioned(
+                        const Positioned(
                           right: 0,
                           child: CircleIconButton(
                             iconUrl: 'assets/icons/heart.svg',

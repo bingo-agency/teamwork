@@ -27,8 +27,6 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  introduction_screen: ^3.0.2
-  settings_ui: ^0.2.0
 
 
   flutter:
@@ -37,40 +35,40 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2
-  google_fonts: ^2.1.0
-  provider: ^5.0.0
-  flutter_svg: ^0.22.0
+  google_fonts: ^4.0.3
+  provider: ^6.0.5
+  flutter_svg: ^2.0.5
   http: ^0.13.4
   cached_network_image: ^3.2.0
   carousel_slider: ^4.1.1
-  youtube_player_flutter: 8.0.0
+  youtube_player_flutter: ^8.1.2
   url_launcher: ^6.1.2
-  dropdown_search: ^0.6.3
+  dropdown_search: ^5.0.6
   shared_preferences: ^2.0.15
-  webview_flutter: ^3.0.4
+  webview_flutter: ^4.0.7
   custom_radio_grouped_button: ^2.1.2
   font_awesome_flutter: ^10.1.0
   email_validator: ^2.0.1
   image_picker: ^0.8.4+3
-  # multi_image_picker: ^4.8.0
+  im_stepper: ^1.0.1+1
   flutter_typeahead: ^4.0.0
-  dio: ^4.0.6
-  flutter_easyloading: ^3.0.5
+  dio: ^5.1.1
+  # flutter_easyloading: ^3.0.5
   shimmer: ^2.0.0
-  flex_color_scheme: ^6.1.2
-  flutter_intro: ^3.0.2
+  # flex_color_scheme: ^7.0.2
+  # flutter_intro: ^3.0.2
   share_plus: ^6.3.0
   photo_view: ^0.14.0
   google_maps_flutter: ^2.2.3
-  location: ^4.4.0
+  # location: ^4.4.0
   permission_handler: ^10.0.0
-  geocoding: ^2.0.4
+  # geocoding: ^2.0.4
   geolocator: ^9.0.0
   firebase_dynamic_links: ^5.0.11
   firebase_core: ^2.4.1
   firebase_analytics: ^10.1.0
   antdesign_icons: ^0.0.3
+  animated_text_kit: ^4.2.2
 
 
 dev_dependencies:
@@ -82,7 +80,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^1.0.0
+  flutter_lints: ^2.0.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

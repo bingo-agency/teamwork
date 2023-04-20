@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
+// import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 // import 'package:multi_image_picker/multi_image_picker.dart';
@@ -21,13 +21,13 @@ class Addproperty extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<String> purposeList = const ['Exchange', 'Sale'];
+    // List<String> purposeList = const ['Exchange', 'Sale'];
 
     var dbclass = context.read<DataBase>();
 
     String purpose = dbclass.purposeIndex.toString();
     String type = dbclass.typeIndex.toString();
-    String property_type = dbclass.propertyTypeIndex.toString();
+    String propertyType = dbclass.propertyTypeIndex.toString();
     String city = dbclass.initial_city;
     String address = dbclass.addressIndex.toString();
     String yearBuild = dbclass.yearBuildIndex.toString();
@@ -105,8 +105,8 @@ class Addproperty extends StatelessWidget {
                   CustomRadioButton(
                     absoluteZeroSpacing: true,
                     unSelectedColor: Theme.of(context).canvasColor,
-                    buttonLables: ['Exchange', 'Sale'],
-                    buttonValues: ["Exchange", "Sale"],
+                    buttonLables: const ['Exchange', 'Sale'],
+                    buttonValues: const ["Exchange", "Sale"],
                     buttonTextStyle: ButtonTextStyle(
                         selectedColor: Colors.white,
                         unSelectedColor: Colors.black,
@@ -114,7 +114,7 @@ class Addproperty extends StatelessWidget {
                     radioButtonValue: (value) {
                       dbclass.setPurpose(value.toString());
                       purpose = value.toString();
-                      print(value);
+                      // print(value);
                     },
                     selectedColor: Theme.of(context).primaryColor,
                   ),
@@ -168,7 +168,7 @@ class Addproperty extends StatelessWidget {
                       radioButtonValue: (value) {
                         dbclass.setType(value.toString());
                         type = value.toString();
-                        print(value);
+                        // print(value);
                       },
                       selectedColor: Theme.of(context).primaryColor,
                     ),
@@ -215,7 +215,7 @@ class Addproperty extends StatelessWidget {
                             unSelectedColor: Colors.black,
                             textStyle: GoogleFonts.ubuntu(fontSize: 14)),
                         radioButtonValue: (value) {
-                          property_type = value.toString();
+                          propertyType = value.toString();
                           dbclass.setproperty_type(value.toString());
                           print(value);
                         },
@@ -549,7 +549,7 @@ class Addproperty extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Icon(Icons.image,
-                                color: Theme.of(context).backgroundColor),
+                                color: Theme.of(context).colorScheme.background),
                             Text(
                               "Add Primary Image",
                               style: GoogleFonts.ubuntu(
@@ -609,7 +609,7 @@ class Addproperty extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Icon(Icons.image,
-                                color: Theme.of(context).backgroundColor),
+                                color: Theme.of(context).colorScheme.background),
                             Text(
                               "Add Property Gallery",
                               style: GoogleFonts.ubuntu(
@@ -643,9 +643,10 @@ class Addproperty extends StatelessWidget {
                           price,
                           title,
                           description,
-                          property_type);
+                          propertyType);
+                      addproperty;
                       // var postid = await dbclass.post_id;
-                      print('printing post id ');
+                      // print('printing post id ');
                       // print(postid);
                       showDialog(
                         context: context,
@@ -728,6 +729,8 @@ class Addproperty extends StatelessWidget {
                         ),
                       );
                     },
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Theme.of(context).primaryColor),
                     child: Padding(
                       padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                       child: Text(
@@ -735,8 +738,6 @@ class Addproperty extends StatelessWidget {
                         style: GoogleFonts.ubuntu(),
                       ),
                     ),
-                    style: ElevatedButton.styleFrom(
-                        primary: Theme.of(context).primaryColor),
                   ),
                 ],
               ),

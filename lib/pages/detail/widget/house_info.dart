@@ -31,10 +31,10 @@ class HouseInfo extends StatelessWidget {
                   imageUrl: 'assets/icons/home.svg', content: internal_lead_id),
             ],
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Row(
             children: [
-              MenuInfo(imageUrl: 'assets/icons/parking.svg', content: 'Yes'),
+              const MenuInfo(imageUrl: 'assets/icons/parking.svg', content: 'Yes'),
               MenuInfo(
                   imageUrl: 'assets/icons/shape24.svg', content: land_area),
               MenuInfo(
@@ -61,11 +61,11 @@ class MenuInfo extends StatelessWidget {
         child: Row(
           children: [
             SvgPicture.asset(imageUrl, width: 20),
-            SizedBox(width: 20),
+            const SizedBox(width: 20),
             Text(
               content,
               style:
-                  Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 12),
+                  Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 12),
             )
           ],
         ),

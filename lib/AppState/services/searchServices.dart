@@ -5,7 +5,7 @@ import 'package:team_work/AppState/models/searchModel.dart';
 
 class SearchServices {
   Future<List<SearchModel>> search(String curl) async {
-    final url = 'https://teamworkpk.com/API/nonfeatured' + curl;
+    final url = 'https://teamworkpk.com/API/nonfeatured$curl';
     final uri = Uri.parse(url);
     final response = await http.get(uri);
     if (response.statusCode == 200) {

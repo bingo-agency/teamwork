@@ -8,6 +8,8 @@ import 'package:team_work/widgets/loadingWidgets/verticalListLoading.dart';
 import '../pages/listing/listing.dart';
 
 class Listing extends StatelessWidget {
+  const Listing({Key? key}) : super(key: key);
+
   @override
   @override
   Widget build(BuildContext context) {
@@ -56,7 +58,7 @@ class Listing extends StatelessWidget {
           Consumer<HomeListingProvider>(
             builder: (context, value, child) {
               return value.isLoading
-                  ? VerticalListLoading()
+                  ? const VerticalListLoading()
                   : ListView.builder(
                       scrollDirection: Axis.vertical,
                       physics: const ClampingScrollPhysics(),
@@ -78,8 +80,7 @@ class Listing extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
-                    ),
-                    primary: Theme.of(context).primaryColor,
+                    ), backgroundColor: Theme.of(context).primaryColor,
                   ),
                   child: GestureDetector(
                     onTap: () {

@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
-
-import '../../../models/database.dart';
 
 class careers extends StatelessWidget {
   const careers({Key? key}) : super(key: key);
@@ -12,7 +9,7 @@ class careers extends StatelessWidget {
     // context.read<DataBase>().fetchcareers;
     return Scaffold(
       body: Column(children: [
-        SizedBox(
+        const SizedBox(
           height: 100,
         ),
         Container(
@@ -23,7 +20,7 @@ class careers extends StatelessWidget {
                 color: Theme.of(context).primaryColor, fontSize: 30),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
         Container(

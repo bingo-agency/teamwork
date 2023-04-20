@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
-import 'package:flutter/services.dart';
-import 'package:http_parser/http_parser.dart';
+// import 'package:flutter/services.dart';
+// import 'package:http_parser/http_parser.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +15,16 @@ import 'package:geolocator/geolocator.dart';
 import 'dart:async';
 
 class DataBase with ChangeNotifier {
+  //add property stepper :
+
+  int activeIndex = 0;
+  int totalIndex = 2;
+
+  changeStep(int index) {
+    activeIndex = index;
+    notifyListeners();
+  }
+
   //shared prefs start
 
   String initial_city = 'Select City';
@@ -40,16 +50,16 @@ class DataBase with ChangeNotifier {
       }
 
 // You can request multiple permissions at once.
-      Map<Permission, PermissionStatus> statuses = await [
-        Permission.location,
-        Permission.storage,
-      ].request();
-      print(statuses[Permission.location]);
+      // Map<Permission, PermissionStatus> statuses = await [
+      //   Permission.location,
+      //   Permission.storage,
+      // ].request();
+      // print(statuses[Permission.location]);
       getCurrentlocation();
       getCityLocation();
       // We didn't ask for permission yet or the permission has been denied before but not permanently.
     } else {
-      print('is not dnied');
+      // print('is not dnied');
     }
     notifyListeners();
   }
@@ -60,11 +70,11 @@ class DataBase with ChangeNotifier {
   void getCurrentlocation() async {
     var position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
-    var lastPosition = await Geolocator.getLastKnownPosition();
-    x = await position.latitude;
-    y = await position.longitude;
+    // var lastPosition = await Geolocator.getLastKnownPosition();
+    x = position.latitude;
+    y = position.longitude;
     Getlocation(x.toString(), y.toString());
-    print('${lastPosition}last position');
+    // print('${lastPosition}last position');
     notifyListeners();
   }
 
@@ -85,7 +95,7 @@ class DataBase with ChangeNotifier {
     if (response.statusCode == 200) {
       try {
         _mapLocation = jsonDecode(response.body);
-        print(_mapLocation.toString());
+        // print(_mapLocation.toString());
 
         _errorLocation = false;
         if (_mapLocation.isNotEmpty) {
@@ -107,14 +117,14 @@ class DataBase with ChangeNotifier {
   }
 
   Future<void> getCityLocation() async {
-    var gotten_city = await _mapLocation['results'][0]['address_components'][5]
+    var gottenCity = _mapLocation['results'][0]['address_components'][5]
             ['long_name']
         .toString();
-    initial_city = gotten_city;
+    initial_city = gottenCity;
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('initial_city', gotten_city);
+    prefs.setString('initial_city', gottenCity);
     initial_city = prefs.getString('initial_city') ?? '';
-    print('printing city name$initial_city');
+    // print('printing city name$initial_city');
     // SetCityForSearchbar(Cityname.toString());
 
     notifyListeners();
@@ -495,14 +505,14 @@ class DataBase with ChangeNotifier {
   Future<void> addPrefval(key, value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String stringValue = (prefs.getString(key) ?? value);
-    print('added to pref ' + key + ' - ' + value);
+    // print('added to pref ' + key + ' - ' + value);
     notifyListeners();
   }
 
   Future<String> getPrefval(key, value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String stringValue = (prefs.getString(key) ?? value);
-    print('gotten from pref ' + key + ' - ' + value);
+    // print('gotten from pref ' + key + ' - ' + value);
     notifyListeners();
     return stringValue;
   }
@@ -519,8 +529,8 @@ class DataBase with ChangeNotifier {
   void setCity(city) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('initial_city', city);
-    print('new city set');
-    print(city);
+    // print('new city set');
+    // print(city);
     initial_city = city;
     notifyListeners();
   }
@@ -566,7 +576,7 @@ class DataBase with ChangeNotifier {
     prefs.setString('image', image);
     prefs.setString('phone', phone);
     prefs.setString('timestamp', timestamp);
-    print('auth added ');
+    // print('auth added ');
     notifyListeners();
   }
 
@@ -632,17 +642,17 @@ class DataBase with ChangeNotifier {
     return initial_city;
   }
 
-  Future<String> removeWebPost(web_post_id) async {
+  Future<String> removeWebPost(webPostId) async {
     String finalres = '';
     String completeurl =
-        'https://teamworkpk.com/API/remove.php?id=' + web_post_id;
-    print(completeurl);
+        'https://teamworkpk.com/API/remove.php?id=' + webPostId;
+    // print(completeurl);
     var response = await http.get(Uri.parse(completeurl));
     if (response.statusCode == 200) {
-      print('your record is removed or is 200');
-      print(response.body);
+      // print('your record is removed or is 200');
+      // print(response.body);
       var res = jsonDecode(response.body);
-      print(res['remove'][0]);
+      // print(res['remove'][0]);
       finalres = res['remove'].toString();
     }
 
@@ -664,30 +674,13 @@ class DataBase with ChangeNotifier {
   String get errorMessageAddProperty => _errorMessageAddProperty;
 
   Future<void> addProperty(id, purpose, type, city, address, yearBuild, price,
-      title, description, property_type) async {
-    String completeurl = 'https://teamworkpk.com/API/addPost.php?purpose=' +
-        purpose +
-        '&type=' +
-        type +
-        '&city=' +
-        city +
-        '&address=' +
-        address +
-        '&year_build=' +
-        yearBuild +
-        '&price=' +
-        price +
-        '&title=' +
-        title +
-        '&description=' +
-        description +
-        '&property_type=' +
-        property_type +
-        '&user_id=' +
-        id;
-    print(completeurl);
+      title, description, propertyType) async {
+    String completeurl =
+        '${'https://teamworkpk.com/API/addPost.php?purpose=' + purpose + '&type=' + type + '&city=' + city + '&address=' + address + '&year_build=' + yearBuild + '&price=' + price + '&title=' + title + '&description=' + description + '&property_type=' + propertyType}&user_id=' +
+            id;
+    // print(completeurl);
 
-    final response;
+    final http.Response response;
     if (primaryImage != null) {
       String base64Image = base64Encode(primaryImage!.readAsBytesSync());
       String fileName = primaryImage!.path.split("/").last;
@@ -697,19 +690,19 @@ class DataBase with ChangeNotifier {
         "name": fileName,
       });
       if (response.statusCode == 200) {
-        print('its 200');
+        // print('its 200');
         var abPost = jsonDecode(response.body);
 
         if (response.body.isNotEmpty) {
           // print(abPost['adpost'][0]['last_id'].toString());
           post_id = abPost['adpost'][0]['last_id'].toString();
           postedAd = true;
-          print('printing post_id');
-          print(post_id);
+          // print('printing post_id');
+          // print(post_id);
           // uploadImageToServer();
           setPostId(post_id);
         } else {
-          print('nope the status code is not 200' + response.body.toString());
+          // print('nope the status code is not 200' + response.body.toString());
         }
 
         try {
@@ -748,15 +741,8 @@ class DataBase with ChangeNotifier {
   Future<void> userRegister(
       String name, String email, String password, String phone) async {
     String completeurl =
-        'https://teamworkpk.com/API/registrationapi.php?name=' +
-            name +
-            '&email=' +
-            email +
-            '&password=' +
-            password +
-            '&phone=' +
-            phone;
-    print(completeurl);
+        'https://teamworkpk.com/API/registrationapi.php?name=$name&email=$email&password=$password&phone=$phone';
+    // print(completeurl);
     final response = await http.get(
       Uri.parse(completeurl),
     );
@@ -768,8 +754,8 @@ class DataBase with ChangeNotifier {
         // var gottenmapreg = jsonDecode(response.body);
         // print(gottenmapreg);
         if (_mapRegister.isNotEmpty && _mapRegister['message'] == "True") {
-          print('yes its true from db and following is printing user object.');
-          print(_mapRegister['user']['id']);
+          // print('yes its true from db and following is printing user object.');
+          // print(_mapRegister['user']['id']);
           id = _mapRegister['user']['id'].toString();
           name = _mapRegister['user']['name'].toString();
           email = _mapRegister['user']['email'].toString();
@@ -805,24 +791,20 @@ class DataBase with ChangeNotifier {
   String get errorMessageLogin => _errorMessageLogin;
 
   Future<void> userLogin(String email, String password) async {
-    String completeurl = 'https://teamworkpk.com/API/loginapi.php?email=' +
-        email +
-        '&password=' +
-        password;
-    print(completeurl);
+    String completeurl =
+        'https://teamworkpk.com/API/loginapi.php?email=$email&password=$password';
+    // print(completeurl);
     final response = await http.get(
-      Uri.parse('https://teamworkpk.com/API/loginapi.php?email=' +
-          email +
-          '&password=' +
-          password),
+      Uri.parse(
+          'https://teamworkpk.com/API/loginapi.php?email=$email&password=$password'),
     );
     if (response.statusCode == 200) {
       try {
         _mapLogin = jsonDecode(response.body);
         _errorLogin = false;
         if (_mapLogin.isNotEmpty && _mapLogin['message'] == "True") {
-          print('yes its true from db');
-          print(_mapLogin['user'][0]['id'].toString());
+          // print('yes its true from db');
+          // print(_mapLogin['user'][0]['id'].toString());
           id = _mapLogin['user'][0]['id'].toString();
           name = _mapLogin['user'][0]['name'].toString();
           image = _mapLogin['user'][0]['image'].toString();
@@ -887,7 +869,7 @@ class DataBase with ChangeNotifier {
   Future<void> fetchListingDetail(String id) async {
     final response = await http.get(
       Uri.parse(
-          'https://teamworkpk.com/API/listing_detail.php?web_post_id=' + id),
+          'https://teamworkpk.com/API/listing_detail.php?web_post_id=$id'),
     );
     if (response.statusCode == 200) {
       try {
@@ -919,7 +901,7 @@ class DataBase with ChangeNotifier {
 
   Future<void> Search(String curl) async {
     final response = await http.get(
-      Uri.parse('https://teamworkpk.com/API/nonfeatured.php' + curl),
+      Uri.parse('https://teamworkpk.com/API/nonfeatured.php$curl'),
     );
     if (response.statusCode == 200) {
       try {
@@ -938,21 +920,20 @@ class DataBase with ChangeNotifier {
     notifyListeners();
   }
 
-  Map<String, dynamic> _mapForgotten = {};
+  final Map<String, dynamic> _mapForgotten = {};
 
   Map<String, dynamic> get mapForgotten => _mapForgotten;
 
   Future checkUser(email) async {
     var response = await http.post(Uri.parse(
-        'http://teamworkpk.com/API/forget_password.php?email=' +
-            email.toString()));
+        'http://teamworkpk.com/API/forget_password.php?email=$email'));
 
     var link = jsonDecode(response.body);
 
     if (link == "true") {
-      print('User has been sent an email for reset password.');
+      // print('User has been sent an email for reset password.');
     } else {}
-    print(link);
+    // print(link);
     return link;
   }
 
@@ -968,13 +949,12 @@ class DataBase with ChangeNotifier {
 
   Future<void> fetchAccount(String id) async {
     final response = await http.get(
-      Uri.parse('https://teamworkpk.com/API/account.php?public_user_id=' +
-          id +
-          '&selected=ads'),
+      Uri.parse(
+          'https://teamworkpk.com/API/account.php?public_user_id=$id&selected=ads'),
     );
-    print('https://teamworkpk.com/API/account.php?public_user_id=' +
-        id +
-        '&selected=ads');
+    // print('https://teamworkpk.com/API/account.php?public_user_id=' +
+    //     id +
+    //     '&selected=ads');
     if (response.statusCode == 200) {
       try {
         _mapAccount = jsonDecode(response.body);

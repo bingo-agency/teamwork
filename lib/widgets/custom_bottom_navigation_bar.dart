@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
+  const CustomBottomNavigationBar({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -14,10 +15,9 @@ class CustomBottomNavigationBar extends StatelessWidget {
             canvasColor: Colors.white,
             // sets the active color of the `BottomNavigationBar` if `Brightness` is light
             primaryColor: Colors.purple,
-            bottomAppBarColor: Colors.purple,
             textTheme: Theme.of(context)
                 .textTheme
-                .copyWith(caption: const TextStyle(color: Colors.grey))),
+                .copyWith(bodySmall: const TextStyle(color: Colors.grey)), bottomAppBarTheme: const BottomAppBarTheme(color: Colors.purple)),
         // sets the inactive color of the `BottomNavigationBar`
         child: BottomNavigationBar(
             type: BottomNavigationBarType.fixed,

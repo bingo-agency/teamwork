@@ -9,13 +9,11 @@ import 'package:team_work/pages/detail/widget/desc.dart';
 import 'package:team_work/pages/detail/widget/detail_app_bar.dart';
 import 'package:team_work/pages/detail/widget/house_info.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
-import '../../models/database.dart';
 import '../../widgets/loadingWidgets/detailLoading.dart';
 
 class DetailPage extends StatefulWidget {
-  var id;
+  dynamic id;
   DetailPage({Key? key, required this.id}) : super(key: key);
   @override
   _DetailPageState createState() => _DetailPageState();
@@ -25,8 +23,8 @@ class _DetailPageState extends State<DetailPage> {
   removePrefs() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove('post_id').then((value) => () {
-          print('prefsRemoved.');
-          print(prefs.getString('post_id'));
+          // print('prefsRemoved.');
+          // print(prefs.getString('post_id'));
         });
   }
 
@@ -49,7 +47,7 @@ class _DetailPageState extends State<DetailPage> {
               ? MediaQuery.removePadding(
                   context: context,
                   removeTop: true,
-                  child: DetailLoading(),
+                  child: const DetailLoading(),
                 )
               : MediaQuery.removePadding(
                   context: context,
@@ -103,23 +101,18 @@ class _DetailPageState extends State<DetailPage> {
                                         .details[index].primary_image
                                         .toString()),
                                 const SizedBox(height: 20),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
+                                const Padding(
+                                  padding: EdgeInsets.all(8.0),
                                   child: SizedBox(
                                     height: 200,
                                     child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: WebView(
-                                        initialUrl:
-                                            'https://teamworkpk.com/API/mapview?address=' +
-                                                value.details[index].address
-                                                    .toString() +
-                                                '&city=' +
-                                                value.details[index].city
-                                                    .toString(),
-                                        javascriptMode:
-                                            JavascriptMode.unrestricted,
-                                      ),
+                                      padding: EdgeInsets.all(8.0),
+                                      // child: WebView(
+                                      //   initialUrl:
+                                      //       'https://teamworkpk.com/API/mapview?address=${value.details[index].address}&city=${value.details[index].city}',
+                                      //   javascriptMode:
+                                      //       JavascriptMode.unrestricted,
+                                      // ),
                                     ),
                                   ),
                                 ),
@@ -142,7 +135,8 @@ class _DetailPageState extends State<DetailPage> {
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(8),
                                       ),
-                                      primary: Theme.of(context).primaryColor,
+                                      backgroundColor:
+                                          Theme.of(context).primaryColor,
                                     ),
                                     child: Container(
                                       alignment: Alignment.center,
@@ -181,7 +175,7 @@ class Video_tw extends StatelessWidget {
   Widget build(BuildContext context) {
     String? vid;
     vid = YoutubePlayer.convertUrlToId(video.toString());
-    YoutubePlayerController _controller = YoutubePlayerController(
+    YoutubePlayerController controller = YoutubePlayerController(
       initialVideoId: vid.toString(),
       flags: const YoutubePlayerFlags(
         autoPlay: true,
@@ -199,7 +193,7 @@ class Video_tw extends StatelessWidget {
               imageUrl: primaryImage,
               fit: BoxFit.cover,
             ),
-            controller: _controller,
+            controller: controller,
           ),
           builder: (context, player) {
             return Column(

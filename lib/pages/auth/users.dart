@@ -1,10 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:team_work/pages/auth/profilepage.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:team_work/pages/home/home.dart';
 
 import '../../models/database.dart';
@@ -19,13 +17,13 @@ class users extends StatelessWidget {
 
     //here fetch the data from sharedPreferences only !!! otherwise take us to signup page !!!!
     return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
         title: Text(
           "Account",
           style: GoogleFonts.ubuntu(
               fontWeight: FontWeight.w700,
-              color: Theme.of(context).backgroundColor),
+              color: Theme.of(context).colorScheme.background),
         ),
         backgroundColor: Theme.of(context).primaryColor,
         leading: const BackButton(
@@ -42,8 +40,8 @@ class users extends StatelessWidget {
                 future: dbclass.getImage(),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.hasData) {
-                    print('your printed data is : ');
-                    print(snapshot.data);
+                    // print('your printed data is : ');
+                    // print(snapshot.data);
                     return Container(
                       padding: const EdgeInsets.all(20.0),
                       child: CachedNetworkImage(
@@ -63,7 +61,7 @@ class users extends StatelessWidget {
                 future: dbclass.getName(),
                 initialData: const Text('Loading Name ... '),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  print(snapshot.data.toString() + 'is your data ');
+                  // print(snapshot.data.toString() + 'is your data ');
                   if (snapshot.hasData) {
                     return Center(child: Text(snapshot.data.toString()));
                   } else {
@@ -100,7 +98,7 @@ class users extends StatelessWidget {
                 color: Theme.of(context).primaryColor,
                 child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                        primary: Theme.of(context).primaryColor),
+                        backgroundColor: Theme.of(context).primaryColor),
                     child: Text(
                       'Edit Profile',
                       style: GoogleFonts.ubuntu(
@@ -111,8 +109,8 @@ class users extends StatelessWidget {
                     ),
                     onPressed: () async {
                       // String id = await id;
-                      print("manage ads were tapped on id=" +
-                          dbclass.id.toString());
+                      // print("manage ads were tapped on id=" +
+                      //     dbclass.id.toString());
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (BuildContext context) =>
@@ -127,7 +125,7 @@ class users extends StatelessWidget {
                 color: Theme.of(context).primaryColor,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                      primary: Theme.of(context).primaryColor),
+                      backgroundColor: Theme.of(context).primaryColor),
                   child: Text(
                     'Manage Ads',
                     style: GoogleFonts.ubuntu(
@@ -137,8 +135,8 @@ class users extends StatelessWidget {
                     ),
                   ),
                   onPressed: () async {
-                    print("manage ads were tapped on id =" +
-                        dbclass.id.toString());
+                    // print("manage ads were tapped on id =" +
+                    //     dbclass.id.toString());
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (BuildContext context) =>
@@ -154,7 +152,7 @@ class users extends StatelessWidget {
               color: Theme.of(context).primaryColor,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                    primary: Theme.of(context).primaryColor),
+                    backgroundColor: Theme.of(context).primaryColor),
                 child: Text(
                   'Logout',
                   style: GoogleFonts.ubuntu(

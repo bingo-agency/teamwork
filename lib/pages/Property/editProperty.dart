@@ -1,5 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
+// import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -10,24 +10,24 @@ class EditProperty extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String id = map['id'];
-    String title = map['title'];
-    String description = map['description'];
-    String price = map['price'];
-    String address = map['address'];
-    String city = map['city'];
+    // String id = map['id'];
+    // String title = map['title'];
+    // String description = map['description'];
+    // String price = map['price'];
+    // String address = map['address'];
+    // String city = map['city'];
     String type = map['type'];
-    String property_type = map['property_type'];
+    String propertyType = map['property_type'];
     String purpose = map['purpose'];
-    String land_area = map['land_area'];
-    String year_build = map['year_build'];
-    String primary_image = map['primary_image'];
-    String public_user_id = map['public_user_id'];
-    String video_link = map['video_link'];
-    String verification_status = map['verification_status'];
-    String featured = map['featured'];
-    String timestamp = map['timestamp'];
-    String message = map['message'];
+    // String land_area = map['land_area'];
+    // String year_build = map['year_build'];
+    String primaryImage = map['primary_image'];
+    String publicUserId = map['public_user_id'];
+    // String video_link = map['video_link'];
+    // String verification_status = map['verification_status'];
+    // String featured = map['featured'];
+    // String timestamp = map['timestamp'];
+    // String message = map['message'];
 
     return Scaffold(
       appBar: AppBar(),
@@ -44,7 +44,7 @@ class EditProperty extends StatelessWidget {
                 fit: StackFit.loose,
                 children: [
                   CachedNetworkImage(
-                      imageUrl: primary_image,
+                      imageUrl: primaryImage,
                       height: 350,
                       fit: BoxFit.cover,
                       width: MediaQuery.of(context).size.width),
@@ -110,12 +110,12 @@ class EditProperty extends StatelessWidget {
                                     ),
                                     onTap: () {
                                       purpose = 'Sale';
-                                      print('Sale');
+                                      // print('Sale');
                                     },
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      print('Exchange');
+                                      // print('Exchange');
                                       purpose = 'Exchnage';
                                     },
                                     child: const ListTile(
@@ -142,7 +142,7 @@ class EditProperty extends StatelessWidget {
                                   onPressed: () {
                                     Navigator.pop(context);
                                   },
-                                  child: Text('Close'),
+                                  child: const Text('Close'),
                                 ),
                               ],
                             );
@@ -234,12 +234,12 @@ class EditProperty extends StatelessWidget {
                                     ),
                                     onTap: () {
                                       type = 'Commercial';
-                                      print('Commercial');
+                                      // print('Commercial');
                                     },
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      print('Residential');
+                                      // print('Residential');
                                       type = 'Residential';
                                     },
                                     child: const ListTile(
@@ -266,7 +266,7 @@ class EditProperty extends StatelessWidget {
                                   onPressed: () {
                                     Navigator.pop(context);
                                   },
-                                  child: Text('Close'),
+                                  child: const Text('Close'),
                                 ),
                               ],
                             );
@@ -337,7 +337,7 @@ class EditProperty extends StatelessWidget {
                       foregroundColor:
                           MaterialStateProperty.all<Color>(Colors.blue),
                     ),
-                    child: Text(property_type,
+                    child: Text(propertyType,
                         style: const TextStyle(color: Colors.white)),
                     onPressed: () {
                       showDialog(
@@ -357,16 +357,16 @@ class EditProperty extends StatelessWidget {
                                       title: Text('Vehicle'),
                                     ),
                                     onTap: () {
-                                      property_type = 'Sale';
-                                      print(
-                                        'Vehicle',
-                                      );
+                                      propertyType = 'Sale';
+                                      // print(
+                                      //   'Vehicle',
+                                      // );
                                     },
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      print('Land');
-                                      property_type = 'Land';
+                                      // print('Land');
+                                      propertyType = 'Land';
                                     },
                                     child: const ListTile(
                                       title: Text('Land'),
@@ -374,8 +374,8 @@ class EditProperty extends StatelessWidget {
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      print('Plot');
-                                      property_type = 'Plot';
+                                      // print('Plot');
+                                      propertyType = 'Plot';
                                     },
                                     child: const ListTile(
                                       title: Text('Plot'),
@@ -383,8 +383,8 @@ class EditProperty extends StatelessWidget {
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      print('Shop');
-                                      property_type = 'Shop';
+                                      // print('Shop');
+                                      propertyType = 'Shop';
                                     },
                                     child: const ListTile(
                                       title: Text('Shop'),
@@ -392,8 +392,8 @@ class EditProperty extends StatelessWidget {
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      print('Office');
-                                      property_type = 'Office';
+                                      // print('Office');
+                                      propertyType = 'Office';
                                     },
                                     child: const ListTile(
                                       title: Text('Office'),
@@ -401,8 +401,8 @@ class EditProperty extends StatelessWidget {
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      print('Restaurant');
-                                      property_type = 'Restaurant';
+                                      // print('Restaurant');
+                                      propertyType = 'Restaurant';
                                     },
                                     child: const ListTile(
                                       title: Text('Restaurant'),
@@ -410,8 +410,8 @@ class EditProperty extends StatelessWidget {
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      print('Studio');
-                                      property_type = 'Studio';
+                                      // print('Studio');
+                                      propertyType = 'Studio';
                                     },
                                     child: const ListTile(
                                       title: Text('Studio'),
@@ -419,8 +419,8 @@ class EditProperty extends StatelessWidget {
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      print('Apartment');
-                                      property_type = 'Apartment';
+                                      // print('Apartment');
+                                      propertyType = 'Apartment';
                                     },
                                     child: const ListTile(
                                       title: Text('Apartment'),
@@ -446,7 +446,7 @@ class EditProperty extends StatelessWidget {
                                   onPressed: () {
                                     Navigator.pop(context);
                                   },
-                                  child: Text('Close'),
+                                  child: const Text('Close'),
                                 ),
                               ],
                             );

@@ -9,7 +9,7 @@ import '../detail/detail.dart';
 
 class ListingPage extends StatefulWidget {
   final String curl;
-  ListingPage({Key? key, required this.curl}) : super(key: key);
+  const ListingPage({Key? key, required this.curl}) : super(key: key);
   @override
   ListingPageState createState() => ListingPageState();
 }
@@ -36,7 +36,7 @@ class ListingPageState extends State<ListingPage> {
     }
 
     return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
         title: Text(
           "Listing",
@@ -53,7 +53,7 @@ class ListingPageState extends State<ListingPage> {
           builder: (context, value, child) {
             print(widget.curl);
             return value.isLoading
-                ? VerticalListLoading()
+                ? const VerticalListLoading()
                 : ListView.builder(
                     scrollDirection: Axis.vertical,
                     physics: const ClampingScrollPhysics(),

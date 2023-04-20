@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:team_work/pages/listing/listing.dart';
-import 'package:team_work/widgets/best_offer.dart';
+// import 'package:team_work/widgets/best_offer.dart';
 
 class PropertyType extends StatelessWidget {
   const PropertyType({Key? key}) : super(key: key);
@@ -20,7 +20,7 @@ class PropertyType extends StatelessWidget {
           GestureDetector(
             onTap: () {
               curl = "?property_type=vehicle";
-              print(curl);
+              // print(curl);
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (BuildContext context) => ListingPage(curl: curl)));
             },
@@ -50,7 +50,7 @@ class PropertyType extends StatelessWidget {
           GestureDetector(
             onTap: () {
               curl = "?property_type=land";
-              print(curl);
+              // print(curl);
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (BuildContext context) => ListingPage(curl: curl)));
             },
@@ -82,7 +82,7 @@ class PropertyType extends StatelessWidget {
           GestureDetector(
             onTap: () {
               curl = "?property_type=plot";
-              print(curl);
+              // print(curl);
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (BuildContext context) => ListingPage(curl: curl)));
             },
@@ -114,7 +114,7 @@ class PropertyType extends StatelessWidget {
           GestureDetector(
             onTap: () {
               curl = "?property_type=office";
-              print(curl);
+              // print(curl);
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (BuildContext context) => ListingPage(curl: curl)));
             },
@@ -178,7 +178,7 @@ class PropertyType extends StatelessWidget {
           GestureDetector(
             onTap: () {
               curl = "?property_type=studio";
-              print(curl);
+              // print(curl);
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (BuildContext context) => ListingPage(curl: curl)));
             },

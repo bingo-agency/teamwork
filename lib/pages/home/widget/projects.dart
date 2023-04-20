@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:team_work/AppState/providers/projectProvider.dart';
-import 'package:team_work/models/database.dart';
 import 'package:team_work/pages/detail/projectDetail.dart';
-import 'package:team_work/widgets/circle_icon_button.dart';
 
 class Projects extends StatelessWidget {
+  const Projects({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -66,13 +66,13 @@ class Projects extends StatelessWidget {
 
 class ProjectsCard extends StatelessWidget {
   ProjectsCard({Key? key, required this.map}) : super(key: key);
-  var map;
+  dynamic map;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        print(map);
+        // print(map);
         Navigator.of(context).push(MaterialPageRoute(builder: (context) {
           return ProjectDetail(map: map);
         }));

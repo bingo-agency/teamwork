@@ -1,16 +1,15 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:antdesign_icons/antdesign_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:team_work/pages/Property/Addproperty.dart';
+import 'package:team_work/pages/Property/addNewProperty.dart';
 import 'package:team_work/pages/auth/login.dart';
 import 'package:team_work/pages/detail/detail.dart';
 import 'package:team_work/pages/home/widget/city.dart';
 import 'package:team_work/pages/home/widget/projects.dart';
+import 'package:team_work/pages/settings/settings.dart';
 import 'package:team_work/widgets/Drawer.dart';
 import 'package:team_work/widgets/best_offer.dart';
 import 'package:team_work/widgets/propertyType.dart';
@@ -20,7 +19,6 @@ import 'package:team_work/widgets/welcome_text.dart';
 import '../../models/database.dart';
 import '../auth/manageAds.dart';
 import '../auth/profilepage.dart';
-import '../auth/users.dart';
 import '../listing/listing.dart';
 
 class HomePage extends StatelessWidget {
@@ -30,24 +28,24 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var post_id = null;
+    String? postId;
     void getPostId() async {
-      print('getting post id ');
+      // print('getting post id ');
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      post_id = await prefs.getString('post_id');
+      postId = prefs.getString('post_id');
 
-      print('post_id at home : ');
-      print(post_id);
-      print('orinting final post id ' + post_id.toString());
+      // print('post_id at home : ');
+      // print(post_id);
+      // print('orinting final post id ' + post_id.toString());
       Timer(const Duration(seconds: 1), () {
-        if (post_id != null) {
+        if (postId != null) {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => DetailPage(id: post_id),
+              builder: (context) => DetailPage(id: postId),
             ),
           );
         } else {
-          print('its null so stay here !');
+          // print('its null so stay here !');
         }
         prefs.remove('post_id');
       });
@@ -61,7 +59,7 @@ class HomePage extends StatelessWidget {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         key: _scaffoldKey,
-        backgroundColor: Theme.of(context).backgroundColor,
+        backgroundColor: Theme.of(context).colorScheme.background,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 2,
@@ -115,14 +113,14 @@ class HomePage extends StatelessWidget {
           ],
         ),
         drawer: const Mydrawer(),
-        body: SingleChildScrollView(
+        body: const SingleChildScrollView(
           child: Column(
             children: [
-              const WelcomeText(),
-              const PropertyType(),
+              WelcomeText(),
+              PropertyType(),
               Featured(),
               Listing(),
-              const City(),
+              City(),
               Projects()
             ],
           ),
@@ -152,12 +150,12 @@ class HomePage extends StatelessWidget {
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (BuildContext context) =>
-                              Addproperty(id: dbclass.id),
+                              AddNewProperty(id: dbclass.id),
                         ),
                       );
                     }
                   },
-                  elevation: 0,
+                  elevation: 10,
                   backgroundColor: Theme.of(context).primaryColor,
                   child: const Icon(Icons.add, color: Colors.white),
                 ),
@@ -168,18 +166,18 @@ class HomePage extends StatelessWidget {
         bottomNavigationBar: BottomNavigationBar(
           onTap: (int i) {
             if (i == 1) {
-              print('Listing');
+              // print('Listing');
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => ListingPage(
+                  builder: (context) => const ListingPage(
                     curl: '?*',
                   ),
                 ),
               );
             }
             if (i == 2) {
-              print('ads');
+              // print('ads');
               if (dbclass.id == "") {
                 Navigator.push(
                   context,
@@ -198,7 +196,7 @@ class HomePage extends StatelessWidget {
               }
             }
             if (i == 3) {
-              print('settings');
+              // print('settings');
               if (dbclass.id == "") {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => const Login()));
@@ -206,11 +204,11 @@ class HomePage extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => profilepage(id: dbclass.id)));
+                        builder: (context) => SettingsPage(id: dbclass.id)));
               }
             }
           },
-          backgroundColor: Theme.of(context).backgroundColor,
+          backgroundColor: Theme.of(context).colorScheme.background,
           currentIndex: 0,
           type: BottomNavigationBarType.fixed,
           selectedItemColor: Theme.of(context).primaryColor,

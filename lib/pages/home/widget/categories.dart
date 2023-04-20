@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class Categories extends StatefulWidget {
+  const Categories({Key? key}) : super(key: key);
+
   @override
   _CategoriesState createState() => _CategoriesState();
 }
@@ -16,10 +18,10 @@ class _CategoriesState extends State<Categories> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 35,
       child: ListView.separated(
-          padding: EdgeInsets.symmetric(horizontal: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 20),
           scrollDirection: Axis.horizontal,
           itemBuilder: (context, index) => GestureDetector(
                 onTap: () {
@@ -41,14 +43,14 @@ class _CategoriesState extends State<Categories> {
                       style: TextStyle(
                           color: currentSelect == index
                               ? Theme.of(context).primaryColor
-                              : Theme.of(context).textTheme.bodyText1!.color,
+                              : Theme.of(context).textTheme.bodyLarge!.color,
                           fontSize: currentSelect == index ? 16 : 14,
                           fontWeight: currentSelect == index
                               ? FontWeight.bold
                               : FontWeight.normal),
                     )),
               ),
-          separatorBuilder: (_, index) => SizedBox(width: 15),
+          separatorBuilder: (_, index) => const SizedBox(width: 15),
           itemCount: categoriesList.length),
     );
   }

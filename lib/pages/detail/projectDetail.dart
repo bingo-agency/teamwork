@@ -6,7 +6,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 import 'detail.dart';
 
 class ProjectDetail extends StatelessWidget {
-  var map;
+  dynamic map;
 
   ProjectDetail({Key? key, required this.map}) : super(key: key);
 
@@ -33,7 +33,7 @@ class ProjectDetail extends StatelessWidget {
 }
 
 class ProjCard extends StatelessWidget {
-  var map;
+  dynamic map;
 
   ProjCard({Key? key, required this.map}) : super(key: key);
 
@@ -80,8 +80,7 @@ class ProjCard extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
-                  ),
-                  primary: Theme.of(context).primaryColor,
+                  ), backgroundColor: Theme.of(context).primaryColor,
                 ),
                 child: Container(
                   alignment: Alignment.center,

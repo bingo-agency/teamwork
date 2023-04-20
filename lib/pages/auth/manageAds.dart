@@ -15,13 +15,12 @@ class ManageAds extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var dbclass = context.read<DataBase>();
     final fetchAds = context.read<DataBase>().fetchAccount(id);
     // print(fetchAds);
 
     Future getList() async {
       await fetchAds;
-      print(fetchAds);
+      // print(fetchAds);
     }
 
     getList();
@@ -31,15 +30,15 @@ class ManageAds extends StatelessWidget {
         backgroundColor: Theme.of(context).primaryColor,
       ),
       body: id == null
-          ? VerticalListLoading()
+          ? const VerticalListLoading()
           : SingleChildScrollView(
               child: Container(
                 padding: const EdgeInsets.all(15),
                 child: Consumer<DataBase>(
                   builder: (context, value, child) {
-                    print(id);
+                    // print(id);
                     return value.mapAccount.isEmpty && !value.errorAccount
-                        ? VerticalListLoading()
+                        ? const VerticalListLoading()
                         : value.errorAccount
                             ? Text(
                                 'Oops, something went wrong .${value.errorMessageAccount}',
@@ -80,11 +79,11 @@ class ManageAds extends StatelessWidget {
 class AccountCard extends StatelessWidget {
   AccountCard({Key? key, required this.map}) : super(key: key);
 
-  var map;
+  dynamic map;
 
   @override
   Widget build(BuildContext context) {
-    print(map.length);
+    // print(map.length);
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(
@@ -126,7 +125,7 @@ class AccountCard extends StatelessWidget {
                           map['title'],
                           style: Theme.of(context)
                               .textTheme
-                              .headline1!
+                              .displayLarge!
                               .copyWith(
                                   fontSize: 16, fontWeight: FontWeight.bold),
                         ),
@@ -142,7 +141,7 @@ class AccountCard extends StatelessWidget {
                                 map['city'],
                                 style: Theme.of(context)
                                     .textTheme
-                                    .bodyText1!
+                                    .bodyLarge!
                                     .copyWith(fontSize: 12),
                               ),
                             )
@@ -171,7 +170,7 @@ class AccountCard extends StatelessWidget {
               right: 0,
               bottom: 0,
               child: Padding(
-                padding: EdgeInsets.all(2.0),
+                padding: const EdgeInsets.all(2.0),
                 child: Row(
                   children: [
                     GestureDetector(
@@ -204,8 +203,8 @@ class AccountCard extends StatelessWidget {
                         showDialog(
                           context: context,
                           builder: (context) => AlertDialog(
-                            title: Text('Warning'),
-                            content: Text(
+                            title: const Text('Warning'),
+                            content: const Text(
                                 'Are you sure you want to delete this property ?'),
                             actions: <Widget>[
                               ElevatedButton(
@@ -213,18 +212,17 @@ class AccountCard extends StatelessWidget {
                                   Navigator.of(context, rootNavigator: true)
                                       .pop(); // dismisses only the dialog and returns nothing
                                 },
-                                child: Text('No'),
+                                child: const Text('No'),
                               ),
                               ElevatedButton(
                                 onPressed: () async {
-                                  final dbclass =
-                                      await context.read<DataBase>();
-                                  String web_post_id = map['id'];
-                                  print('your ' +
-                                      web_post_id +
-                                      'has been removed');
+                                  final dbclass = context.read<DataBase>();
+                                  String webPostId = map['id'];
+                                  // print('your ' +
+                                  //     web_post_id +
+                                  //     'has been removed');
                                   var finalres =
-                                      await dbclass.removeWebPost(web_post_id);
+                                      await dbclass.removeWebPost(webPostId);
                                   if (finalres == "True" ||
                                       finalres == "[True]") {
                                     Navigator.of(context).pushReplacement(
@@ -234,10 +232,10 @@ class AccountCard extends StatelessWidget {
                                       ),
                                     );
                                   } else {
-                                    print(finalres);
+                                    // print(finalres);
                                   }
                                 },
-                                child: Text('Yes'),
+                                child: const Text('Yes'),
                               ),
                             ],
                           ),

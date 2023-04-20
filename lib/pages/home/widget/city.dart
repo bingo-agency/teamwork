@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -32,7 +31,7 @@ class City extends StatelessWidget {
                 GestureDetector(
                   onTap: () {
                     curl = "?*";
-                    print(curl);
+                    // print(curl);
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (BuildContext context) =>
                             ListingPage(curl: curl)));
@@ -53,7 +52,7 @@ class City extends StatelessWidget {
                 child: GestureDetector(
                   onTap: () {
                     curl = "?city_search=islamabad";
-                    print(curl);
+                    // print(curl);
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (BuildContext context) =>
                             ListingPage(curl: curl)));
@@ -102,7 +101,7 @@ class City extends StatelessWidget {
                 child: GestureDetector(
                   onTap: () {
                     curl = "?city_search=lahore";
-                    print(curl);
+                    // print(curl);
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (BuildContext context) =>
                             ListingPage(curl: curl)));
@@ -149,7 +148,7 @@ class City extends StatelessWidget {
                 child: GestureDetector(
                   onTap: () {
                     curl = "?city_search=peshawar";
-                    print(curl);
+                    // print(curl);
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (BuildContext context) =>
                             ListingPage(curl: curl)));
@@ -200,7 +199,7 @@ class City extends StatelessWidget {
                 child: GestureDetector(
                   onTap: () {
                     curl = "?city_search=abbotabad";
-                    print(curl);
+                    // print(curl);
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (BuildContext context) =>
                             ListingPage(curl: curl)));
@@ -249,7 +248,7 @@ class City extends StatelessWidget {
                   child: GestureDetector(
                     onTap: () {
                       curl = "?city_search=karachi";
-                      print(curl);
+                      // print(curl);
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (BuildContext context) =>
                               ListingPage(curl: curl)));
