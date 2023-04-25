@@ -4,7 +4,16 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:antdesign_icons/antdesign_icons.dart';
+import 'package:team_work/pages/auth/manageAds.dart';
+import 'package:team_work/pages/settings/myFavourites.dart';
+import 'package:team_work/pages/settings/savedSearch.dart';
+import 'package:team_work/pages/settings/settings.dart';
+import 'package:team_work/widgets/alertBox.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../models/database.dart';
+import '../Career/contactus.dart';
+import '../settings/drafts.dart';
+import 'package:in_app_review/in_app_review.dart';
 
 class profilepage extends StatelessWidget {
   String id;
@@ -13,6 +22,16 @@ class profilepage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    launchURL() async {
+      const url = 'https://teamworkpk.com/terms';
+      final uri = Uri.parse(url);
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(uri);
+      } else {
+        throw 'Could not launch $url';
+      }
+    }
+
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
@@ -54,10 +73,16 @@ class profilepage extends StatelessWidget {
                     child: Consumer<DataBase>(
                       builder: (context, value, child) {
                         return (value.image != '')
-                            ? Card(
-                                elevation: 3.0,
-                                child:
-                                    CachedNetworkImage(imageUrl: value.image))
+                            ? InkWell(
+                                onTap: () {
+                                  alertBox(context,
+                                      'This Service is only Available to Premiuim members only.');
+                                },
+                                child: Card(
+                                    elevation: 3.0,
+                                    child: CachedNetworkImage(
+                                        imageUrl: value.image)),
+                              )
                             : const CircularProgressIndicator();
                       },
                     ),
@@ -76,6 +101,10 @@ class profilepage extends StatelessWidget {
                   InkWell(
                     onTap: () {
                       // print('Settings were tapped.');
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SettingsPage(id: id)));
                     },
                     child: Card(
                       elevation: 3.0,
@@ -105,6 +134,10 @@ class profilepage extends StatelessWidget {
                   InkWell(
                     onTap: () {
                       // print('Saved Searches.');
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SavedSearch(id: id)));
                     },
                     child: Card(
                       elevation: 3.0,
@@ -134,6 +167,10 @@ class profilepage extends StatelessWidget {
                   InkWell(
                     onTap: () {
                       // print('Favourites');
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => myFavourites(id: id)));
                     },
                     child: Card(
                       elevation: 3.0,
@@ -163,6 +200,10 @@ class profilepage extends StatelessWidget {
                   InkWell(
                     onTap: () {
                       // print('My Properties');
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ManageAds(id: id)));
                     },
                     child: Card(
                       elevation: 3.0,
@@ -192,6 +233,10 @@ class profilepage extends StatelessWidget {
                   InkWell(
                     onTap: () {
                       // print('Drafts');
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Drafts(id: id)));
                     },
                     child: Card(
                       elevation: 3.0,
@@ -221,6 +266,8 @@ class profilepage extends StatelessWidget {
                   InkWell(
                     onTap: () {
                       // print('Shares & Investments');
+                      alertBox(context,
+                          'This Service is only Available to Premiuim members only.');
                     },
                     child: Card(
                       elevation: 3.0,
@@ -282,7 +329,14 @@ class profilepage extends StatelessWidget {
                           ],
                         ),
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) => const addProperty(),
+                            //   ),
+                            // );
+                          },
                           child: const Text('Post Your Property Ad Easy'),
                         )
                       ],
@@ -309,22 +363,28 @@ class profilepage extends StatelessWidget {
                         ),
                         const SizedBox(width: 10),
                         Flexible(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Languages',
-                                style: GoogleFonts.ubuntu(
-                                    fontSize: 20.0,
-                                    fontWeight: FontWeight.bold,
-                                    color: Theme.of(context).primaryColor),
-                              ),
-                              Icon(
-                                AntIcons.rightOutlined,
-                                color: Theme.of(context).primaryColor,
-                              )
-                            ],
+                          child: GestureDetector(
+                            onTap: () {
+                              alertBox(context,
+                                  'This Service is only Available to Premiuim members only.');
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Languages',
+                                  style: GoogleFonts.ubuntu(
+                                      fontSize: 20.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(context).primaryColor),
+                                ),
+                                Icon(
+                                  AntIcons.rightOutlined,
+                                  color: Theme.of(context).primaryColor,
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ],
@@ -350,22 +410,32 @@ class profilepage extends StatelessWidget {
                         ),
                         const SizedBox(width: 10),
                         Flexible(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Contact Us',
-                                style: GoogleFonts.ubuntu(
-                                    fontSize: 20.0,
-                                    fontWeight: FontWeight.bold,
-                                    color: Theme.of(context).primaryColor),
-                              ),
-                              Icon(
-                                AntIcons.rightOutlined,
-                                color: Theme.of(context).primaryColor,
-                              )
-                            ],
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const Contact(),
+                                ),
+                              );
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Contact Us',
+                                  style: GoogleFonts.ubuntu(
+                                      fontSize: 20.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(context).primaryColor),
+                                ),
+                                Icon(
+                                  AntIcons.rightOutlined,
+                                  color: Theme.of(context).primaryColor,
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ],
@@ -391,22 +461,32 @@ class profilepage extends StatelessWidget {
                         ),
                         const SizedBox(width: 10),
                         Flexible(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Feedback',
-                                style: GoogleFonts.ubuntu(
-                                    fontSize: 20.0,
-                                    fontWeight: FontWeight.bold,
-                                    color: Theme.of(context).primaryColor),
-                              ),
-                              Icon(
-                                AntIcons.rightOutlined,
-                                color: Theme.of(context).primaryColor,
-                              )
-                            ],
+                          child: GestureDetector(
+                            onTap: () async {
+                              print('Will Review.');
+                              final InAppReview inAppReview =
+                                  InAppReview.instance;
+                              if (await inAppReview.isAvailable()) {
+                                inAppReview.requestReview();
+                              }
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Feedback',
+                                  style: GoogleFonts.ubuntu(
+                                      fontSize: 20.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(context).primaryColor),
+                                ),
+                                Icon(
+                                  AntIcons.rightOutlined,
+                                  color: Theme.of(context).primaryColor,
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ],
@@ -473,22 +553,25 @@ class profilepage extends StatelessWidget {
                         ),
                         const SizedBox(width: 10),
                         Flexible(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Terms & Conditions',
-                                style: GoogleFonts.ubuntu(
-                                    fontSize: 20.0,
-                                    fontWeight: FontWeight.bold,
-                                    color: Theme.of(context).primaryColor),
-                              ),
-                              Icon(
-                                AntIcons.rightOutlined,
-                                color: Theme.of(context).primaryColor,
-                              )
-                            ],
+                          child: GestureDetector(
+                            onTap: launchURL,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Terms & Conditions',
+                                  style: GoogleFonts.ubuntu(
+                                      fontSize: 20.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(context).primaryColor),
+                                ),
+                                Icon(
+                                  AntIcons.rightOutlined,
+                                  color: Theme.of(context).primaryColor,
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ],

@@ -1,10 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:team_work/models/database.dart';
 import 'package:team_work/pages/Property/editProperty.dart';
 
 import '../../widgets/loadingWidgets/verticalListLoading.dart';
+import '../../widgets/noRecordsFound.dart';
 import '../detail/detail.dart';
 
 class ManageAds extends StatelessWidget {
@@ -27,6 +29,13 @@ class ManageAds extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        title: Text(
+          'Manage Properties',
+          style: GoogleFonts.ubuntu(color: Colors.white),
+        ),
+        leading: const BackButton(
+          color: Colors.white,
+        ),
         backgroundColor: Theme.of(context).primaryColor,
       ),
       body: id == null
@@ -60,9 +69,8 @@ class ManageAds extends StatelessWidget {
                                     return Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Center(
-                                        child: Text(value.mapAccount['account']
-                                                [index]['message']
-                                            .toString()),
+                                        child: noRecordsFound(context,
+                                            "You don't have any properties yet."),
                                       ),
                                     );
                                   }

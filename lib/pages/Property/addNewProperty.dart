@@ -14,17 +14,6 @@ class AddNewProperty extends StatelessWidget {
     GlobalKey<FormState> addPropertyForm = GlobalKey<FormState>();
     var dbclass = context.read<DataBase>();
 
-    // Widget formWizard() {
-    //   switch (dbclass.activeIndex) {
-    //     case 0:
-    //       return basicDetails();
-    //     case 1:
-    //       return basicDetails();
-    //     default:
-    //       return basicDetails();
-    //   }
-    // }
-
     return Scaffold(
         appBar: AppBar(
           title: Text(
@@ -64,7 +53,7 @@ class AddNewProperty extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Row(
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Container(
@@ -78,103 +67,72 @@ class AddNewProperty extends StatelessWidget {
                         color: Theme.of(context).primaryColor,
                       ),
                     ),
-                    Consumer<DataBase>(
-                      builder: (context, value, child) {
-                        switch (value.activeIndex) {
-                          case 0:
-                            return basicDetails(
-                                addPropertyForm: addPropertyForm,
-                                dbclass: dbclass);
-                          case 1:
-                            return basicDetails(
-                                addPropertyForm: addPropertyForm,
-                                dbclass: dbclass);
-                          default:
-                            return basicDetails(
-                                addPropertyForm: addPropertyForm,
-                                dbclass: dbclass);
-                        }
-                      },
-                    ),
+                    Consumer<DataBase>(builder: (context, value, child) {
+                      return Stepper(
+                        currentStep: value.activeIndex,
+                        steps: [
+                          Step(
+                            title: const Text('Basic Details'),
+                            content: Form(
+                              key: addPropertyForm,
+                              child: Column(
+                                // padding: const EdgeInsets.all(
+                                //   12.0,
+                                // ),
+                                children: [
+                                  Center(
+                                    child: DotStepper(
+                                      activeStep: dbclass.activeIndex,
+                                      dotRadius: 20.0,
+                                      shape: Shape.pipe,
+                                      spacing: 10.0,
+                                    ),
+                                  ),
+                                  Text(
+                                    "Step ${dbclass.activeIndex + 1} of $dbclass.totalIndex",
+                                    style: const TextStyle(
+                                      fontSize: 20.0,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  TextFormField(
+                                    decoration: const InputDecoration(
+                                      labelText: "Title",
+                                    ),
+                                  ),
+                                  TextFormField(
+                                    decoration: const InputDecoration(
+                                      labelText: "Price",
+                                    ),
+                                  ),
+                                  TextFormField(
+                                    decoration: const InputDecoration(
+                                      labelText: "Location",
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 12.0,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          const Step(
+                            title: Text('Size & Area'),
+                            content: Text('Area, size, commercial,residential'),
+                          ),
+                          const Step(
+                            title: Text('Select Images'),
+                            content: Text('Primary image and gallery images.'),
+                          ),
+                        ],
+                      );
+                    }),
                   ],
                 ),
               ),
             ],
           ),
         ));
-  }
-}
-
-class basicDetails extends StatelessWidget {
-  var addPropertyForm;
-  var dbclass;
-  basicDetails(
-      {Key? key, required this.addPropertyForm, required DataBase dbclass})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Form(
-      key: addPropertyForm,
-      child: ListView(
-        padding: const EdgeInsets.all(
-          12.0,
-        ),
-        children: [
-          Center(
-            child: DotStepper(
-              activeStep: dbclass.activeIndex,
-              dotRadius: 20.0,
-              shape: Shape.pipe,
-              spacing: 10.0,
-            ),
-          ),
-          Text(
-            "Step ${dbclass.activeIndex + 1} of $dbclass.totalIndex",
-            style: const TextStyle(
-              fontSize: 20.0,
-            ),
-            textAlign: TextAlign.center,
-          ),
-          TextFormField(
-            decoration: const InputDecoration(
-              labelText: "Name",
-            ),
-          ),
-          TextFormField(
-            decoration: const InputDecoration(
-              labelText: "Email",
-            ),
-          ),
-          TextFormField(
-            decoration: const InputDecoration(
-              labelText: "Passoword",
-            ),
-          ),
-          const SizedBox(
-            height: 12.0,
-          ),
-          SizedBox(
-            height: 40.0,
-            child: ElevatedButton(
-              onPressed: () {
-                if (addPropertyForm.currentState?.validate() ?? false) {
-                  // next
-                  // setState(() {
-                  //   activeIndex++;
-                  // });
-                }
-              },
-              child: const Text(
-                "Next",
-                style: TextStyle(
-                  fontSize: 20.0,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
   }
 }

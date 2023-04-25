@@ -204,7 +204,7 @@ class HomePage extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => SettingsPage(id: dbclass.id)));
+                        builder: (context) => profilepage(id: dbclass.id)));
               }
             }
           },

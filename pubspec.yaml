@@ -42,7 +42,7 @@ dependencies:
   cached_network_image: ^3.2.0
   carousel_slider: ^4.1.1
   youtube_player_flutter: ^8.1.2
-  url_launcher: ^6.1.2
+  url_launcher: ^6.1.10
   dropdown_search: ^5.0.6
   shared_preferences: ^2.0.15
   webview_flutter: ^4.0.7
@@ -63,12 +63,13 @@ dependencies:
   # location: ^4.4.0
   permission_handler: ^10.0.0
   # geocoding: ^2.0.4
-  geolocator: ^9.0.0
+  geolocator: ^9.0.2
   firebase_dynamic_links: ^5.0.11
   firebase_core: ^2.4.1
   firebase_analytics: ^10.1.0
   antdesign_icons: ^0.0.3
   animated_text_kit: ^4.2.2
+  in_app_review: ^2.0.6
 
 
 dev_dependencies:
