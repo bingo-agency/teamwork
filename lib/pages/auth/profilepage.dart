@@ -463,7 +463,8 @@ class profilepage extends StatelessWidget {
                         Flexible(
                           child: GestureDetector(
                             onTap: () async {
-                              print('Will Review.');
+                              alertBox(context, 'Please Wait,');
+                              Navigator.pop(context);
                               final InAppReview inAppReview =
                                   InAppReview.instance;
                               if (await inAppReview.isAvailable()) {
@@ -596,22 +597,27 @@ class profilepage extends StatelessWidget {
                         ),
                         const SizedBox(width: 10),
                         Flexible(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Logout',
-                                style: GoogleFonts.ubuntu(
-                                    fontSize: 20.0,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.redAccent),
-                              ),
-                              const Icon(
-                                AntIcons.rightOutlined,
-                                color: Colors.redAccent,
-                              )
-                            ],
+                          child: GestureDetector(
+                            onTap: () {
+                              alertBox(context, 'Will work on it later.');
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Logout',
+                                  style: GoogleFonts.ubuntu(
+                                      fontSize: 20.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.redAccent),
+                                ),
+                                const Icon(
+                                  AntIcons.rightOutlined,
+                                  color: Colors.redAccent,
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ],

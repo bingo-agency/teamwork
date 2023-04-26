@@ -1,15 +1,14 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:antdesign_icons/antdesign_icons.dart';
+import 'package:flutter_scrolling_fab_animated/flutter_scrolling_fab_animated.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:team_work/pages/Property/addNewProperty.dart';
 import 'package:team_work/pages/auth/login.dart';
 import 'package:team_work/pages/detail/detail.dart';
 import 'package:team_work/pages/home/widget/city.dart';
 import 'package:team_work/pages/home/widget/projects.dart';
-import 'package:team_work/pages/settings/settings.dart';
 import 'package:team_work/widgets/Drawer.dart';
 import 'package:team_work/widgets/best_offer.dart';
 import 'package:team_work/widgets/propertyType.dart';
@@ -17,14 +16,20 @@ import 'package:team_work/widgets/featured.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:team_work/widgets/welcome_text.dart';
 import '../../models/database.dart';
+import '../Property/addNewProperty.dart';
 import '../auth/manageAds.dart';
 import '../auth/profilepage.dart';
 import '../listing/listing.dart';
+
+// import 'package:flutter_scrolling_fab_animated/flutter_scrolling_fab_animated.dart';
 
 class HomePage extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   HomePage({Key? key}) : super(key: key);
+  ScrollController scrollController = ScrollController();
+  double indicator = 10.0;
+  bool onTop = true;
 
   @override
   Widget build(BuildContext context) {
@@ -113,8 +118,9 @@ class HomePage extends StatelessWidget {
           ],
         ),
         drawer: const Mydrawer(),
-        body: const SingleChildScrollView(
-          child: Column(
+        body: SingleChildScrollView(
+          controller: scrollController,
+          child: const Column(
             children: [
               WelcomeText(),
               PropertyType(),
@@ -125,44 +131,79 @@ class HomePage extends StatelessWidget {
             ],
           ),
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-        floatingActionButton: Stack(
-          children: [
-            Positioned(
-              left: MediaQuery.of(context).size.width / 2.1,
-              bottom: 23,
-              child: Container(
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    // border: Border.all(color: Colors.white, width: 5),
-                    color: Theme.of(context).primaryColor),
-                child: FloatingActionButton(
-                  onPressed: () async {
-                    if (dbclass.id == "") {
-                      // print(dbclass.getEmail());
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (BuildContext context) => const Login(),
-                        ),
-                      );
-                    } else {
-                      // print(dbclass.email);
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              AddNewProperty(id: dbclass.id),
-                        ),
-                      );
-                    }
-                  },
-                  elevation: 10,
-                  backgroundColor: Theme.of(context).primaryColor,
-                  child: const Icon(Icons.add, color: Colors.white),
+        floatingActionButton: ScrollingFabAnimated(
+          icon: const Icon(
+            Icons.add,
+            color: Colors.white,
+          ),
+          text: Text(
+            'Add ',
+            style: GoogleFonts.ubuntu(color: Colors.white, fontSize: 16.0),
+          ),
+          onPress: () async {
+            if (dbclass.id == "") {
+              // print(dbclass.getEmail());
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (BuildContext context) => const Login(),
                 ),
-              ),
-            ),
-          ],
+              );
+            } else {
+              // print(dbclass.email);
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (BuildContext context) =>
+                      AddNewProperty(id: dbclass.id),
+                ),
+              );
+            }
+          },
+          scrollController: scrollController,
+          animateIcon: true,
+          limitIndicator: 1.0,
+          curve: Curves.bounceIn,
+          inverted: false,
+          radius: 10.0,
         ),
+        // floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+        // floatingActionButton: Stack(
+        //   children: [
+        //     Positioned(
+        //       left: MediaQuery.of(context).size.width / 2.1,
+        //       bottom: 23,
+        //       child: Container(
+        //         decoration: BoxDecoration(
+        //             shape: BoxShape.circle,
+        //             // border: Border.all(color: Colors.white, width: 5),
+        //             color: Theme.of(context).primaryColor),
+        //         child: FloatingActionButton(
+        //           onPressed: () async {
+        //             if (dbclass.id == "") {
+        //               // print(dbclass.getEmail());
+        //               Navigator.of(context).push(
+        //                 MaterialPageRoute(
+        //                   builder: (BuildContext context) => const Login(),
+        //                 ),
+        //               );
+        //             } else {
+        //               // print(dbclass.email);
+        //               Navigator.of(context).push(
+        //                 MaterialPageRoute(
+        //                   builder: (BuildContext context) =>
+        //                       AddNewProperty(id: dbclass.id),
+        //                 ),
+        //               );
+        //             }
+        //           },
+        //           elevation: 10,
+        //           backgroundColor: Theme.of(context).primaryColor,
+        //           child: const Icon(Icons.add, color: Colors.white),
+        //         ),
+        //       ),
+        //     ),
+        //   ],
+        // ),
+
         bottomNavigationBar: BottomNavigationBar(
           onTap: (int i) {
             if (i == 1) {

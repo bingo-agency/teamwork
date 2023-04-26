@@ -19,10 +19,37 @@ class DataBase with ChangeNotifier {
 
   int activeIndex = 0;
   int totalIndex = 2;
+  int currentStep = 0;
 
   changeStep(int index) {
     activeIndex = index;
     notifyListeners();
+  }
+
+  nextStep() {
+    print(currentStep);
+    if (activeIndex == 0) {
+      return currentStep++;
+    } else if (currentStep == 1) {
+      return currentStep++;
+    }
+    notifyListeners();
+  }
+
+  previousStep() {
+    print(currentStep);
+    notifyListeners();
+    return currentStep--;
+  }
+
+  void pickImage() async {
+    final pickedFile =
+        await ImagePicker().getImage(source: ImageSource.gallery);
+    propertyImages.add(File(pickedFile!.path));
+    notifyListeners();
+    // setState(() {
+    // _propertyImages.add(File(pickedFile.path));
+    // });
   }
 
   //shared prefs start
@@ -30,9 +57,9 @@ class DataBase with ChangeNotifier {
   String initial_city = 'Select City';
   bool postedAd = false;
 
-  //property images starts
+  //Add property images starts
 
-  // List<Asset> propertyImages = <Asset>[];
+  List<File> propertyImages = [];
 
   // String loadAssets = 'No Error Dectected';
   bool showSpinner = false;
