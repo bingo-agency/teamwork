@@ -131,7 +131,15 @@ class AddNewProperty extends StatelessWidget {
                                       ),
                                     ),
                                     CustomRadioButton(
-                                      padding: 10.0,
+                                      height: 50.0,
+                                      horizontal: false,
+                                      customShape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      selectedBorderColor:
+                                          Theme.of(context).primaryColor,
+                                      disabledColor: Colors.grey,
+                                      shapeRadius: BorderSide.strokeAlignCenter,
                                       autoWidth: true,
                                       enableButtonWrap: false,
                                       defaultSelected: 'Residential',
