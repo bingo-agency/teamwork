@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -18,6 +19,37 @@ class AddNewProperty extends StatelessWidget {
     TextEditingController descriptionController = TextEditingController();
     TextEditingController priceController = TextEditingController();
     TextEditingController addressController = TextEditingController();
+    TextEditingController cityController =
+        TextEditingController(text: dbclass.initial_city);
+
+    String id = dbclass.id;
+
+    List<Step> steps = [
+      Step(
+        title: const Text('Title'),
+        content: TextFormField(
+          controller: titleController,
+          decoration: const InputDecoration(labelText: 'Property Title'),
+        ),
+        isActive: true,
+      ),
+      Step(
+        title: const Text('Price'),
+        content: TextFormField(
+          controller: priceController,
+          decoration: const InputDecoration(labelText: 'Enter Price'),
+        ),
+        isActive: true,
+      ),
+      Step(
+        title: const Text('Description'),
+        content: TextFormField(
+          controller: descriptionController,
+          decoration: const InputDecoration(labelText: 'Description'),
+        ),
+        isActive: true,
+      ),
+    ];
 
     return Scaffold(
         appBar: AppBar(
@@ -48,7 +80,7 @@ class AddNewProperty extends StatelessWidget {
                           fit: BoxFit.cover,
                         ),
                         borderRadius: BorderRadius.only(
-                          bottomRight: Radius.circular(40),
+                          bottomRight: Radius.circular(100),
                         ),
                       ),
                       alignment: Alignment.center,
@@ -83,14 +115,55 @@ class AddNewProperty extends StatelessWidget {
                           steps: [
                             Step(
                               isActive: true,
-                              title: Text('Property Details'),
+                              title: const Text('Property Details'),
                               content: Form(
                                 key: addPropertyForm,
                                 child: Column(
                                   children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        'Property Type',
+                                        style: GoogleFonts.ubuntu(
+                                            color:
+                                                Theme.of(context).primaryColor,
+                                            fontSize: 19.0),
+                                      ),
+                                    ),
+                                    CustomRadioButton(
+                                      padding: 10.0,
+                                      autoWidth: true,
+                                      enableButtonWrap: false,
+                                      defaultSelected: 'Residential',
+                                      elevation: 0,
+                                      absoluteZeroSpacing: true,
+                                      unSelectedColor:
+                                          Theme.of(context).canvasColor,
+                                      buttonLables: const [
+                                        'Residential',
+                                        'Commercial',
+                                      ],
+                                      buttonValues: const [
+                                        "Residential",
+                                        "Commercial",
+                                      ],
+                                      buttonTextStyle: ButtonTextStyle(
+                                        selectedColor: Colors.white,
+                                        unSelectedColor: Colors.black,
+                                        textStyle:
+                                            GoogleFonts.ubuntu(fontSize: 16),
+                                      ),
+                                      radioButtonValue: (value) {
+                                        print(value);
+                                      },
+                                      enableShape: true,
+                                      margin: const EdgeInsets.all(2.0),
+                                      selectedColor:
+                                          Theme.of(context).primaryColor,
+                                    ),
                                     TextFormField(
-                                      decoration:
-                                          InputDecoration(labelText: 'Title'),
+                                      decoration: const InputDecoration(
+                                          labelText: 'Title'),
                                       validator: (value) {
                                         if (value!.isEmpty) {
                                           return 'Please enter a title';
@@ -115,8 +188,8 @@ class AddNewProperty extends StatelessWidget {
                                       },
                                     ),
                                     TextFormField(
-                                      decoration:
-                                          InputDecoration(labelText: 'Price'),
+                                      decoration: const InputDecoration(
+                                          labelText: 'Price'),
                                       validator: (value) {
                                         if (value!.isEmpty) {
                                           return 'Please enter a price';
@@ -128,8 +201,8 @@ class AddNewProperty extends StatelessWidget {
                                       },
                                     ),
                                     TextFormField(
-                                      decoration:
-                                          InputDecoration(labelText: 'Address'),
+                                      decoration: const InputDecoration(
+                                          labelText: 'Address'),
                                       validator: (value) {
                                         if (value!.isEmpty) {
                                           return 'Please enter an address';
@@ -145,7 +218,7 @@ class AddNewProperty extends StatelessWidget {
                               ),
                             ),
                             Step(
-                              title: Text('Add Images'),
+                              title: const Text('Add Images'),
                               content: Column(
                                 children: [
                                   Expanded(
@@ -161,7 +234,7 @@ class AddNewProperty extends StatelessWidget {
                                           (BuildContext context, int index) {
                                         if (index == 0) {
                                           return IconButton(
-                                            icon: Icon(Icons.add),
+                                            icon: const Icon(Icons.add),
                                             onPressed: () {
                                               val.pickImage;
                                             },

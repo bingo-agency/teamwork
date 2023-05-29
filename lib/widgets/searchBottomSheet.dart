@@ -1,3 +1,4 @@
+import 'package:antdesign_icons/antdesign_icons.dart';
 import 'package:flutter/material.dart';
 
 void searchBottomSheet(context) {
@@ -7,17 +8,60 @@ void searchBottomSheet(context) {
         return Wrap(
           children: <Widget>[
             ListTile(
-                leading: const Icon(Icons.music_note),
-                title: const Text('Music'),
+                leading: const Icon(AntIcons.searchOutlined),
+                title: const TextField(
+                  decoration: InputDecoration(
+                    // border: OutlineInputBorder(),
+                    hintText: 'Internal ID code (digits only)',
+                  ),
+                ),
                 onTap: () {
-                  print('Music');
+                  print('Internal ID Code.');
                 }),
+            const Divider(),
             ListTile(
-              leading: const Icon(Icons.videocam),
-              title: const Text('Video'),
-              onTap: () {
-                print('Video');
-              },
+                leading: const Icon(AntIcons.searchOutlined),
+                title: const TextField(
+                  decoration: InputDecoration(
+                    // border: OutlineInputBorder(),
+                    hintText: 'Keyword',
+                  ),
+                ),
+                onTap: () {
+                  print('Keyword.');
+                }),
+            const Divider(),
+            ListTile(
+                leading: const Icon(AntIcons.searchOutlined),
+                title: const TextField(
+                  decoration: InputDecoration(
+                    // border: OutlineInputBorder(),
+                    hintText: 'City',
+                  ),
+                ),
+                onTap: () {
+                  print('City');
+                }),
+            const Divider(),
+            // ListTile(
+            //   leading: const Icon(AntIcons.picCenterOutlined),
+            //   title: const Text('City'),
+            //   onTap: () {
+            //     print('City');
+            //   },
+            // ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                  onPressed: () {},
+                  child: Text('Cancel'),
+                ),
+                ElevatedButton(
+                  onPressed: () {},
+                  child: Text('Search'),
+                ),
+              ],
             ),
           ],
         );

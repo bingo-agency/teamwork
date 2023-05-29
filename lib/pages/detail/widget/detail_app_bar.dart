@@ -32,7 +32,7 @@ class DetailAppBar extends StatelessWidget {
             child: CircularProgressIndicator(),
           )
         : SizedBox(
-            height: 300,
+            height: 500,
             width: MediaQuery.of(context).size.width,
             child: Stack(
               children: [
@@ -199,6 +199,7 @@ class CarouselCard extends StatelessWidget {
             enlargeFactor: 0.0,
             scrollDirection: Axis.horizontal,
             viewportFraction: 1.0,
+            height: 500.0,
             initialPage: 0),
         itemBuilder: (BuildContext context, index, ids) {
           if (list[index]['image_link'] == null ||

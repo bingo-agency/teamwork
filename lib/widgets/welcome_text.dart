@@ -1,14 +1,12 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:antdesign_icons/antdesign_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:team_work/widgets/searchBottomSheet.dart';
 import 'package:team_work/widgets/user_api.dart';
 import '../models/database.dart';
-import '../pages/listing/listing.dart';
 
 class WelcomeText extends StatelessWidget {
   const WelcomeText({Key? key}) : super(key: key);
@@ -262,7 +260,7 @@ class WelcomeText extends StatelessWidget {
                               Icon(AntIcons.environmentOutlined,
                                   color: Theme.of(context).primaryColor),
                               Text(
-                                " " + value.initial_city,
+                                " ${value.initial_city}",
                                 softWrap: true,
                                 style: GoogleFonts.ubuntu(
                                     color: Theme.of(context).primaryColor,

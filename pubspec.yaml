@@ -45,8 +45,7 @@ dependencies:
   url_launcher: ^6.1.10
   dropdown_search: ^5.0.6
   shared_preferences: ^2.0.15
-  webview_flutter: ^4.0.7
-  custom_radio_grouped_button: ^2.1.2
+  custom_radio_grouped_button: ^2.2.0
   font_awesome_flutter: ^10.1.0
   email_validator: ^2.0.1
   image_picker: ^0.8.4+3
@@ -71,6 +70,7 @@ dependencies:
   animated_text_kit: ^4.2.2
   in_app_review: ^2.0.6
   flutter_scrolling_fab_animated: ^0.1.4
+  webview_flutter: ^4.2.0
 
 
 dev_dependencies:

@@ -18,7 +18,7 @@ class _SettingsPageState extends State<SettingsPage> {
     final formKey = GlobalKey<FormState>();
     var dbclass = context.read<DataBase>();
     return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
         leading: const BackButton(
           color: Colors.white,
@@ -227,9 +227,9 @@ class _SettingsPageState extends State<SettingsPage> {
                           onPressed: () {
                             print('delete account');
                           },
-                          child: const Row(
+                          child: Row(
                             mainAxisSize: MainAxisSize.min,
-                            children: [
+                            children: const [
                               Icon(AntIcons.deleteOutlined),
                               SizedBox(
                                 width: 1.0,

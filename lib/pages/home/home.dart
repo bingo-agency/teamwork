@@ -16,6 +16,7 @@ import 'package:team_work/widgets/featured.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:team_work/widgets/welcome_text.dart';
 import '../../models/database.dart';
+import '../Notifications/notifications.dart';
 import '../Property/addNewProperty.dart';
 import '../auth/manageAds.dart';
 import '../auth/profilepage.dart';
@@ -80,11 +81,20 @@ class HomePage extends StatelessWidget {
             onPressed: () => _scaffoldKey.currentState!.openDrawer(),
           ),
           actions: [
-            Icon(
-              Icons.notifications,
-              size: 30,
-              color: Theme.of(context).primaryColor,
-            ),
+            (dbclass.id == "")
+                ? InkWell(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              Notifications(id: dbclass.id)));
+                    },
+                    child: Icon(
+                      Icons.notifications,
+                      size: 30,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  )
+                : Container(),
             const SizedBox(
               width: 2.0,
             ),
@@ -120,8 +130,8 @@ class HomePage extends StatelessWidget {
         drawer: const Mydrawer(),
         body: SingleChildScrollView(
           controller: scrollController,
-          child: const Column(
-            children: [
+          child: Column(
+            children: const [
               WelcomeText(),
               PropertyType(),
               Featured(),
@@ -160,8 +170,8 @@ class HomePage extends StatelessWidget {
           },
           scrollController: scrollController,
           animateIcon: true,
-          limitIndicator: 1.0,
-          curve: Curves.bounceIn,
+          // limitIndicator: 1.0,
+          curve: Curves.easeInOut,
           inverted: false,
           radius: 10.0,
         ),

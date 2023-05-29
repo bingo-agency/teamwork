@@ -76,15 +76,15 @@ class Contact extends StatelessWidget {
               style: GoogleFonts.ubuntu(color: Colors.black38, fontSize: 20),
             ),
           ),
-          const ListTile(
-            leading: Icon(
+          ListTile(
+            leading: const Icon(
               Icons.call,
               color: Colors.purple,
             ),
             title: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              children: const [
                 Text('(+92) 345 8514492'),
                 Text('(+92) 51 5402683')
               ],
@@ -96,10 +96,10 @@ class Contact extends StatelessWidget {
               Icons.share,
               color: Colors.purple,
             ),
-            title: const Column(
+            title: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [Text('Social share:')],
+              children: const [Text('Social share:')],
             ),
             subtitle: Row(
               mainAxisAlignment: MainAxisAlignment.start,

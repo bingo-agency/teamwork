@@ -14,7 +14,7 @@ class DetailLoading extends StatelessWidget {
         physics: const NeverScrollableScrollPhysics(),
         children: [
           SizedBox(
-            height: 300,
+            height: 500,
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.only(
@@ -59,7 +59,7 @@ loadingTile(context) {
           children: [
             Container(
               width: 100.0,
-              height: 100.0,
+              height: 200.0,
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.only(
                   topRight: Radius.circular(4.0),
