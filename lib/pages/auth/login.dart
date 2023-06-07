@@ -139,7 +139,8 @@ class Login extends StatelessWidget {
                         await showDialog(
                           context: context,
                           builder: (context) => AlertDialog(
-                            title: Text('Warning', style: GoogleFonts.ubuntu()),
+                            title: Text('Please Wait',
+                                style: GoogleFonts.ubuntu()),
                             content: FutureBuilder(
                               future: dbclass.userLogin(email, password),
                               builder: (context, snapshot) {
@@ -180,7 +181,7 @@ class Login extends StatelessWidget {
                         if (message.isNotEmpty && message == 'True') {
                           //shared prefs !!!
 
-                          // print('True');
+                          print('True');
                           Navigator.of(context).pushReplacement(
                               MaterialPageRoute(
                                   builder: (BuildContext context) =>

@@ -12,6 +12,7 @@ import 'package:team_work/widgets/alertBox.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../models/database.dart';
 import '../Career/contactus.dart';
+import '../Property/addNewProperty.dart';
 import '../settings/drafts.dart';
 import 'package:in_app_review/in_app_review.dart';
 
@@ -330,12 +331,12 @@ class profilepage extends StatelessWidget {
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) => const addProperty(),
-                            //   ),
-                            // );
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    AddNewProperty(id: id),
+                              ),
+                            );
                           },
                           child: const Text('Post Your Property Ad Easy'),
                         )

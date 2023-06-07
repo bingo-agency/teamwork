@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:dio/dio.dart';
+// import 'package:dio/dio.dart';
 // import 'package:flutter/services.dart';
 // import 'package:http_parser/http_parser.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:flutter/foundation.dart';
+// import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
@@ -15,32 +15,38 @@ import 'package:geolocator/geolocator.dart';
 import 'dart:async';
 
 class DataBase with ChangeNotifier {
-  //add property stepper :
+  //add new property image picker
 
-  int activeIndex = 0;
-  int totalIndex = 2;
-  int currentStep = 0;
+  List<XFile> image_Files = [];
+  List<File> get imageFiles =>
+      image_Files.map((file) => File(file.path)).toList();
 
-  changeStep(int index) {
-    activeIndex = index;
-    notifyListeners();
-  }
+  final picker = ImagePicker();
 
-  nextStep() {
-    print(currentStep);
-    if (activeIndex == 0) {
-      return currentStep++;
-    } else if (currentStep == 1) {
-      return currentStep++;
+  Future<void> selectImages() async {
+    final picker = ImagePicker();
+    final pickedFiles = await picker.pickMultiImage(
+      imageQuality: 60,
+    );
+
+    if (pickedFiles.isNotEmpty) {
+      image_Files.addAll(pickedFiles);
+      for (var i = 0; i < image_Files.length; i++) {
+        print(image_Files[i]);
+        print(i.toString());
+      }
+      notifyListeners();
     }
+  }
+
+  Future<void> removeImage(int index) async {
+    final file = File(image_Files[index].path);
+    await file.delete();
+    image_Files.removeAt(index);
     notifyListeners();
   }
 
-  previousStep() {
-    print(currentStep);
-    notifyListeners();
-    return currentStep--;
-  }
+  //ends
 
   void pickImage() async {
     final pickedFile =
@@ -101,7 +107,6 @@ class DataBase with ChangeNotifier {
     x = position.latitude;
     y = position.longitude;
     Getlocation(x.toString(), y.toString());
-    // print('${lastPosition}last position');
     notifyListeners();
   }
 
@@ -143,11 +148,14 @@ class DataBase with ChangeNotifier {
     notifyListeners();
   }
 
+  var formattedAddress = '';
   Future<void> getCityLocation() async {
+    var gottenAddress = _mapLocation['results'][0]['formatted_address'];
     var gottenCity = _mapLocation['results'][0]['address_components'][5]
             ['long_name']
         .toString();
     initial_city = gottenCity;
+    formattedAddress = gottenAddress;
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('initial_city', gottenCity);
     initial_city = prefs.getString('initial_city') ?? '';
@@ -165,30 +173,10 @@ class DataBase with ChangeNotifier {
     // List<Asset> resultList = <Asset>[];
     String error = 'No Error Detected';
 
-    try {
-      // resultList = await MultiImagePicker.pickImages(
-      //   maxImages: 300,
-      //   enableCamera: true,
-      //   selectedAssets: propertyImages,
-      //   cupertinoOptions: const CupertinoOptions(takePhotoIcon: "chat"),
-      //   materialOptions: const MaterialOptions(
-      //     actionBarColor: "#6f1c74",
-      //     actionBarTitle: "Select Property Images",
-      //     allViewTitle: "All Photos",
-      //     useDetailsView: false,
-      //     selectCircleStrokeColor: "#5e1863",
-      //   ),
-      // );
-    } on Exception catch (e) {
+    try {} on Exception catch (e) {
       error = e.toString();
     }
 
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    // if (!mounted) return;
-
-    // propertyImages = resultList;
     error = error;
 
     notifyListeners();
@@ -199,127 +187,7 @@ class DataBase with ChangeNotifier {
     return spinVal;
   }
 
-  Dio dio = Dio();
-
-  // Future uploadImageToServer() async {
-  //   String completeurl =
-  //       'https://teamworkpk.com/API/add_property_images.php?post_id=' + post_id;
-  //   print(completeurl);
-  //   for (var i = 0; i < propertyImages.length; i++) {
-  //     // print(i);
-  //     ByteData byteData = await propertyImages[i].getByteData();
-  //     List<int> imageData = byteData.buffer.asUint8List();
-
-  //     MultipartFile multiPartFile = MultipartFile.fromBytes(
-  //       imageData,
-  //       filename: propertyImages[i].name,
-  //       contentType: MediaType('image', 'jpeg'),
-  //     );
-  //     FormData formData = FormData.fromMap({'image': multiPartFile});
-  //     var response = await dio.post(completeurl, data: formData);
-  //     if (response.statusCode == 200) {
-  //       print(response.data);
-  //     } else {
-  //       print(response.statusCode);
-  //     }
-  //   }
-  // }
-
-  // Future uploadImageToServer() async {
-  //   String completeurl =
-  //       'https://teamworkpk.com/API/add_property_images.php?post_id=' + post_id;
-  //   print(completeurl);
-  //   var newString;
-  //   try {
-  //     showSpinner = true;
-  //
-  //     var uri = Uri.parse(completeurl);
-  //     http.MultipartRequest request = http.MultipartRequest('POST', uri);
-  //
-  //     request.fields['userid'] = id;
-  //     // request.fields['title'] = id;
-  //
-  //     List<http.MultipartFile> newList = <http.MultipartFile>[];
-  //     int piloop = 0;
-  //     var response;
-  //
-  //     for (int i = 0; i < propertyImages.length; i++) {
-  //       print('printing i ');
-  //       print(i);
-  //       var path = await FlutterAbsolutePath.getAbsolutePath(
-  //           propertyImages[i].identifier);
-  //       File imageFile = File(path);
-  //
-  //       var stream = http.ByteStream(imageFile.openRead());
-  //       var length = await imageFile.length();
-  //
-  //       var multipartFile = http.MultipartFile(
-  //         "image",
-  //         stream,
-  //         length,
-  //         contentType: MediaType('image', 'png'),
-  //         filename: basename(imageFile.path),
-  //       );
-  //       newList.add(multipartFile);
-  //
-  //       // print('printing newList inside loop');
-  //       // print(newList);
-  //       request.files.addAll(newList);
-  //       piloop++;
-  //     }
-  //
-  //     response = await request.send();
-  //
-  //     print('printing newList outside loop');
-  //     print(newList);
-  //
-  //     if (response.statusCode == 200) {
-  //       response.stream.transform(utf8.decoder).listen((value) {
-  //         print('last val ' + value);
-  //         // print(jsonDecode(value));
-  //       });
-  //       if (propertyImages.length == piloop) {
-  //         print('its 200 and length is equal to list as well ');
-  //         Timer(
-  //             const Duration(seconds: 2),
-  //             () => () {
-  //                   showSpinner = true;
-  //                 });
-  //       } else {
-  //         print('not 200');
-  //         Timer(
-  //             const Duration(seconds: 2),
-  //             () => () {
-  //                   showSpinner = true;
-  //                 });
-  //       }
-  //       print('piloop is same length');
-  //       print(piloop);
-  //     }
-  //
-  //     await piloop;
-  //     if (piloop == propertyImages.length) {
-  //       print('piloop is same length');
-  //       print(piloop);
-  //       notifyListeners();
-  //     }
-  //   } catch (e) {
-  //     showSpinner = false;
-  //
-  //     print(e.toString());
-  //     // notifyListeners();
-  //   }
-  // }
-
-  // Future<void> selectImages() async {
-  //   final List<XFile>? selectedImages = await imagePicker.pickMultiImage();
-  //
-  //   if (selectedImages!.isNotEmpty) {
-  //     imageFileList!.addAll(selectedImages);
-  //   }
-  //   print("Image List Length:" + imageFileList!.length.toString());
-  //   notifyListeners();
-  // }
+  // Dio dio = Dio();
 
   String post_id = '0';
   List<dynamic> finalResImages = [];
@@ -328,133 +196,6 @@ class DataBase with ChangeNotifier {
     id = post_id;
     notifyListeners();
   }
-
-//   Future<void> uploadingPropertyImages(id) async {
-//     String completeurl =
-//         'https://teamworkpk.com/API/add_property_images.php?post_id=' + id;
-//     print('printing uploading property images ');
-//
-//     if (imageFileList != null) {
-//       print(imageFileList!.length);
-// // string to uri
-//       var uri = Uri.parse(completeurl);
-//
-// // create multipart request
-//       var request = http.MultipartRequest("POST", uri);
-//       for (var file in imageFileList!) {
-//         print(file.path);
-//         request.files.add(http.MultipartFile(
-//             'picturePath',
-//             File(file!.path).readAsBytes().asStream(),
-//             File(file!.path).lengthSync(),
-//             filename: file.path!.split("/").last));
-//
-//         request.files
-//             .add(await http.MultipartFile.fromPath('picture', file!.name));
-//         var res = await request.send();
-//       }
-//
-//       var res = await request.send();
-//       print(res);
-//
-//       // for (int i = 0; i < imageFileList!.length; i++) {
-//       //   String base64Image = base64Encode(imageFileList[i]!.readAsBytes());
-//       //   String fileName = primaryImage!.path.split("/").last;
-//       //
-//       //   response = await http.post(Uri.parse(completeurl), body: {
-//       //     "image": base64Image,
-//       //     "name": fileName,
-//       //   });
-//       //
-//       //   if (response.statusCode == 200) {
-//       //     print('its 200 from new shit ');
-//       //     var abPost = jsonDecode(response.body);
-//       //
-//       //     if (response.body.isNotEmpty) {
-//       //       print(abPost.toString());
-//       //       post_id = abPost['adpost'][0]['last_id'].toString();
-//       //       // postedAd = true;
-//       //       // print('printing post_id');
-//       //       // print(post_id);
-//       //       // setPostId(post_id);
-//       //       // uploadingPropertyImages(post_id);printing post_id
-//       //     } else {
-//       //       print('nope the status code is not 200' + response.body.toString());
-//       //     }
-//       //   } else {
-//       //     // _errorAddProperty = true;
-//       //     // _errorMessageAddProperty =
-//       //     // 'Error : It could be your Internet connection.';
-//       //     // _mapAddProperty = {};
-//       //   }
-//       // }
-//
-//       // for (var file in imageFileList!) {
-//       //   String fileName = file.path.split("/").last;
-//       //   var stream = http.ByteStream(file.openRead());
-//       //   stream.cast();
-//       //
-//       //   // get file length
-//       //
-//       //   var length = await file.length(); //imageFile is your image file
-//       //
-//       //   // multipart that takes file
-//       //   var multipartFileSign =
-//       //       http.MultipartFile('image', stream, length, filename: fileName);
-//       //   print(fileName);
-//       //
-//       //   request.files.add(multipartFileSign);
-//       // }
-//
-//       // Map<String, String> headers = {
-//       //   "Accept": "application/json",
-//       //   "Authorization": "Bearer $value"
-//       // }; // ignore this headers if there is no authentication
-//
-// //add headers
-// //       request.headers.addAll(headers);
-//
-// //adding params
-// //       request.fields['id'] = post_id;
-// //       request.fields['images'] = request.files.toString();
-// // request.fields['lastName'] = 'efg';
-//
-// // send
-// //       response = await request.send();
-//
-//       // print(response.statusCode);
-//
-// // listen for response
-// //       response.stream.transform(utf8.decoder).listen((value) {
-// //         print('last val ' + value);
-// //       });
-//       // for (int i = 0; i < imageFileList!.length; i++) {
-//       //   // print(imageFileList![i].path);
-//       //   Uint8List base64Image = await imageFileList![i].readAsBytes();
-//       //   String fileName = imageFileList![i].path.split("/").last;
-//       //   print(fileName);
-//       //
-//       //   response = await http.post(Uri.parse(completeurl), body: {
-//       //     "image": base64Image.toString(),
-//       //     "name": fileName,
-//       //   });
-//       // }
-//       // if (response.statusCode == 200) {
-//       //   print('its 200 last one');
-//       //   print(response.body);
-//       //   var abPost = jsonDecode(response.body);
-//       //   print(abPost);
-//       //   return abPost;
-//       // } else {
-//       //   // _errorAddProperty = true;
-//       //   // _errorMessageAddProperty =
-//       //   //     'Error : It could be your Internet connection.';
-//       //   // _mapAddProperty = {};
-//       // }
-//     }
-//   }
-
-  // promerty images ends
 
   // primary image shit starts here
   // File? primaryImage;
@@ -489,10 +230,10 @@ class DataBase with ChangeNotifier {
 
   String typeIndex = 'House';
 
-  Future<void> setType(value) async {
-    typeIndex = value;
-    notifyListeners();
-  }
+  // Future<void> setType(value) async {
+  //   typeIndex = value;
+  //   notifyListeners();
+  // }
 
   String addressIndex = '';
 
@@ -688,6 +429,360 @@ class DataBase with ChangeNotifier {
 
   //shared prefs end
 
+  // new one june 2023
+  // addProperty
+  // addNewProperty
+
+  String adPurpose = '';
+  String adPropertyType = '';
+  String adType = '';
+  String adLocation = '';
+  String adCity = '';
+  String adPrice = '';
+  String adArea = '';
+  String adVideoLink = '';
+  String adTitle = '';
+  String adDescription = '';
+  String adInternalId = '';
+
+  String selectedAdCity = 'Islamabad';
+  List<String> adCityOptions = [
+    "Islamabad",
+    "Lahore",
+    "Rawalpindi",
+    "Karachi",
+    "Abbottabad",
+    "Murree",
+    "Ahmed Nager Chatha",
+    "Ahmadpur East",
+    "Ali Khan Abad",
+    "Alipur",
+    "Arifwala",
+    "Attock",
+    "Bhera",
+    "Bhalwal",
+    "Bahawalnagar",
+    "Bahawalpur",
+    "Bhakkar",
+    "Burewala",
+    "Chillianwala",
+    "Chakwal",
+    "Chichawatni",
+    "Chiniot",
+    "Chishtian",
+    "Daska",
+    "Darya Khan",
+    "Dera Ghazi Khan",
+    "Dhaular",
+    "Dina",
+    "Dinga",
+    "Dipalpur",
+    "Faisalabad",
+    "Ferozewala",
+    "Fateh Jhang",
+    "Ghakhar Mandi",
+    "Gojra",
+    "Gujranwala",
+    "Gujrat",
+    "Gujar Khan",
+    "Hafizabad",
+    "Haroonabad",
+    "Hasilpur",
+    "Haveli Lakha",
+    "Jatoi",
+    "Jalalpur",
+    "Jattan",
+    "Jampur",
+    "Jaranwala",
+    "Jhang",
+    "Jhelum",
+    "Kalabagh",
+    "Karor Lal Esan",
+    "Kasur",
+    "Kamalia",
+    "Kamoke",
+    "Khanewal",
+    "Khanpur",
+    "Kharian",
+    "Khushab",
+    "Kot Addu",
+    "Jauharabad",
+    "Lalamusa",
+    "Layyah",
+    "Liaquat Pur",
+    "Lodhran",
+    "Malakwal",
+    "Mamoori",
+    "Mailsi",
+    "Mandi Bahauddin",
+    "Mian Channu",
+    "Mianwali",
+    "Multan",
+    "Muridke",
+    "Mianwali Bangla",
+    "Muzaffargarh",
+    "Narowal",
+    "Nankana Sahib",
+    "Okara",
+    "Renala Khurd",
+    "Pakpattan",
+    "Pattoki",
+    "Pir Mahal",
+    "Qaimpur",
+    "Qila Didar Singh",
+    "Rabwah",
+    "Raiwind",
+    "Rajanpur",
+    "Rahim Yar Khan",
+    "Sadiqabad",
+    "Safdarabad",
+    "Sahiwal",
+    "Sangla Hill",
+    "Sarai Alamgir",
+    "Sargodha",
+    "Shakargarh",
+    "Sheikhupura",
+    "Sialkot",
+    "Sohawa",
+    "Soianwala",
+    "Siranwali",
+    "Talagang",
+    "Taxila",
+    "Toba Tek Singh",
+    "Vehari",
+    "Wah Cantonment",
+    "Wazirabad",
+    "Badin",
+    "Bhirkan",
+    "Rajo Khanani",
+    "Chak",
+    "Dadu",
+    "Digri",
+    "Diplo",
+    "Dokri",
+    "Ghotki",
+    "Haala",
+    "Hyderabad",
+    "Islamkot",
+    "Jacobabad",
+    "Jamshoro",
+    "Jungshahi",
+    "Kandhkot",
+    "Kandiaro",
+    "Kashmore",
+    "Keti Bandar",
+    "Khairpur",
+    "Kotri",
+    "Larkana",
+    "Matiari",
+    "Mehar",
+    "Mirpur Khas",
+    "Mithani",
+    "Mithi",
+    "Mehrabpur",
+    "Moro",
+    "Nagarparkar",
+    "Naudero",
+    "Naushahro Feroze",
+    "Naushara",
+    "Nawabshah",
+    "Nazimabad",
+    "Qambar",
+    "Qasimabad",
+    "Ranipur",
+    "Ratodero",
+    "Rohri",
+    "Sakrand",
+    "Sanghar",
+    "Shahbandar",
+    "Shahdadkot",
+    "Shahdadpur",
+    "Shahpur Chakar",
+    "Shikarpaur",
+    "Sukkur",
+    "Tangwani",
+    "Tando Adam Khan",
+    "Tando Allahyar",
+    "Tando Muhammad Khan",
+    "Thatta",
+    "Umerkot",
+    "Warah",
+    "Adezai",
+    "Alpuri",
+    "Akora Khattak",
+    "Ayubia",
+    "Banda Daud Shah",
+    "Bannu",
+    "Batkhela",
+    "Battagram",
+    "Birote",
+    "Chakdara",
+    "Charsadda",
+    "Chitral",
+    "Daggar",
+    "Dargai",
+    "Darya Khan",
+    "Dera Ismail Khan",
+    "Doaba",
+    "Dir",
+    "Drosh",
+    "Hangu",
+    "Haripur",
+    "Karak",
+    "Kohat",
+    "Kulachi",
+    "Lakki Marwat",
+    "Latamber",
+    "Madyan",
+    "Mansehra",
+    "Mardan",
+    "Mastuj",
+    "Mingora",
+    "Nowshera",
+    "Paharpur",
+    "Pabbi",
+    "Peshawar",
+    "Saidu Sharif",
+    "Shorkot",
+    "Shewa Adda",
+    "Swabi",
+    "Swat",
+    "Tangi",
+    "Tank",
+    "Thall",
+    "Timergara",
+    "Tordher",
+    "Awaran",
+    "Barkhan",
+    "Chagai",
+    "Dera Bugti",
+    "Gwadar",
+    "Harnai",
+    "Jafarabad",
+    "Jhal Magsi",
+    "Kacchi",
+    "Kalat",
+    "Kech",
+    "Kharan",
+    "Khuzdar",
+    "Killa Abdullah",
+    "Killa Saifullah",
+    "Kohlu",
+    "Lasbela",
+    "Lehri",
+    "Loralai",
+    "Mastung",
+    "Musakhel",
+    "Nasirabad",
+    "Nushki",
+    "Panjgur",
+    "Pishin Valley",
+    "Quetta",
+    "Sherani",
+    "Sibi",
+    "Sohbatpur",
+    "Washuk",
+    "Zhob",
+    "Ziarat",
+  ];
+  String finalAdCity = '';
+
+  void setAdCity(newAdCity) {
+    finalAdCity = newAdCity;
+    notifyListeners();
+  }
+
+  String selectedType = 'House';
+  List<String> typeOptions = [
+    'House',
+    'Studio',
+    'Apartment',
+    'Plot',
+    'Shop',
+    'Restaurant',
+    'Building',
+    'Land',
+    'Vehicle',
+    'Other'
+  ];
+  String finalType = '';
+
+  void setType(newType) {
+    finalType = newType;
+    notifyListeners();
+  }
+
+  String selectedUnit = 'Marla';
+  List<String> unitOptions = ['Marla', 'Sqft'];
+  String finalUnit = '';
+
+  void setUnit(newUnit) {
+    finalUnit = newUnit;
+    notifyListeners();
+  }
+
+  String uploadStatus = 'Posting...';
+  bool uploadValue = false;
+  Future<void> addNewProperty(BuildContext context, internalId, type, purpose,
+      city, location, area, price, title, description, video_link) async {
+    print('adding new property now ! ');
+    var request = http.MultipartRequest(
+        'POST',
+        Uri.parse(
+            'https://teamworkpk.com/API/addNewProperty.php?user_id=' + id));
+    request.headers.addAll({
+      'Content-Type': 'multipart/form-data',
+      'Authorization':
+          'Bearer <auth-eadgbe11235813>', // Replace with the actual access token
+    });
+    //for image and videos and files
+
+    for (var i = 0; i < image_Files.length; i++) {
+      request.files.add(await http.MultipartFile.fromPath(
+          image_Files[i].name, image_Files[i].path));
+      print(image_Files[i].name);
+    }
+    // Add additional fields to the request
+    request.fields['type'] = type;
+    request.fields['internal_id'] = internalId;
+    request.fields['purpose'] = purpose;
+    request.fields['city'] = city;
+    request.fields['location'] = location;
+    request.fields['area'] = area;
+    request.fields['price'] = price;
+    request.fields['title'] = title;
+    request.fields['description'] = description;
+    request.fields['video_link'] = video_link;
+    print('type' + type);
+    print('internalId' + internalId);
+    print('purpose' + purpose);
+    print('city' + city);
+    print('location' + location);
+    print('area' + area);
+    print('price' + price);
+    print('title' + title);
+    print('description' + description);
+    print('video_link' + video_link);
+
+    //for completeing the request
+    var response = await request.send();
+
+    //for getting and decoding the response into json format
+    var responsed = await http.Response.fromStream(response);
+
+    final responseData = json.decode(responsed.body);
+
+    if (response.statusCode == 200) {
+      print("SUCCESS");
+      uploadStatus = 'Your ad has been posted.';
+      uploadValue = true;
+      print(responseData);
+    } else {
+      print("ERROR");
+    }
+    notifyListeners();
+  }
+
   //add property starts here
 
   Map<String, dynamic> _mapAddProperty = {};
@@ -820,7 +915,7 @@ class DataBase with ChangeNotifier {
   Future<void> userLogin(String email, String password) async {
     String completeurl =
         'https://teamworkpk.com/API/loginapi.php?email=$email&password=$password';
-    // print(completeurl);
+    print(completeurl);
     final response = await http.get(
       Uri.parse(
           'https://teamworkpk.com/API/loginapi.php?email=$email&password=$password'),

@@ -130,8 +130,8 @@ class HomePage extends StatelessWidget {
         drawer: const Mydrawer(),
         body: SingleChildScrollView(
           controller: scrollController,
-          child: Column(
-            children: const [
+          child: const Column(
+            children: [
               WelcomeText(),
               PropertyType(),
               Featured(),

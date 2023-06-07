@@ -17,8 +17,7 @@ class Notifications extends StatelessWidget {
             style: GoogleFonts.ubuntu(color: Colors.white)),
       ),
       body: Center(
-        child: noRecordsFound(
-            context, "You don't have any Notifications yet. $id"),
+        child: noRecordsFound(context, "You don't have any Notifications yet."),
       ),
     );
   }

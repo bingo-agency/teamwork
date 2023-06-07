@@ -67,7 +67,8 @@ class ManageAds extends StatelessWidget {
                                             [index]);
                                   } else {
                                     return Padding(
-                                      padding: const EdgeInsets.all(8.0),
+                                      padding:
+                                          const EdgeInsets.only(top: 250.0),
                                       child: Center(
                                         child: noRecordsFound(context,
                                             "You don't have any properties yet."),

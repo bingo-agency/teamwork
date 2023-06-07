@@ -58,8 +58,8 @@ loadingTile(context) {
         Row(
           children: [
             Container(
-              width: 100.0,
-              height: 200.0,
+              width: 150.0,
+              height: 100.0,
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.only(
                   topRight: Radius.circular(4.0),

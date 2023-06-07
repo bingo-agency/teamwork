@@ -48,11 +48,11 @@ dependencies:
   custom_radio_grouped_button: ^2.2.0
   font_awesome_flutter: ^10.1.0
   email_validator: ^2.0.1
-  image_picker: ^0.8.4+3
+  image_picker: ^0.8.7+5
   easy_stepper: ^0.5.0
   flutter_typeahead: ^4.0.0
   dio: ^5.1.1
-  # flutter_easyloading: ^3.0.5
+  intl: ^0.18.1
   shimmer: ^2.0.0
   # flex_color_scheme: ^7.0.2
   # flutter_intro: ^3.0.2
