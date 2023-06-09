@@ -13,8 +13,11 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../models/database.dart';
 import '../Career/contactus.dart';
 import '../Property/addNewProperty.dart';
+import '../home/home.dart';
 import '../settings/drafts.dart';
 import 'package:in_app_review/in_app_review.dart';
+
+import 'login.dart';
 
 class profilepage extends StatelessWidget {
   String id;
@@ -23,6 +26,8 @@ class profilepage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final InAppReview inAppReview = InAppReview.instance;
+    var dbclass = context.read<DataBase>();
     launchURL() async {
       const url = 'https://teamworkpk.com/terms';
       final uri = Uri.parse(url);
@@ -77,7 +82,7 @@ class profilepage extends StatelessWidget {
                             ? InkWell(
                                 onTap: () {
                                   alertBox(context,
-                                      'This Service is only Available to Premiuim members only.');
+                                      'This Service is Available to Premiuim members only.');
                                 },
                                 child: Card(
                                     elevation: 3.0,
@@ -134,11 +139,13 @@ class profilepage extends StatelessWidget {
                   ),
                   InkWell(
                     onTap: () {
-                      // print('Saved Searches.');
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => SavedSearch(id: id)));
+                      print('Saved Searches.');
+                      alertBox(context,
+                          'This Service is Available to Premiuim members only.');
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => SavedSearch(id: id)));
                     },
                     child: Card(
                       elevation: 3.0,
@@ -167,11 +174,13 @@ class profilepage extends StatelessWidget {
                   ),
                   InkWell(
                     onTap: () {
-                      // print('Favourites');
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => myFavourites(id: id)));
+                      print('Favourites');
+                      alertBox(context,
+                          'This Service is Available to Premiuim members only.');
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => myFavourites(id: id)));
                     },
                     child: Card(
                       elevation: 3.0,
@@ -233,11 +242,13 @@ class profilepage extends StatelessWidget {
                   ),
                   InkWell(
                     onTap: () {
+                      alertBox(context,
+                          'This Service is Available to Premiuim members only.');
                       // print('Drafts');
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => Drafts(id: id)));
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => Drafts(id: id)));
                     },
                     child: Card(
                       elevation: 3.0,
@@ -464,12 +475,10 @@ class profilepage extends StatelessWidget {
                         Flexible(
                           child: GestureDetector(
                             onTap: () async {
-                              alertBox(context, 'Please Wait,');
-                              Navigator.pop(context);
-                              final InAppReview inAppReview =
-                                  InAppReview.instance;
+                              // alertBox(context, 'Please Wait,');
+                              // Navigator.pop(context);
                               if (await inAppReview.isAvailable()) {
-                                inAppReview.requestReview();
+                                inAppReview.openStoreListing();
                               }
                             },
                             child: Row(
@@ -514,22 +523,27 @@ class profilepage extends StatelessWidget {
                         ),
                         const SizedBox(width: 10),
                         Flexible(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Invite Friends to TeamWork',
-                                style: GoogleFonts.ubuntu(
-                                    fontSize: 20.0,
-                                    fontWeight: FontWeight.bold,
-                                    color: Theme.of(context).primaryColor),
-                              ),
-                              Icon(
-                                AntIcons.rightOutlined,
-                                color: Theme.of(context).primaryColor,
-                              )
-                            ],
+                          child: GestureDetector(
+                            onTap: () {
+                              print('Invite friends');
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Invite Friends to TeamWork',
+                                  style: GoogleFonts.ubuntu(
+                                      fontSize: 20.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(context).primaryColor),
+                                ),
+                                Icon(
+                                  AntIcons.rightOutlined,
+                                  color: Theme.of(context).primaryColor,
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ],
@@ -581,6 +595,7 @@ class profilepage extends StatelessWidget {
                   ],
                 ),
               ),
+
               Container(
                 margin: const EdgeInsets.only(top: 10.0, bottom: 10),
                 padding: const EdgeInsets.all(10),
@@ -600,7 +615,14 @@ class profilepage extends StatelessWidget {
                         Flexible(
                           child: GestureDetector(
                             onTap: () {
-                              alertBox(context, 'Will work on it later.');
+                              dbclass.addAuth('', '', '', '', '', '', '');
+                              dbclass.removeUser();
+                              Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                  builder: (BuildContext context) => HomePage(),
+                                ),
+                              );
+                              print('user loggedout');
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -626,6 +648,7 @@ class profilepage extends StatelessWidget {
                   ],
                 ),
               ),
+
               Container(
                 margin: const EdgeInsets.only(top: 10.0, bottom: 10),
                 padding: const EdgeInsets.all(10),
@@ -949,5 +972,115 @@ class profilepage extends StatelessWidget {
     //     ],
     //   ),
     // ));
+  }
+}
+
+class checkLogoutButton extends StatelessWidget {
+  String id;
+  var dbclass;
+
+  checkLogoutButton({Key? key, required this.id, this.dbclass})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    var dbclass = context.read<DataBase>();
+    print('printing id from checkloginbutton');
+    print(id);
+    if (id == '') {
+      return ListTile(
+        title: Row(
+          children: <Widget>[
+            Icon(AntIcons.userAddOutlined,
+                color: Theme.of(context).primaryColor),
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: Text(
+                'Login',
+                style: GoogleFonts.ubuntu(
+                    color: Theme.of(context).primaryColor,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 18.0),
+                softWrap: true,
+              ),
+            )
+          ],
+        ),
+        onTap: () async {
+          print('woll logout now.');
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (BuildContext context) => const Login()));
+        },
+      );
+    } else {
+      return Container(
+        margin: const EdgeInsets.only(top: 10.0, bottom: 10),
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Stack(
+          children: [
+            Row(
+              children: [
+                const SizedBox(
+                  child: Icon(AntIcons.logoutOutlined,
+                      size: 40.0, color: Colors.redAccent),
+                ),
+                const SizedBox(width: 10),
+                Flexible(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Logout',
+                        style: GoogleFonts.ubuntu(
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.redAccent),
+                      ),
+                      const Icon(
+                        AntIcons.rightOutlined,
+                        color: Colors.redAccent,
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      );
+      // return ListTile(
+      //   title: Row(
+      //     children: <Widget>[
+      //       Icon(AntIcons.userDeleteOutlined,
+      //           color: Theme.of(context).primaryColor),
+      //       Padding(
+      //         padding: const EdgeInsets.only(left: 8.0),
+      //         child: Text(
+      //           'Log Out',
+      //           style: GoogleFonts.ubuntu(
+      //               color: Theme.of(context).primaryColor,
+      //               fontWeight: FontWeight.w700,
+      //               fontSize: 18.0),
+      //           softWrap: true,
+      //         ),
+      //       )
+      //     ],
+      //   ),
+      //   onTap: () {
+      //     // dbclass.addAuth('', '');
+      //     dbclass.removeUser();
+      //     Navigator.of(context).pushReplacement(
+      //       MaterialPageRoute(
+      //         builder: (BuildContext context) => HomePage(),
+      //       ),
+      //     );
+      //   },
+      // );
+    }
+    // return Container();
   }
 }

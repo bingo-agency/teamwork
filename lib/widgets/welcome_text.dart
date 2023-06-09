@@ -7,6 +7,7 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:team_work/widgets/searchBottomSheet.dart';
 import 'package:team_work/widgets/user_api.dart';
 import '../models/database.dart';
+import '../pages/search/search.dart';
 
 class WelcomeText extends StatelessWidget {
   const WelcomeText({Key? key}) : super(key: key);
@@ -47,9 +48,12 @@ class WelcomeText extends StatelessWidget {
               child: Card(
                 elevation: 3.0,
                 child: GestureDetector(
+                  behavior: HitTestBehavior.translucent,
                   onTap: () async {
                     print('cool');
-                    searchBottomSheet(context);
+                    // searchBottomSheet(context);
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => SearchPage()));
                   },
                   child: ListTile(
                     leading: Icon(AntIcons.searchOutlined,

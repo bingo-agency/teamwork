@@ -54,6 +54,7 @@ dependencies:
   dio: ^5.1.1
   intl: ^0.18.1
   shimmer: ^2.0.0
+  flutter_share: 2.0.0
   # flex_color_scheme: ^7.0.2
   # flutter_intro: ^3.0.2
   share_plus: ^6.3.0
@@ -118,10 +119,8 @@ flutter:
     - assets/icons/shape22.svg
     - assets/images/banner4.png
     - assets/images/banner6.png
-    - assets/images/offer02.jpeg
     - assets/icons/hashtag.svg
     - images/bkgrndapp.png
-    - assets/images/noimage.jpeg
     - assets/images/teamWrkLogo.png
 
 

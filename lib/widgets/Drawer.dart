@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:team_work/pages/Career/contactus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../models/database.dart';
 import '../pages/Property/Addproperty.dart';
@@ -28,7 +29,7 @@ class Mydrawer extends StatelessWidget {
                 fit: BoxFit.cover,
                 colorFilter:
                     ColorFilter.mode(Colors.white70, BlendMode.softLight),
-                image: AssetImage('assets/images/offer02.jpeg'),
+                image: AssetImage('images/3.jpg'),
               ),
             ),
             child: Stack(
@@ -45,11 +46,17 @@ class Mydrawer extends StatelessWidget {
                 Positioned(
                   bottom: 12.0,
                   left: 16.0,
-                  child: Center(
-                    child: Image(
-                      width: MediaQuery.of(context).size.width / 2,
-                      image: const AssetImage(
-                        "assets/images/teamWrkLogo.png",
+                  child: Container(
+                    color: Colors.white10,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Center(
+                        child: Image(
+                          width: MediaQuery.of(context).size.width / 4,
+                          image: const AssetImage(
+                            "assets/images/teamWrkLogo.png",
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -186,7 +193,21 @@ class Mydrawer extends StatelessWidget {
                 )
               ],
             ),
-            onTap: () {},
+            onTap: () {
+              launchURL() async {
+                const url = 'https://teamworkpk.com/about';
+                final uri = Uri.parse(url);
+                if (await canLaunchUrl(uri)) {
+                  await launchUrl(uri);
+                } else {
+                  throw 'Could not launch $url';
+                }
+              }
+
+              launchURL();
+
+              print('about');
+            },
           ),
           const Divider(),
           checkLogoutButton(id: dbclass.id, dbclass: dbclass),

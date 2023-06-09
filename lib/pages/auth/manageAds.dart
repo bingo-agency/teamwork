@@ -1,13 +1,13 @@
+import 'package:antdesign_icons/antdesign_icons.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:team_work/models/database.dart';
-import 'package:team_work/pages/Property/editProperty.dart';
-
 import '../../widgets/loadingWidgets/verticalListLoading.dart';
 import '../../widgets/noRecordsFound.dart';
 import '../detail/detail.dart';
+import '../home/home.dart';
 
 class ManageAds extends StatelessWidget {
   // final Map<String, dynamic> map;
@@ -17,12 +17,11 @@ class ManageAds extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('your id is = ' + id);
     final fetchAds = context.read<DataBase>().fetchAccount(id);
-    // print(fetchAds);
 
     Future getList() async {
       await fetchAds;
-      // print(fetchAds);
     }
 
     getList();
@@ -33,11 +32,18 @@ class ManageAds extends StatelessWidget {
           'Manage Properties',
           style: GoogleFonts.ubuntu(color: Colors.white),
         ),
-        leading: const BackButton(
+        leading: BackButton(
           color: Colors.white,
+          onPressed: () {
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                    builder: (BuildContext context) => HomePage()),
+                (route) => false);
+          },
         ),
         backgroundColor: Theme.of(context).primaryColor,
       ),
+      // ignore: unnecessary_null_comparison
       body: id == null
           ? const VerticalListLoading()
           : SingleChildScrollView(
@@ -62,7 +68,7 @@ class ManageAds extends StatelessWidget {
                                   if (value.mapAccount['account'][index]
                                           ['message'] ==
                                       "True") {
-                                    return AccountCard(
+                                    return accountCard(
                                         map: value.mapAccount['account']
                                             [index]);
                                   } else {
@@ -85,20 +91,20 @@ class ManageAds extends StatelessWidget {
   }
 }
 
-class AccountCard extends StatelessWidget {
-  AccountCard({Key? key, required this.map}) : super(key: key);
+// ignore: camel_case_types, must_be_immutable
+class accountCard extends StatelessWidget {
+  accountCard({Key? key, required this.map}) : super(key: key);
 
   dynamic map;
 
   @override
   Widget build(BuildContext context) {
-    // print(map.length);
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) {
-              return DetailPage(id: map.id);
+              return DetailPage(id: map['id']);
             },
           ),
         );
@@ -182,31 +188,31 @@ class AccountCard extends StatelessWidget {
                 padding: const EdgeInsets.all(2.0),
                 child: Row(
                   children: [
-                    GestureDetector(
-                      onTap: () {
-                        // var dbclass = await context.read<DataBase>();
-                        // print(map.toString());
-                        Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                EditProperty(map: map),
-                          ),
-                        );
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Text(
-                          'Edit',
-                          style: Theme.of(context)
-                              .textTheme
-                              .displaySmall!
-                              .copyWith(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.purple),
-                        ),
-                      ),
-                    ),
+                    // GestureDetector(
+                    //   onTap: () {
+                    //     // var dbclass = await context.read<DataBase>();
+                    //     // print(map.toString());
+                    //     Navigator.of(context).pushReplacement(
+                    //       MaterialPageRoute(
+                    //         builder: (BuildContext context) =>
+                    //             EditProperty(map: map),
+                    //       ),
+                    //     );
+                    //   },
+                    //   child: Padding(
+                    //     padding: const EdgeInsets.all(10.0),
+                    //     child: Text(
+                    //       'Edit',
+                    //       style: Theme.of(context)
+                    //           .textTheme
+                    //           .displaySmall!
+                    //           .copyWith(
+                    //               fontSize: 18,
+                    //               fontWeight: FontWeight.bold,
+                    //               color: Colors.purple),
+                    //     ),
+                    //   ),
+                    // ),
                     GestureDetector(
                       onTap: () {
                         showDialog(
@@ -242,6 +248,17 @@ class AccountCard extends StatelessWidget {
                                     );
                                   } else {
                                     // print(finalres);
+                                    // ignore: use_build_context_synchronously
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return const AlertDialog(
+                                          title: Text('Warning'),
+                                          content: Text(
+                                              'Your Post can not be removed right now.'),
+                                        );
+                                      },
+                                    );
                                   }
                                 },
                                 child: const Text('Yes'),
@@ -252,15 +269,24 @@ class AccountCard extends StatelessWidget {
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(10.0),
-                        child: Text(
-                          ' Remove',
-                          style: Theme.of(context)
-                              .textTheme
-                              .displaySmall!
-                              .copyWith(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  color: Theme.of(context).primaryColor),
+                        child: Row(
+                          children: [
+                            Icon(AntIcons.deleteOutlined,
+                                color: Theme.of(context).primaryColor),
+                            const SizedBox(
+                              width: 5.0,
+                            ),
+                            Text(
+                              ' Remove',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .displaySmall!
+                                  .copyWith(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(context).primaryColor),
+                            ),
+                          ],
                         ),
                       ),
                     ),

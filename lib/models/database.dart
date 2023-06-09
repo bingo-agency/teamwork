@@ -1,18 +1,14 @@
 import 'dart:convert';
 import 'dart:io';
-// import 'package:dio/dio.dart';
-// import 'package:flutter/services.dart';
-// import 'package:http_parser/http_parser.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:permission_handler/permission_handler.dart';
-// import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:geolocator/geolocator.dart';
-// import 'package:multi_image_picker/multi_image_picker.dart';
-
 import 'dart:async';
+import '../pages/home/home.dart';
 
 class DataBase with ChangeNotifier {
   //add new property image picker
@@ -26,7 +22,7 @@ class DataBase with ChangeNotifier {
   Future<void> selectImages() async {
     final picker = ImagePicker();
     final pickedFiles = await picker.pickMultiImage(
-      imageQuality: 60,
+      imageQuality: 50,
     );
 
     if (pickedFiles.isNotEmpty) {
@@ -161,6 +157,10 @@ class DataBase with ChangeNotifier {
     initial_city = prefs.getString('initial_city') ?? '';
     // print('printing city name$initial_city');
     // SetCityForSearchbar(Cityname.toString());
+    adLocation = formattedAddress;
+    // if(adLocation==""){
+
+    // }
 
     notifyListeners();
   }
@@ -433,14 +433,14 @@ class DataBase with ChangeNotifier {
   // addProperty
   // addNewProperty
 
-  String adPurpose = '';
-  String adPropertyType = '';
-  String adType = '';
-  String adLocation = '';
-  String adCity = '';
+  String adPurpose = 'Exchange';
+  String adPropertyType = 'House';
+  String adType = 'Residential';
+  String adLocation = "";
+  String adCity = 'Islamabad';
   String adPrice = '';
   String adArea = '';
-  String adVideoLink = '';
+  String adVideoLink = 'http://';
   String adTitle = '';
   String adDescription = '';
   String adInternalId = '';
@@ -692,6 +692,27 @@ class DataBase with ChangeNotifier {
     notifyListeners();
   }
 
+  String selectedSearchType = 'Any';
+  List<String> typeSearchOptions = [
+    'Any',
+    'House',
+    'Studio',
+    'Apartment',
+    'Plot',
+    'Shop',
+    'Restaurant',
+    'Building',
+    'Land',
+    'Vehicle',
+    'Other'
+  ];
+  String finalSearchType = '';
+
+  void setSearchType(newSearchType) {
+    finalSearchType = newSearchType;
+    notifyListeners();
+  }
+
   String selectedType = 'House';
   List<String> typeOptions = [
     'House',
@@ -723,13 +744,27 @@ class DataBase with ChangeNotifier {
 
   String uploadStatus = 'Posting...';
   bool uploadValue = false;
-  Future<void> addNewProperty(BuildContext context, internalId, type, purpose,
-      city, location, area, price, title, description, video_link) async {
+  Future<void> addNewProperty(
+      BuildContext context,
+      internalId,
+      type,
+      purpose,
+      city,
+      location,
+      area,
+      price,
+      title,
+      description,
+      video_link,
+      propertyType) async {
+    String uploadStatus = 'Posting...';
+    bool uploadValue = false;
     print('adding new property now ! ');
     var request = http.MultipartRequest(
         'POST',
         Uri.parse(
             'https://teamworkpk.com/API/addNewProperty.php?user_id=' + id));
+
     request.headers.addAll({
       'Content-Type': 'multipart/form-data',
       'Authorization':
@@ -742,6 +777,7 @@ class DataBase with ChangeNotifier {
           image_Files[i].name, image_Files[i].path));
       print(image_Files[i].name);
     }
+
     // Add additional fields to the request
     request.fields['type'] = type;
     request.fields['internal_id'] = internalId;
@@ -753,8 +789,10 @@ class DataBase with ChangeNotifier {
     request.fields['title'] = title;
     request.fields['description'] = description;
     request.fields['video_link'] = video_link;
+    request.fields['property_type'] = propertyType;
+
     print('type' + type);
-    print('internalId' + internalId);
+    print('internalId = ' + internalId);
     print('purpose' + purpose);
     print('city' + city);
     print('location' + location);
@@ -763,6 +801,25 @@ class DataBase with ChangeNotifier {
     print('title' + title);
     print('description' + description);
     print('video_link' + video_link);
+    print(adType +
+        ' - ' +
+        adInternalId +
+        ' - ' +
+        adPurpose +
+        ' - ' +
+        adCity +
+        ' - ' +
+        adLocation +
+        ' - ' +
+        adArea +
+        ' - ' +
+        adPrice +
+        ' - ' +
+        adTitle +
+        ' - ' +
+        adDescription +
+        ' - ' +
+        adVideoLink);
 
     //for completeing the request
     var response = await request.send();
@@ -901,51 +958,133 @@ class DataBase with ChangeNotifier {
 
   //register ends here !!!
 
-  // login starts here
-  Map<String, dynamic> _mapLogin = {};
-  bool _errorLogin = false;
-  String _errorMessageLogin = '';
+// new login
+  bool _isLoading = false;
 
-  Map<String, dynamic> get mapLogin => _mapLogin;
+  bool get isLoading => _isLoading;
 
-  bool get errorLogin => _errorLogin;
-
-  String get errorMessageLogin => _errorMessageLogin;
-
-  Future<void> userLogin(String email, String password) async {
-    String completeurl =
-        'https://teamworkpk.com/API/loginapi.php?email=$email&password=$password';
-    print(completeurl);
-    final response = await http.get(
-      Uri.parse(
-          'https://teamworkpk.com/API/loginapi.php?email=$email&password=$password'),
-    );
-    if (response.statusCode == 200) {
-      try {
-        _mapLogin = jsonDecode(response.body);
-        _errorLogin = false;
-        if (_mapLogin.isNotEmpty && _mapLogin['message'] == "True") {
-          // print('yes its true from db');
-          // print(_mapLogin['user'][0]['id'].toString());
-          id = _mapLogin['user'][0]['id'].toString();
-          name = _mapLogin['user'][0]['name'].toString();
-          image = _mapLogin['user'][0]['image'].toString();
-          phone = _mapLogin['user'][0]['phone'].toString();
-          timestamp = _mapLogin['user'][0]['timestamp'].toString();
-          addAuth(id, name, email, password, image, phone, timestamp);
-        }
-      } catch (e) {
-        _errorLogin = true;
-        _errorMessageLogin = e.toString();
-        _mapLogin = {};
-      }
-    } else {
-      _errorLogin = true;
-      _errorMessageLogin = 'Error : It could be your Internet connection.';
-      _mapLogin = {};
-    }
+  void login(context, email, password) async {
+    _isLoading = true;
     notifyListeners();
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        content: Row(children: [
+          const CircularProgressIndicator(),
+          const SizedBox(
+            width: 12.0,
+          ),
+          Text('Loading...', style: GoogleFonts.ubuntu())
+        ]),
+      ),
+    );
+
+    // Call your login API here
+    String completeUrl = 'https://teamworkpk.com/API/loginapi';
+
+    final response = await http.post(
+      Uri.parse(completeUrl),
+      headers: <String, String>{
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: {
+        'email': email,
+        'password': password,
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final jsonResponse = json.decode(response.body);
+      if (jsonResponse['message'] == 'True') {
+        id = jsonResponse['user'][0]['id'].toString();
+        name = jsonResponse['user'][0]['name'].toString();
+        image = jsonResponse['user'][0]['image'].toString();
+        phone = jsonResponse['user'][0]['phone'].toString();
+        timestamp = jsonResponse['user'][0]['timestamp'].toString();
+        addAuth(id, name, email, password, image, phone, timestamp);
+        print('its true');
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (BuildContext context) => HomePage()),
+            (route) => false);
+      } else {
+        _isLoading = false;
+        Navigator.of(context).pop();
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Error'),
+              content: const Text(
+                  'Invald crednetials / Blocked User. Contact Admin Support.'),
+              actions: <Widget>[
+                TextButton(
+                  child: Text('OK'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+        print('its false');
+      }
+      print(jsonResponse);
+
+      _isLoading = false;
+      notifyListeners();
+    }
   }
+
+// new login ends
+
+  // login starts here
+
+  // Map<String, dynamic> _mapLogin = {};
+  // bool _errorLogin = false;
+  // String _errorMessageLogin = '';
+
+  // Map<String, dynamic> get mapLogin => _mapLogin;
+
+  // bool get errorLogin => _errorLogin;
+
+  // String get errorMessageLogin => _errorMessageLogin;
+
+  // Future<void> userLogin(String email, String password) async {
+  //   String completeurl =
+  //       'https://teamworkpk.com/API/loginapi.php?email=$email&password=$password';
+  //   print(completeurl);
+  //   final response = await http.get(
+  //     Uri.parse(
+  //         'https://teamworkpk.com/API/loginapi.php?email=$email&password=$password'),
+  //   );
+  //   if (response.statusCode == 200) {
+  //     try {
+  //       _mapLogin = jsonDecode(response.body);
+  //       _errorLogin = false;
+  //       if (_mapLogin.isNotEmpty && _mapLogin['message'] == "True") {
+  //         print('yes its true from db');
+  //         print(_mapLogin['user'][0]['id'].toString());
+  //         id = _mapLogin['user'][0]['id'].toString();
+  //         name = _mapLogin['user'][0]['name'].toString();
+  //         image = _mapLogin['user'][0]['image'].toString();
+  //         phone = _mapLogin['user'][0]['phone'].toString();
+  //         timestamp = _mapLogin['user'][0]['timestamp'].toString();
+  //         addAuth(id, name, email, password, image, phone, timestamp);
+  //       }
+  //     } catch (e) {
+  //       _errorLogin = true;
+  //       _errorMessageLogin = e.toString();
+  //       _mapLogin = {};
+  //     }
+  //   } else {
+  //     _errorLogin = true;
+  //     _errorMessageLogin = 'Error : It could be your Internet connection.';
+  //     _mapLogin = {};
+  //   }
+  //   notifyListeners();
+  // }
 
   Map<String, dynamic> _mapFeatured = {};
   bool _errorFeatured = false;
@@ -1180,10 +1319,6 @@ class DataBase with ChangeNotifier {
     _mapAccount = {};
     _errorAccount = false;
     _errorMessageAccount = '';
-
-    _mapLogin = {};
-    _errorLogin = false;
-    _errorMessageLogin = '';
 
     _mapRegister = {};
     _errorRegister = false;

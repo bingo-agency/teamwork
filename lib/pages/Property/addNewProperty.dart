@@ -9,6 +9,8 @@ import 'package:easy_stepper/easy_stepper.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
+import '../auth/manageAds.dart';
+
 class AddNewProperty extends StatelessWidget {
   String id;
   AddNewProperty({Key? key, required this.id}) : super(key: key);
@@ -440,7 +442,7 @@ class AddNewProperty extends StatelessWidget {
                                 builder: (context, value, child) {
                                   return TextFormField(
                                     controller: TextEditingController(
-                                        text: value.formattedAddress),
+                                        text: value.adLocation),
                                     decoration: InputDecoration(
                                       labelText: 'Location',
                                       border: const OutlineInputBorder(),
@@ -449,9 +451,13 @@ class AddNewProperty extends StatelessWidget {
                                       suffixIcon: GestureDetector(
                                         onTap: () async {
                                           print('Get location here instead.');
-                                          print(dbclass.formattedAddress);
+
                                           await dbclass.getPermission();
                                           dbclass.getCurrentlocation();
+
+                                          dbclass.adLocation =
+                                              await dbclass.formattedAddress;
+                                          print(dbclass.adLocation);
                                         },
                                         child: const Icon(
                                             AntIcons.environmentOutlined),
@@ -468,7 +474,14 @@ class AddNewProperty extends StatelessWidget {
                                       return null;
                                     },
                                     onChanged: (value) {
+                                      if (value.isEmpty) {
+                                        dbclass.adLocation =
+                                            dbclass.formattedAddress.toString();
+                                      } else {
+                                        dbclass.adLocation = value;
+                                      }
                                       dbclass.adLocation = value.toString();
+                                      print(dbclass.adLocation);
                                     },
                                     // controller: locationController,
                                   );
@@ -903,7 +916,7 @@ class AddNewProperty extends StatelessWidget {
                                   }
                                   return null;
                                 },
-                                onSaved: (value) {
+                                onChanged: (value) {
                                   print(value);
                                   dbclass.adVideoLink = value.toString();
                                 },
@@ -912,6 +925,33 @@ class AddNewProperty extends StatelessWidget {
                             // add property button
                             InkWell(
                               onTap: () async {
+                                if (dbclass.uploadValue == false) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: const Text('Adding'),
+                                        content: Row(
+                                          children: [
+                                            const CircularProgressIndicator(),
+                                            const SizedBox(width: 10.0),
+                                            Text(
+                                                'Adding your property, Please wait....',
+                                                style: GoogleFonts.ubuntu()),
+                                          ],
+                                        ),
+                                        actions: [
+                                          ElevatedButton(
+                                            child: Text('OK'),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                }
                                 print('internal id = ' +
                                     dbclass.adInternalId +
                                     ' type = ' +
@@ -932,18 +972,41 @@ class AddNewProperty extends StatelessWidget {
                                     dbclass.adDescription +
                                     'video link = ' +
                                     dbclass.adVideoLink);
-                                // await dbclass.addNewProperty(
-                                //     context,
-                                //     internalId,
-                                //     type,
-                                //     purpose,
-                                //     city,
-                                //     location,
-                                //     area,
-                                //     price,
-                                //     title,
-                                //     description,
-                                //     video_link);
+                                await dbclass
+                                    .addNewProperty(
+                                        context,
+                                        dbclass.adInternalId,
+                                        dbclass.adType,
+                                        dbclass.adPurpose,
+                                        dbclass.adCity,
+                                        dbclass.adLocation,
+                                        dbclass.adArea,
+                                        dbclass.adPrice,
+                                        dbclass.adTitle,
+                                        dbclass.adDescription,
+                                        dbclass.adVideoLink,
+                                        dbclass.adPropertyType)
+                                    .whenComplete(() {
+                                  print('property been added.');
+                                  Navigator.of(context).pop();
+                                  dbclass.adInternalId = '';
+                                  dbclass.adType = '';
+                                  dbclass.adPurpose = '';
+                                  dbclass.adCity = '';
+                                  dbclass.adLocation = '';
+                                  dbclass.adArea = '';
+                                  dbclass.adPrice = '';
+                                  dbclass.adTitle = '';
+                                  dbclass.adDescription = '';
+                                  dbclass.adVideoLink = '';
+                                  dbclass.adPropertyType = '';
+                                  dbclass.image_Files = [];
+                                  Navigator.of(context).pushAndRemoveUntil(
+                                      MaterialPageRoute(
+                                          builder: (BuildContext context) =>
+                                              ManageAds(id: dbclass.id)),
+                                      (route) => false);
+                                });
                                 print('add property tapped.');
                               },
                               child: Padding(

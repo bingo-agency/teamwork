@@ -219,13 +219,13 @@ class Video_tw extends StatelessWidget {
     YoutubePlayerController controller = YoutubePlayerController(
       initialVideoId: vid.toString(),
       flags: const YoutubePlayerFlags(
-        autoPlay: true,
+        autoPlay: false,
         mute: false,
         disableDragSeek: true,
       ),
     );
 
-    if (video.isEmpty || video.toString() == 'null') {
+    if (video.isEmpty || video.toString() == 'null' || video.length > 5) {
       return Container();
     } else {
       return YoutubePlayerBuilder(

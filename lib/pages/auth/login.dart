@@ -20,10 +20,13 @@ class Login extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        leading: const BackButton(
+          color: Colors.white,
+        ),
         backgroundColor: Theme.of(context).primaryColor,
         title: Text(
           "Login",
-          style: GoogleFonts.ubuntu(),
+          style: GoogleFonts.ubuntu(color: Colors.white),
         ),
       ),
       body: Padding(
@@ -131,92 +134,8 @@ class Login extends StatelessWidget {
                       var email = emailController.text.toString();
                       var password = passwordController.text.toString();
                       //print
-                      map = dbclass.mapLogin;
-                      message = dbclass.mapLogin['message'].toString();
-                      //checking map if its empty or shit
-                      if (map.isEmpty) {
-                        // print('map is empty');
-                        await showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                            title: Text('Please Wait',
-                                style: GoogleFonts.ubuntu()),
-                            content: FutureBuilder(
-                              future: dbclass.userLogin(email, password),
-                              builder: (context, snapshot) {
-                                if (snapshot.hasData) {
-                                  return Text(
-                                    snapshot.data.toString(),
-                                    softWrap: true,
-                                    style: GoogleFonts.ubuntu(
-                                        color: Theme.of(context).primaryColor,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16.0),
-                                  );
-                                } else {
-                                  return const SizedBox(
-                                    height: 100,
-                                    child: Center(
-                                      child: CircularProgressIndicator(),
-                                    ),
-                                  );
-                                }
-                              },
-                            ),
-                            actions: <Widget>[
-                              ElevatedButton(
-                                onPressed: () {
-                                  Navigator.of(context, rootNavigator: true)
-                                      .pop(); // dismisses only the dialog and returns nothing
-                                },
-                                child: Text(
-                                  'Try again',
-                                  style: GoogleFonts.ubuntu(),
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      } else {
-                        if (message.isNotEmpty && message == 'True') {
-                          //shared prefs !!!
 
-                          print('True');
-                          Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      const users()));
-                        } else if (message.isNotEmpty && message == 'False') {
-                          // print('False');
-                          await showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                              title: Text(
-                                'Warning',
-                                style: GoogleFonts.ubuntu(),
-                              ),
-                              content: Text(
-                                'Invalid Credentials,Login Failed',
-                                style: GoogleFonts.ubuntu(),
-                              ),
-                              actions: <Widget>[
-                                ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.of(context, rootNavigator: true)
-                                        .pop(); // dismisses only the dialog and returns nothing
-                                  },
-                                  child: Text(
-                                    'Try again',
-                                    style: GoogleFonts.ubuntu(),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        }
-                      }
-                      // print(emailController.text);
-                      // print(passwordController.text);
+                      dbclass.login(context, email, password);
                     },
                   )),
               const Divider(),
