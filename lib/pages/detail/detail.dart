@@ -101,6 +101,8 @@ class _DetailPageState extends State<DetailPage> {
                                   ),
                                   const SizedBox(height: 10),
                                   ContentIntro(
+                                      views:
+                                          value.details[index].views.toString(),
                                       title:
                                           value.details[index].title.toString(),
                                       price:
@@ -219,13 +221,13 @@ class Video_tw extends StatelessWidget {
     YoutubePlayerController controller = YoutubePlayerController(
       initialVideoId: vid.toString(),
       flags: const YoutubePlayerFlags(
-        autoPlay: false,
+        autoPlay: true,
         mute: false,
         disableDragSeek: true,
       ),
     );
 
-    if (video.isEmpty || video.toString() == 'null' || video.length > 5) {
+    if (video.isEmpty || video.toString() == 'null' || video.length < 5) {
       return Container();
     } else {
       return YoutubePlayerBuilder(

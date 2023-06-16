@@ -549,7 +549,8 @@ class Addproperty extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Icon(Icons.image,
-                                color: Theme.of(context).colorScheme.background),
+                                color:
+                                    Theme.of(context).colorScheme.background),
                             Text(
                               "Add Primary Image",
                               style: GoogleFonts.ubuntu(
@@ -609,7 +610,8 @@ class Addproperty extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Icon(Icons.image,
-                                color: Theme.of(context).colorScheme.background),
+                                color:
+                                    Theme.of(context).colorScheme.background),
                             Text(
                               "Add Property Gallery",
                               style: GoogleFonts.ubuntu(

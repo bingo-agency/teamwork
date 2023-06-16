@@ -265,7 +265,7 @@ class City extends StatelessWidget {
                             child: CachedNetworkImage(
                               fit: BoxFit.cover,
                               imageUrl:
-                                  'https://teamworkpk.com/img/blog/karachi.jpeg',
+                                  'https://teamworkpk.com/img/blog/karachi.png',
                             ),
                           ),
                           Container(

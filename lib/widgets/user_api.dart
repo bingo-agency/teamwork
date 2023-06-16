@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
+import '../models/database.dart';
+
 class User {
   final String name;
 
@@ -14,26 +16,26 @@ class User {
       );
 }
 
-class UserApi {
-  static Future<List<User>> getUserSuggestions(String query) async {
-    final url = Uri.parse('https://mrworker.pk/API/tags');
+// class UserApi {
+//   static Future<List<User>> getUserSuggestions(String query) async {
+//     final url = Uri.parse('https://mrworker.pk/API/tags');
 
-    final response = await http.get(url);
+//     final response = await http.get(url);
 
-    if (response.statusCode == 200) {
-      final List users = json.decode(response.body);
+//     if (response.statusCode == 200) {
+//       final List users = json.decode(response.body);
 
-      return users.map((json) => User.fromJson(json)).where((user) {
-        final nameLower = user.name.toLowerCase();
-        final queryLower = query.toLowerCase();
+//       return users.map((json) => User.fromJson(json)).where((user) {
+//         final nameLower = user.name.toLowerCase();
+//         final queryLower = query.toLowerCase();
 
-        return nameLower.contains(queryLower);
-      }).toList();
-    } else {
-      throw Exception();
-    }
-  }
-}
+//         return nameLower.contains(queryLower);
+//       }).toList();
+//     } else {
+//       throw Exception();
+//     }
+//   }
+// }
 
 class City {
   final String name;
@@ -58,7 +60,10 @@ class UserApi1 {
     if (response.statusCode == 200) {
       // final jsonResponse = json.decode(response.body);
 
-      final List cities = jsonDecode(response.body);
+      // final List cities = jsonDecode(response.body);
+      final List cities = DataBase().adCityOptions;
+
+      cities.retainWhere((s) => s.toLowerCase().contains(query.toLowerCase()));
 
       return cities.map((json) => City.fromJson(json)).where((cities) {
         final nameLower = cities.name.toLowerCase();

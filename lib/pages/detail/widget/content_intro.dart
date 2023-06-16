@@ -4,9 +4,11 @@ class ContentIntro extends StatelessWidget {
   String title;
   String type;
   String price;
+  String views;
 
   ContentIntro({
     Key? key,
+    required this.views,
     required this.title,
     required this.type,
     required this.price,
@@ -27,11 +29,11 @@ class ContentIntro extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-          // Text(
-          //   map.status.toString(),
-          //   style:
-          //       Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
-          // ),
+          Text(
+            'Views : ' + views,
+            style:
+                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14),
+          ),
           const SizedBox(height: 10),
           Row(
             children: [

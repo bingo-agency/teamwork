@@ -357,53 +357,53 @@ class profilepage extends StatelessWidget {
                 ),
               ),
               // list below the post property rect.
-              Container(
-                margin: const EdgeInsets.only(top: 10.0, bottom: 10),
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Stack(
-                  children: [
-                    Row(
-                      children: [
-                        SizedBox(
-                          child: Icon(AntIcons.globalOutlined,
-                              size: 40.0,
-                              color: Theme.of(context).primaryColor),
-                        ),
-                        const SizedBox(width: 10),
-                        Flexible(
-                          child: GestureDetector(
-                            onTap: () {
-                              alertBox(context,
-                                  'This Service is only Available to Premiuim members only.');
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Languages',
-                                  style: GoogleFonts.ubuntu(
-                                      fontSize: 20.0,
-                                      fontWeight: FontWeight.bold,
-                                      color: Theme.of(context).primaryColor),
-                                ),
-                                Icon(
-                                  AntIcons.rightOutlined,
-                                  color: Theme.of(context).primaryColor,
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
+              // Container(
+              //   margin: const EdgeInsets.only(top: 10.0, bottom: 10),
+              //   padding: const EdgeInsets.all(10),
+              //   decoration: BoxDecoration(
+              //     color: Colors.white,
+              //     borderRadius: BorderRadius.circular(8),
+              //   ),
+              //   child: Stack(
+              //     children: [
+              //       Row(
+              //         children: [
+              //           SizedBox(
+              //             child: Icon(AntIcons.globalOutlined,
+              //                 size: 40.0,
+              //                 color: Theme.of(context).primaryColor),
+              //           ),
+              //           const SizedBox(width: 10),
+              //           Flexible(
+              //             child: GestureDetector(
+              //               onTap: () {
+              //                 alertBox(context,
+              //                     'This Service is only Available to Premiuim members only.');
+              //               },
+              //               child: Row(
+              //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //                 crossAxisAlignment: CrossAxisAlignment.start,
+              //                 children: [
+              //                   Text(
+              //                     'Languages',
+              //                     style: GoogleFonts.ubuntu(
+              //                         fontSize: 20.0,
+              //                         fontWeight: FontWeight.bold,
+              //                         color: Theme.of(context).primaryColor),
+              //                   ),
+              //                   Icon(
+              //                     AntIcons.rightOutlined,
+              //                     color: Theme.of(context).primaryColor,
+              //                   )
+              //                 ],
+              //               ),
+              //             ),
+              //           ),
+              //         ],
+              //       ),
+              //     ],
+              //   ),
+              // ),
               Container(
                 margin: const EdgeInsets.only(top: 10.0, bottom: 10),
                 padding: const EdgeInsets.all(10),
@@ -505,52 +505,52 @@ class profilepage extends StatelessWidget {
                   ],
                 ),
               ),
-              Container(
-                margin: const EdgeInsets.only(top: 10.0, bottom: 10),
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Stack(
-                  children: [
-                    Row(
-                      children: [
-                        SizedBox(
-                          child: Icon(AntIcons.userAddOutlined,
-                              size: 40.0,
-                              color: Theme.of(context).primaryColor),
-                        ),
-                        const SizedBox(width: 10),
-                        Flexible(
-                          child: GestureDetector(
-                            onTap: () {
-                              print('Invite friends');
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Invite Friends to TeamWork',
-                                  style: GoogleFonts.ubuntu(
-                                      fontSize: 20.0,
-                                      fontWeight: FontWeight.bold,
-                                      color: Theme.of(context).primaryColor),
-                                ),
-                                Icon(
-                                  AntIcons.rightOutlined,
-                                  color: Theme.of(context).primaryColor,
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
+              // Container(
+              //   margin: const EdgeInsets.only(top: 10.0, bottom: 10),
+              //   padding: const EdgeInsets.all(10),
+              //   decoration: BoxDecoration(
+              //     color: Colors.white,
+              //     borderRadius: BorderRadius.circular(8),
+              //   ),
+              //   child: Stack(
+              //     children: [
+              //       Row(
+              //         children: [
+              //           SizedBox(
+              //             child: Icon(AntIcons.userAddOutlined,
+              //                 size: 40.0,
+              //                 color: Theme.of(context).primaryColor),
+              //           ),
+              //           const SizedBox(width: 10),
+              //           Flexible(
+              //             child: GestureDetector(
+              //               onTap: () {
+              //                 print('Invite friends');
+              //               },
+              //               child: Row(
+              //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //                 crossAxisAlignment: CrossAxisAlignment.start,
+              //                 children: [
+              //                   Text(
+              //                     'Invite Friends to TeamWork',
+              //                     style: GoogleFonts.ubuntu(
+              //                         fontSize: 20.0,
+              //                         fontWeight: FontWeight.bold,
+              //                         color: Theme.of(context).primaryColor),
+              //                   ),
+              //                   Icon(
+              //                     AntIcons.rightOutlined,
+              //                     color: Theme.of(context).primaryColor,
+              //                   )
+              //                 ],
+              //               ),
+              //             ),
+              //           ),
+              //         ],
+              //       ),
+              //     ],
+              //   ),
+              // ),
               Container(
                 margin: const EdgeInsets.only(top: 10.0, bottom: 10),
                 padding: const EdgeInsets.all(10),

@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <!-- <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" /> -->
 
     <queries>
         <!-- If your app opens https URLs -->
@@ -71,7 +71,9 @@
             android:name="flutterEmbedding"
             android:value="2" />
             <meta-data android:name="com.google.android.geo.API_KEY"
-               android:value="AIzaSyBHaJzKZ_PgE4EdNbNl_bdMql3L3d8m-SM"/>
+               android:value="AIzaSyCb3U_z-owpRwGS321AP0JX09crvvQj4dw"/>
+               <!-- <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyBHaJzKZ_PgE4EdNbNl_bdMql3L3d8m-SM"/> -->
         <!-- <meta-data
             android:name="io.flutter.embedding.android.EnableImpeller"
             android:value="true" /> -->

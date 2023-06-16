@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -93,8 +94,8 @@ class DataBase with ChangeNotifier {
     notifyListeners();
   }
 
-  double x = 0.0;
-  double y = 0.0;
+  double x = 33.628092;
+  double y = 72.880933;
 
   void getCurrentlocation() async {
     var position = await Geolocator.getCurrentPosition(
@@ -105,6 +106,46 @@ class DataBase with ChangeNotifier {
     Getlocation(x.toString(), y.toString());
     notifyListeners();
   }
+
+  LatLng _currentLocation = LatLng(33.628092, 72.880933);
+
+  LatLng get currentLocation => _currentLocation;
+
+  set currentLocation(LatLng value) {
+    _currentLocation = value;
+
+    print(_currentLocation);
+    // Getlocation()
+    // value = adLocation;
+    notifyListeners();
+  }
+
+  late GoogleMapController _mapController;
+
+  GoogleMapController get mapController => _mapController;
+
+  set mapController(GoogleMapController value) {
+    _mapController = value;
+    notifyListeners();
+  }
+
+  Map<String, Marker> _markers = {};
+
+  Map<String, Marker> get markers => _markers;
+
+  set markers(Map<String, Marker> value) {
+    _markers = value;
+    notifyListeners();
+  }
+
+  // void _updatePosition(CameraPosition _position) {
+  //   Position newMarkerPosition = Position(
+  //       latitude: _position.target.latitude,
+  //       longitude: _position.target.longitude);
+  //   Marker marker = markers["1"];
+
+  //     markers["1"] = marker.copyWith(positionParam:LatLng(newMarkerPosition.latitude, newMarkerPosition.longitude));
+  // }
 
   Map<String, dynamic> _mapLocation = {};
   bool _errorLocation = false;
@@ -123,7 +164,8 @@ class DataBase with ChangeNotifier {
     if (response.statusCode == 200) {
       try {
         _mapLocation = jsonDecode(response.body);
-        // print(_mapLocation.toString());
+        print('its coming from here....');
+        print(_mapLocation.toString());
 
         _errorLocation = false;
         if (_mapLocation.isNotEmpty) {
@@ -460,6 +502,7 @@ class DataBase with ChangeNotifier {
     "Arifwala",
     "Attock",
     "Bhera",
+    "Babusar Pass",
     "Bhalwal",
     "Bahawalnagar",
     "Bahawalpur",
@@ -573,6 +616,7 @@ class DataBase with ChangeNotifier {
     "Keti Bandar",
     "Khairpur",
     "Kotri",
+    "Kaghan",
     "Larkana",
     "Matiari",
     "Mehar",
@@ -587,6 +631,7 @@ class DataBase with ChangeNotifier {
     "Naushara",
     "Nawabshah",
     "Nazimabad",
+    "Naran",
     "Qambar",
     "Qasimabad",
     "Ranipur",

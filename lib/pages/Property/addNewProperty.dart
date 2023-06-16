@@ -2,13 +2,16 @@ import 'package:antdesign_icons/antdesign_icons.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:team_work/models/database.dart';
 import 'package:easy_stepper/easy_stepper.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
+import '../../widgets/city_helper.dart';
 import '../auth/manageAds.dart';
 
 class AddNewProperty extends StatelessWidget {
@@ -20,8 +23,14 @@ class AddNewProperty extends StatelessWidget {
     var dbclass = context.read<DataBase>();
 
     String id = dbclass.id;
+    // final scaffoldKey = GlobalKey<ScaffoldState>();
+    // final addPropertyForm = GlobalKey<FormState>();
+    final TextEditingController typeAheadController2 = TextEditingController();
+    // final addPropertyForm = GlobalKey<FormState>();
+    // GlobalKey<FormState> addPropertyForm = GlobalKey<FormState>();
 
     return Scaffold(
+        // key: scaffoldKey,
         appBar: AppBar(
           title: Text(
             "Add New Property",
@@ -68,6 +77,7 @@ class AddNewProperty extends StatelessWidget {
                       padding: const EdgeInsets.all(10.0),
                       child: Form(
                         // key: addPropertyForm,
+                        autovalidateMode: AutovalidateMode.disabled,
                         child: Column(
                           children: [
                             // Basic Details
@@ -345,104 +355,176 @@ class AddNewProperty extends StatelessWidget {
                                   );
                                 },
                               ),
-
-                              // TextFormField(
-                              //     controller:
-                              //         TextEditingController(text: 'House'),
-                              //     decoration: InputDecoration(
-                              //       labelText: 'Property Type',
-                              //       border: const OutlineInputBorder(),
-                              //       prefixIcon:
-                              //           const Icon(AntIcons.slidersOutlined),
-                              //       prefixIconColor:
-                              //           Theme.of(context).primaryColor,
-                              //     ),
-                              //     validator: (value) {
-                              //       if (value!.isEmpty) {
-                              //         return 'Please Select a City';
-                              //       }
-                              //       return null;
-                              //     },
-                              //     onChanged: (value) {
-                              //       propertyType = value.toString();
-                              //     }),
                             ),
                             // select property type heading
                             //select city
                             Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Consumer<DataBase>(
-                                builder: (context, val, child) {
-                                  return Container(
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                        color: Theme.of(context).primaryColor,
-                                        width: 1.0,
-                                      ),
-                                    ),
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: DropdownButtonHideUnderline(
-                                      child: DropdownButton<String>(
-                                        isExpanded: true,
-                                        borderRadius: const BorderRadius.all(
-                                            Radius.circular(10.0)),
-                                        value: val.selectedAdCity,
-                                        items: val.adCityOptions
-                                            .map((String value) {
-                                          return DropdownMenuItem<String>(
-                                            value: value,
-                                            child: Text(
-                                              value,
-                                              style: GoogleFonts.ubuntu(
-                                                  color: Theme.of(context)
-                                                      .primaryColor),
-                                            ),
-                                          );
-                                        }).toList(),
-                                        onChanged: (newAdCity) {
-                                          val.setAdCity(newAdCity);
-                                          val.selectedAdCity = val.finalAdCity;
-                                          dbclass.finalAdCity =
-                                              newAdCity.toString();
-                                          dbclass.adCity = newAdCity.toString();
-                                          print(dbclass.adCity);
-                                        },
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Theme.of(context).primaryColor,
+                                    width: 1.0,
+                                  ),
+                                ),
+                                padding: const EdgeInsets.all(8.0),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    // print('cities were tapped !!!');
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          title: Text(
+                                            'Select City',
+                                            style: GoogleFonts.ubuntu(
+                                                color: Theme.of(context)
+                                                    .primaryColor),
+                                          ),
+                                          content: SingleChildScrollView(
+                                            child: ListBody(
+                                              children: [
+                                                ListTile(
+                                                  title: Text(
+                                                      'Get City From Gps',
+                                                      style:
+                                                          GoogleFonts.ubuntu()),
+                                                  leading: Icon(
+                                                    Icons.gps_fixed_outlined,
+                                                    color: Theme.of(context)
+                                                        .primaryColor,
+                                                  ),
+                                                  onTap: () async {
+                                                    await dbclass
+                                                        .getPermission();
+                                                    dbclass
+                                                        .getCurrentlocation();
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                ),
+                                                Container(
+                                                  padding:
+                                                      const EdgeInsets.all(2),
+                                                  child: TypeAheadFormField<
+                                                      String>(
+                                                    hideSuggestionsOnKeyboardHide:
+                                                        false,
+                                                    textFieldConfiguration:
+                                                        TextFieldConfiguration(
+                                                      focusNode:
+                                                          FocusScopeNode(),
+                                                      enableSuggestions: false,
+                                                      autofocus: false,
+                                                      controller:
+                                                          typeAheadController2,
+                                                      decoration:
+                                                          InputDecoration(
+                                                        hintStyle: GoogleFonts
+                                                            .montserrat(),
+                                                        border:
+                                                            const OutlineInputBorder(
+                                                          borderSide:
+                                                              BorderSide(
+                                                                  color: Colors
+                                                                      .black12),
+                                                        ),
+                                                        focusedBorder:
+                                                            InputBorder.none,
+                                                        hintText:
+                                                            'Search City...',
+                                                      ),
+                                                    ),
+                                                    suggestionsCallback:
+                                                        (query) {
+                                                      return CityHelper
+                                                          .getSuggestions(
+                                                              query);
+                                                    },
+                                                    validator: (value) {
+                                                      if (value == null ||
+                                                          value.isEmpty) {
+                                                        return 'Please Enter City Name';
+                                                      }
+                                                      return null;
+                                                    },
+                                                    itemBuilder:
+                                                        (context, suggestion) {
+                                                      final city =
+                                                          suggestion as String;
 
-                              // TextFormField(
-                              //     controller:
-                              //         TextEditingController(text: 'House'),
-                              //     decoration: InputDecoration(
-                              //       labelText: 'Property Type',
-                              //       border: const OutlineInputBorder(),
-                              //       prefixIcon:
-                              //           const Icon(AntIcons.slidersOutlined),
-                              //       prefixIconColor:
-                              //           Theme.of(context).primaryColor,
-                              //     ),
-                              //     validator: (value) {
-                              //       if (value!.isEmpty) {
-                              //         return 'Please Select a City';
-                              //       }
-                              //       return null;
-                              //     },
-                              //     onChanged: (value) {
-                              //       propertyType = value.toString();
-                              //     }),
+                                                      return ListTile(
+                                                        title: Text(city),
+                                                      );
+                                                    },
+                                                    noItemsFoundBuilder:
+                                                        (context) =>
+                                                            const SizedBox(
+                                                      height: 15,
+                                                      child: Center(
+                                                        child: Text(
+                                                          'No City Found.',
+                                                          style: TextStyle(
+                                                              fontSize: 16),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    onSuggestionSelected:
+                                                        (suggestion) {
+                                                      final city =
+                                                          suggestion as String;
+
+                                                      typeAheadController2
+                                                          .text = city;
+                                                      dbclass.adCity = city;
+                                                      Navigator.pop(context);
+                                                    },
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.all(5),
+                                    child: Consumer<DataBase>(
+                                        builder: (context, value, child) {
+                                      return Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: [
+                                          Icon(AntIcons.environmentOutlined,
+                                              color: Theme.of(context)
+                                                  .primaryColor),
+                                          Text(
+                                            " ${value.initial_city}",
+                                            softWrap: true,
+                                            style: GoogleFonts.ubuntu(
+                                                color: Theme.of(context)
+                                                    .primaryColor,
+                                                fontWeight: FontWeight.normal,
+                                                fontSize: 15.0),
+                                          ),
+                                        ],
+                                      );
+                                      // }
+                                    }),
+                                  ),
+                                ),
+                              ),
                             ),
                             // select locaiton heading
+
                             //location
+
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Consumer<DataBase>(
-                                builder: (context, value, child) {
+                                builder: (context, db, _) {
                                   return TextFormField(
                                     controller: TextEditingController(
-                                        text: value.adLocation),
+                                        text: db.adLocation),
                                     decoration: InputDecoration(
                                       labelText: 'Location',
                                       border: const OutlineInputBorder(),
@@ -489,45 +571,107 @@ class AddNewProperty extends StatelessWidget {
                               ),
                             ),
                             // Select Location
-                            // InkWell(
-                            //   onTap: () async {
-                            //     print(dbclass.formattedAddress);
-                            //     await dbclass.getPermission();
-                            //     dbclass.getCurrentlocation();
-                            //   },
-                            //   child: Padding(
-                            //     padding: const EdgeInsets.all(10.0),
-                            //     child: Container(
-                            //       decoration: BoxDecoration(
-                            //         color: Theme.of(context).primaryColor,
-                            //         borderRadius: const BorderRadius.all(
-                            //           Radius.circular(25.0),
-                            //         ),
-                            //       ),
-                            //       child: const Padding(
-                            //         padding: EdgeInsets.all(35.0),
-                            //         child: Center(
-                            //           child: Column(
-                            //             children: [
-                            //               Icon(
-                            //                 AntIcons.environmentOutlined,
-                            //                 color: Colors.white,
-                            //               ),
-                            //               SizedBox(
-                            //                 height: 10,
-                            //               ),
-                            //               Text(
-                            //                 'Get current Location.',
-                            //                 style:
-                            //                     TextStyle(color: Colors.white),
-                            //               ),
-                            //             ],
-                            //           ),
-                            //         ),
-                            //       ),
-                            //     ),
-                            //   ),
-                            // ),
+                            InkWell(
+                              onTap: () async {
+                                showMapDialog(context);
+                                // print(dbclass.formattedAddress);
+                                // await dbclass.getPermission();
+                                // dbclass.getCurrentlocation();
+
+                                // final db = Provider.of<DataBase>(context,
+                                //     listen: false);
+                                // final result = await showDialog<LatLng>(
+                                //   context: context,
+                                //   builder: (context) {
+                                //     return AlertDialog(
+                                //       content: SizedBox(
+                                //         width: double.maxFinite,
+                                //         child: GoogleMap(
+                                //           initialCameraPosition: CameraPosition(
+                                //             target: db.currentLocation,
+                                //             zoom: 12,
+                                //           ),
+                                //           onMapCreated: (controller) {},
+                                //           markers: {
+                                //             Marker(
+                                //               draggable: true,
+                                //               markerId: const MarkerId(
+                                //                   'current_location'),
+                                //               position: db.currentLocation,
+                                //             ),
+                                //           },
+                                //           onTap: (location) {
+                                //             db.x = location.latitude;
+                                //             db.y = location.longitude;
+                                //             db.Getlocation(db.x.toString(),
+                                //                 db.y.toString());
+                                //             db.currentLocation = location;
+                                //             final newPosition =
+                                //                 LatLng(db.x, db.y);
+                                //             db.currentLocation = newPosition;
+                                //             Provider.of<DataBase>(context,
+                                //                     listen: false)
+                                //                 .currentLocation = newPosition;
+                                //             // db.currentLocation(newPosition);
+                                //             Marker(
+                                //               markerId: const MarkerId(
+                                //                   'current_location'),
+                                //               position: newPosition,
+                                //             );
+                                //             // Navigator.of(context).pop();
+                                //           },
+                                //         ),
+                                //       ),
+                                //       actions: [
+                                //         ElevatedButton(
+                                //           onPressed: () {
+                                //             Navigator.pop(context);
+                                //           },
+                                //           child: const Text('OK'),
+                                //         ),
+                                //       ],
+                                //     );
+                                //   },
+                                // );
+                                // if (result != null) {
+                                //   final db = Provider.of<DataBase>(context,
+                                //       listen: false);
+                                //   db.currentLocation = result;
+                                // }
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Theme.of(context).primaryColor,
+                                    borderRadius: const BorderRadius.all(
+                                      Radius.circular(25.0),
+                                    ),
+                                  ),
+                                  child: const Padding(
+                                    padding: EdgeInsets.all(35.0),
+                                    child: Center(
+                                      child: Column(
+                                        children: [
+                                          Icon(
+                                            AntIcons.environmentOutlined,
+                                            color: Colors.white,
+                                          ),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          Text(
+                                            'Get Location from Map.',
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
                             const Divider(
                               height: 30.0,
                               color: Colors.transparent,
@@ -795,7 +939,7 @@ class AddNewProperty extends StatelessWidget {
                                 ),
                               ),
                             ),
-//select actual images.
+                            //select actual images.
                             Padding(
                               padding: const EdgeInsets.all(10.0),
                               child: SizedBox(
@@ -1069,5 +1213,68 @@ class CommaTextInputFormatter extends TextInputFormatter {
       text: newString,
       selection: TextSelection.collapsed(offset: newString.length),
     );
+  }
+}
+
+void showMapDialog(BuildContext context) async {
+  final db = Provider.of<DataBase>(context, listen: false);
+  final result = await showDialog<LatLng>(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        content: SizedBox(
+          width: double.maxFinite,
+          child: GoogleMap(
+            mapType: MapType.terrain,
+            initialCameraPosition: CameraPosition(
+              target: db.currentLocation,
+              zoom: 12,
+            ),
+            markers: <Marker>{
+              Marker(
+                draggable: true,
+                markerId: const MarkerId("Selected Location"),
+                position: LatLng(db.x, db.y),
+                // icon: MarkerIcon(icon:AntIcons.accountBookFilled,color:Theme.of(context).primaryColor),
+                infoWindow: const InfoWindow(
+                  title: 'Select your location',
+                ),
+              )
+            },
+            onCameraMove: (CameraPosition position) {
+              final db = Provider.of<DataBase>(context, listen: false);
+              db.currentLocation = position.target;
+              Provider.of<DataBase>(context, listen: false).currentLocation =
+                  position.target;
+            },
+            onMapCreated: (GoogleMapController controller) {
+              final db = Provider.of<DataBase>(context, listen: false);
+              db.mapController = controller;
+            },
+            onTap: (location) {
+              db.x = location.latitude;
+              db.y = location.longitude;
+              db.Getlocation(db.x.toString(), db.y.toString());
+              db.currentLocation = location;
+              final newPosition = LatLng(db.x, db.y);
+              db.currentLocation = newPosition;
+              Provider.of<DataBase>(context, listen: false).currentLocation =
+                  newPosition;
+              final marker = Marker(
+                markerId: const MarkerId('current_location'),
+                position: newPosition,
+              );
+              Provider.of<DataBase>(context, listen: false)
+                  .markers['current_location'] = marker;
+              Navigator.of(context).pop();
+            },
+          ),
+        ),
+      );
+    },
+  );
+  if (result != null) {
+    final db = Provider.of<DataBase>(context, listen: false);
+    db.currentLocation = result;
   }
 }

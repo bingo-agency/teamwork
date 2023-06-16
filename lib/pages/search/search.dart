@@ -1,9 +1,12 @@
 import 'package:antdesign_icons/antdesign_icons.dart';
 import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:team_work/models/database.dart';
+
+import '../../widgets/city_helper.dart';
 
 class SearchPage extends StatefulWidget {
   // String id;
@@ -17,6 +20,7 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
+    final TextEditingController typeAheadController2 = TextEditingController();
     String internalLeadId = '';
     String city = '';
     String keyword = '';
@@ -88,45 +92,174 @@ class _SearchPageState extends State<SearchPage> {
                     const SizedBox(height: 16.0),
                     Padding(
                       padding: const EdgeInsets.all(1.0),
-                      child: Consumer<DataBase>(
-                        builder: (context, val, child) {
-                          return Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Theme.of(context).primaryColor,
-                                width: 1.0,
-                              ),
-                            ),
-                            padding: const EdgeInsets.all(8.0),
-                            child: DropdownButtonHideUnderline(
-                              child: DropdownButton<String>(
-                                isExpanded: true,
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(10.0)),
-                                value: val.selectedAdCity,
-                                items: val.adCityOptions.map((String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(
-                                      value,
-                                      style: GoogleFonts.ubuntu(
-                                          color:
-                                              Theme.of(context).primaryColor),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Theme.of(context).primaryColor,
+                            width: 1.0,
+                          ),
+                        ),
+                        child: GestureDetector(
+                          onTap: () {
+                            // print('cities were tapped !!!');
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: Text(
+                                    'Select City',
+                                    style: GoogleFonts.ubuntu(
+                                        color: Theme.of(context).primaryColor),
+                                  ),
+                                  content: SingleChildScrollView(
+                                    child: ListBody(
+                                      children: [
+                                        ListTile(
+                                          title: Text('Get City From Gps',
+                                              style: GoogleFonts.ubuntu()),
+                                          leading: Icon(
+                                            Icons.gps_fixed_outlined,
+                                            color:
+                                                Theme.of(context).primaryColor,
+                                          ),
+                                          onTap: () async {
+                                            await dbclass.getPermission();
+                                            dbclass.getCurrentlocation();
+                                            Navigator.of(context).pop();
+                                          },
+                                        ),
+                                        Container(
+                                          padding: const EdgeInsets.all(2),
+                                          child: TypeAheadFormField<String>(
+                                            hideSuggestionsOnKeyboardHide:
+                                                false,
+                                            textFieldConfiguration:
+                                                TextFieldConfiguration(
+                                              focusNode: FocusScopeNode(),
+                                              enableSuggestions: false,
+                                              autofocus: false,
+                                              controller: typeAheadController2,
+                                              decoration: InputDecoration(
+                                                hintStyle:
+                                                    GoogleFonts.montserrat(),
+                                                border:
+                                                    const OutlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                      color: Colors.black12),
+                                                ),
+                                                focusedBorder: InputBorder.none,
+                                                hintText: 'Search City...',
+                                              ),
+                                            ),
+                                            suggestionsCallback: (query) {
+                                              return CityHelper.getSuggestions(
+                                                  query);
+                                            },
+                                            validator: (value) {
+                                              if (value == null ||
+                                                  value.isEmpty) {
+                                                return 'Please Enter City Name';
+                                              }
+                                              return null;
+                                            },
+                                            itemBuilder: (context, suggestion) {
+                                              final city = suggestion as String;
+
+                                              return ListTile(
+                                                title: Text(city),
+                                              );
+                                            },
+                                            noItemsFoundBuilder: (context) =>
+                                                const SizedBox(
+                                              height: 15,
+                                              child: Center(
+                                                child: Text(
+                                                  'No City Found.',
+                                                  style:
+                                                      TextStyle(fontSize: 16),
+                                                ),
+                                              ),
+                                            ),
+                                            onSuggestionSelected: (suggestion) {
+                                              final city = suggestion as String;
+
+                                              typeAheadController2.text = city;
+                                              dbclass.adCity = city;
+                                              Navigator.pop(context);
+                                            },
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  );
-                                }).toList(),
-                                onChanged: (newAdCity) {
-                                  val.setAdCity(newAdCity);
-                                  val.selectedAdCity = val.finalAdCity;
-                                  dbclass.finalAdCity = newAdCity.toString();
-                                  dbclass.adCity = newAdCity.toString();
-                                  print(dbclass.adCity);
-                                },
-                              ),
-                            ),
-                          );
-                        },
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(15),
+                            child: Consumer<DataBase>(
+                                builder: (context, value, child) {
+                              return Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Icon(AntIcons.environmentOutlined,
+                                      color: Theme.of(context).primaryColor),
+                                  Text(
+                                    " ${value.initial_city}",
+                                    softWrap: true,
+                                    style: GoogleFonts.ubuntu(
+                                        color: Theme.of(context).primaryColor,
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: 15.0),
+                                  ),
+                                ],
+                              );
+                              // }
+                            }),
+                          ),
+                        ),
                       ),
+
+                      // Consumer<DataBase>(
+                      //   builder: (context, val, child) {
+                      //     return Container(
+                      //       decoration: BoxDecoration(
+                      //         border: Border.all(
+                      //           color: Theme.of(context).primaryColor,
+                      //           width: 1.0,
+                      //         ),
+                      //       ),
+                      //       padding: const EdgeInsets.all(8.0),
+                      //       child: DropdownButtonHideUnderline(
+                      //         child: DropdownButton<String>(
+                      //           isExpanded: true,
+                      //           borderRadius: const BorderRadius.all(
+                      //               Radius.circular(10.0)),
+                      //           value: val.selectedAdCity,
+                      //           items: val.adCityOptions.map((String value) {
+                      //             return DropdownMenuItem<String>(
+                      //               value: value,
+                      //               child: Text(
+                      //                 value,
+                      //                 style: GoogleFonts.ubuntu(
+                      //                     color:
+                      //                         Theme.of(context).primaryColor),
+                      //               ),
+                      //             );
+                      //           }).toList(),
+                      //           onChanged: (newAdCity) {
+                      //             val.setAdCity(newAdCity);
+                      //             val.selectedAdCity = val.finalAdCity;
+                      //             dbclass.finalAdCity = newAdCity.toString();
+                      //             dbclass.adCity = newAdCity.toString();
+                      //             print(dbclass.adCity);
+                      //           },
+                      //         ),
+                      //       ),
+                      //     );
+                      //   },
+                      // ),
                     ),
                     const SizedBox(height: 16.0),
                     // keyword
@@ -194,6 +327,8 @@ class _SearchPageState extends State<SearchPage> {
                         ),
                         Flexible(
                           child: TextFormField(
+                            keyboardType:
+                                const TextInputType.numberWithOptions(),
                             decoration: InputDecoration(
                               labelText: 'Max Price',
                               border: const OutlineInputBorder(),
@@ -251,6 +386,8 @@ class _SearchPageState extends State<SearchPage> {
                         ),
                         Flexible(
                           child: TextFormField(
+                            keyboardType:
+                                const TextInputType.numberWithOptions(),
                             decoration: InputDecoration(
                               labelText: 'Max Area',
                               border: const OutlineInputBorder(),
